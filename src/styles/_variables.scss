@@ -1,0 +1,20 @@
+@import 'variables_iati';
+
+$h1-font-size:                $font-size-base * 2.5 ;
+$h2-font-size:                $font-size-base * 2 ;
+$h3-font-size:                $font-size-base * 1.75 ;
+$h4-font-size:                $font-size-base * 1.5 ;
+$h5-font-size:                $font-size-base * 1.25 ;
+$h6-font-size:                $font-size-base ;
+
+$background-title: rgba(0, 0, 0, 0.03);
+$severity-notifications: #18BC9C;
+
+// For the DQF reports severity level
+$severity-critical:       $iati-wind;
+$severity-error:          $iati-sunset;
+$severity-warning:        $iati-sunrise;
+$severity-improvement:    $iati-air;
+$severity-optimisations:  $iati-land;
+
+$border-radius:               7px ;
