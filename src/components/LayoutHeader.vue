@@ -1,6 +1,10 @@
+<script setup>
+import LayoutNavbar from './LayoutNavbar.vue';
+</script>
+
 <template>
   <div class="header py-4 mb-4">
-    <!-- <app-navbar [activeTab]="activeTab"></app-navbar> -->
+    <LayoutNavbar />
     <div class="w-3/4 mx-auto">
       <h2 class="text-left pl-4 font-medium">IATI Validator</h2>
     </div>
