@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
 const count = ref(0);
 
@@ -47,6 +47,20 @@ const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
   </button>
   <p class="mt-4">
     Edit
-    <code>components/HelloWorld.vue</code> to test hot module replacement.
+    <code>components/Home.vue</code> to test hot module replacement.
   </p>
 </template>
+
+<script>
+export default {
+  props: {
+    msg: {
+      type: String,
+      default: '',
+    },
+  },
+  setup(props) {
+    console.log(props.msg);
+  },
+};
+</script>
