@@ -1,8 +1,8 @@
 <template>
   <div class="header">
     <!-- <app-navbar [activeTab]="activeTab"></app-navbar> -->
-    <div>
-      <h2>IATI Validator</h2>
+    <div class="w-3/4 mx-auto">
+      <h2 class="text-left pl-4">IATI Validator</h2>
     </div>
   </div>
 </template>
