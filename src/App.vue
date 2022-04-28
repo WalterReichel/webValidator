@@ -5,8 +5,5 @@ import HomePage from './pages/HomePage.vue';
 </script>
 
 <template>
-  <div class="flex justify-center">
-    <img class="mt-16" alt="Vue logo" src="./assets/logo.png" />
-  </div>
   <HomePage msg="Hello Vue 3 + Vite" />
 </template>

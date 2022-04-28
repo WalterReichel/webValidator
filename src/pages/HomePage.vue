@@ -4,9 +4,12 @@ import { ref } from 'vue';
 const count = ref(0);
 
 const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
+
+import LayoutHeader from '../components/LayoutHeader.vue';
 </script>
 
 <template>
+  <LayoutHeader />
   <h1 class="text-3xl">{{ msg }}</h1>
 
   <h3 class="text-xl mt-4">Environment (VUE_ENV_ENVIRONMENT): {{ vueEnv }}</h3>
