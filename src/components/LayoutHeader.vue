@@ -5,7 +5,7 @@ import LayoutNavbar from './LayoutNavbar.vue';
 <template>
   <div class="header pb-8 mb-4">
     <LayoutNavbar />
-    <div class="w-3/4 mx-auto">
+    <div class="main-title w-3/4 mx-auto">
       <h2 class="text-left pl-4 font-medium">IATI Validator</h2>
     </div>
   </div>
@@ -36,5 +36,14 @@ import LayoutNavbar from './LayoutNavbar.vue';
   font-size: 50px;
   border-left: 5px solid #81c3d6;
   color: #ffffff;
+}
+@media (max-width: 600px) {
+  .header .main-title {
+    width: 100%;
+    padding-left: 15px;
+  }
+  .main-title h2 {
+    font-size: 45px;
+  }
 }
 </style>
