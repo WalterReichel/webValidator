@@ -3,7 +3,7 @@ import LayoutNavbar from './LayoutNavbar.vue';
 </script>
 
 <template>
-  <div class="header py-4 mb-4">
+  <div class="header pb-8 mb-4">
     <LayoutNavbar />
     <div class="w-3/4 mx-auto">
       <h2 class="text-left pl-4 font-medium">IATI Validator</h2>
@@ -14,6 +14,9 @@ import LayoutNavbar from './LayoutNavbar.vue';
 <style>
 .header {
   background: linear-gradient(0deg, #124555 4%, #155366 20%);
+  position: relative;
+  margin-top: -12.5em;
+  padding-top: 15rem;
 }
 .header::after {
   content: '';

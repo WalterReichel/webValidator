@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-light">
+  <nav class="navbar navbar-light relative flex flex-nowrap items-center justify-between mx-auto my-12 py-4 px-12">
     <div class="navbar--header">
       <a class="navbar-brand" href="https://iatistandard.org" title="To the main IATI Standard website"></a>
       <button
@@ -34,18 +34,11 @@
 <style>
 .navbar {
   overflow: hidden;
-  position: relative;
   z-index: 5;
   max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 4em;
-  margin-bottom: 4em;
   background-color: #fff;
-  padding: 2em 3em;
   -webkit-box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
   box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
-  flex-wrap: nowrap;
 }
 
 @media (max-width: 1150px) {
@@ -71,7 +64,7 @@
 
 .navbar .navbar-menu {
   display: flex;
-  margin-top: 3.9rem;
+  margin-top: 1.9rem;
   transition: 2s ease;
   justify-content: flex-end;
 }
