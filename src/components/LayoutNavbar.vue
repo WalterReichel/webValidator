@@ -13,16 +13,16 @@
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
-    <div class="collapse navbar-collapse">
+    <div class="navbar-collapse collapse">
       <div class="navbar-menu flex justify-end">
-        <a href="/" class="navbar-menu--item nav-link"> Home </a>
-        <a href="#" class="navbar-menu--item nav-link"> About Validator </a>
-        <a href="#" class="navbar-menu--item nav-link"> Check data </a>
-        <a href="#" class="navbar-menu--item nav-link"> Public data viewer </a>
+        <a href="/" class="navbar-menu--item"> Home </a>
+        <a href="#" class="navbar-menu--item"> About Validator </a>
+        <a href="#" class="navbar-menu--item"> Check data </a>
+        <a href="#" class="navbar-menu--item"> Public data viewer </a>
         <a
           href="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
           target="_blank"
-          class="navbar-menu--item nav-link"
+          class="navbar-menu--item"
         >
           Public API
         </a>
@@ -102,6 +102,7 @@
 
 .navbar-toggler {
   display: none;
+  align-items: center;
 }
 
 .navbar-collapse.collapse {
@@ -111,6 +112,18 @@
 
 .navbar-collapse.collapse.show {
   display: block;
+}
+
+.navbar-toggler .navbar-toggler-icon {
+  background-image: url('../assets/icons/menu.svg');
+}
+
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  content: '';
+  background: 50%/100% 100% no-repeat;
 }
 
 @media (max-width: 600px) {
