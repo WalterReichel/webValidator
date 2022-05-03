@@ -9,14 +9,14 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   <nav
     class="max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12"
   >
-    <div class="flex justify-between w-100">
+    <div class="flex justify-between w-full lg:w-auto">
       <a
         class="relative block bg-no-repeat bg-contain bg-logo-colour m-0 w-44 h-10 sm:w-64 sm:h-14 sm:mb-auto"
         href="https://iatistandard.org"
         title="To the main IATI Standard website"
       ></a>
       <button
-        class="navbar-toggler"
+        class="flex lg:hidden items-center"
         type="button"
         data-toggle="collapse"
         aria-controls="navbarNavAltMarkup"
@@ -24,7 +24,7 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
         aria-label="Toggle navigation"
         @click="toggleNavbar"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="inline-block bg-menu-icon w-6 h-6"></span>
       </button>
     </div>
     <div class="navbar-collapse collapse" :class="{ show: showMobileNav }">
@@ -94,11 +94,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   transform-origin: bottom left;
 }
 
-.navbar-toggler {
-  display: none;
-  align-items: center;
-}
-
 .navbar-collapse.collapse {
   display: block;
   transition: 2s ease;
@@ -106,18 +101,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 
 .navbar-collapse.collapse.show {
   display: block;
-}
-
-.navbar-toggler .navbar-toggler-icon {
-  background-image: url('../assets/icons/menu.svg');
-}
-
-.navbar-toggler-icon {
-  display: inline-block;
-  width: 1.5em;
-  height: 1.5em;
-  content: '';
-  background: 50%/100% 100% no-repeat;
 }
 
 @media (max-width: 1150px) {
@@ -133,10 +116,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
     margin-left: 0;
     text-align: center;
     margin-bottom: 20px;
-  }
-  .navbar-toggler {
-    display: inherit;
-    border: none;
   }
   .navbar-collapse.collapse {
     display: none;

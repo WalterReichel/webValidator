@@ -10,6 +10,7 @@ module.exports = {
       },
       backgroundImage: {
         'logo-colour': "url('src/assets/svg/logo-colour.svg')",
+        'menu-icon': "url('src/assets/icons/menu.svg')",
       },
     },
   },
