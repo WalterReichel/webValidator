@@ -9,8 +9,12 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   <nav
     class="max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12"
   >
-    <div class="navbar--header">
-      <a class="navbar-brand" href="https://iatistandard.org" title="To the main IATI Standard website"></a>
+    <div class="flex justify-between w-100">
+      <a
+        class="relative block bg-no-repeat bg-contain bg-logo-colour m-0 w-44 h-10 sm:w-64 sm:h-14 sm:mb-auto"
+        href="https://iatistandard.org"
+        title="To the main IATI Standard website"
+      ></a>
       <button
         class="navbar-toggler"
         type="button"
@@ -24,7 +28,7 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
       </button>
     </div>
     <div class="navbar-collapse collapse" :class="{ show: showMobileNav }">
-      <div class="navbar-menu mt-7 flex justify-end">
+      <div class="navbar-menu mt-6 flex justify-end">
         <a href="/" class="navbar-menu--item"> Home </a>
         <a href="#" class="navbar-menu--item"> About Validator </a>
         <a href="#" class="navbar-menu--item"> Check data </a>
@@ -90,17 +94,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   transform-origin: bottom left;
 }
 
-.navbar-brand {
-  position: relative;
-  background-image: url(../assets/svg/logo-colour.svg);
-  background-repeat: no-repeat;
-  background-size: contain;
-  height: 60px;
-  width: 260px;
-  display: block;
-  margin-bottom: auto;
-}
-
 .navbar-toggler {
   display: none;
   align-items: center;
@@ -125,14 +118,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   height: 1.5em;
   content: '';
   background: 50%/100% 100% no-repeat;
-}
-
-@media (max-width: 600px) {
-  .navbar-brand {
-    width: 171px;
-    height: 40px;
-    margin: 0;
-  }
 }
 
 @media (max-width: 1150px) {

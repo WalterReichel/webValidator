@@ -8,6 +8,9 @@ module.exports = {
       zIndex: {
         5: '5',
       },
+      backgroundImage: {
+        'logo-colour': "url('src/assets/svg/logo-colour.svg')",
+      },
     },
   },
   plugins: [],
