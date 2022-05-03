@@ -6,7 +6,9 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 </script>
 
 <template>
-  <nav class="navbar navbar-light relative flex flex-nowrap items-center justify-between mx-auto my-12 py-4 px-12">
+  <nav
+    class="max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12"
+  >
     <div class="navbar--header">
       <a class="navbar-brand" href="https://iatistandard.org" title="To the main IATI Standard website"></a>
       <button
@@ -22,7 +24,7 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
       </button>
     </div>
     <div class="navbar-collapse collapse" :class="{ show: showMobileNav }">
-      <div class="navbar-menu flex justify-end">
+      <div class="navbar-menu mt-7 flex justify-end">
         <a href="/" class="navbar-menu--item"> Home </a>
         <a href="#" class="navbar-menu--item"> About Validator </a>
         <a href="#" class="navbar-menu--item"> Check data </a>
@@ -40,15 +42,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 </template>
 
 <style>
-.navbar {
-  overflow: hidden;
-  z-index: 5;
-  max-width: 1200px;
-  background-color: #fff;
-  -webkit-box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
-  box-shadow: 0 0 50px 0 rgba(0, 0, 0, 0.15);
-}
-
 .navbar .navbar-menu {
   margin-top: 1.9rem;
   transition: 2s ease;
@@ -135,9 +128,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 }
 
 @media (max-width: 600px) {
-  .navbar {
-    padding: 1em;
-  }
   .navbar-brand {
     width: 171px;
     height: 40px;
@@ -146,11 +136,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 }
 
 @media (max-width: 1150px) {
-  .navbar {
-    flex-wrap: wrap;
-    margin-right: 2em;
-    margin-left: 2em;
-  }
   .navbar .navbar--header {
     display: flex;
     width: 100%;
