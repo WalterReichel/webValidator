@@ -1,3 +1,10 @@
+<script setup>
+import { ref } from 'vue';
+
+let showMobileNav = ref(false);
+const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
+</script>
+
 <template>
   <nav class="navbar navbar-light relative flex flex-nowrap items-center justify-between mx-auto my-12 py-4 px-12">
     <div class="navbar--header">
@@ -9,11 +16,12 @@
         aria-controls="navbarNavAltMarkup"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        @click="toggleNavbar"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
-    <div class="navbar-collapse collapse">
+    <div class="navbar-collapse collapse" :class="{ show: showMobileNav }">
       <div class="navbar-menu flex justify-end">
         <a href="/" class="navbar-menu--item"> Home </a>
         <a href="#" class="navbar-menu--item"> About Validator </a>
