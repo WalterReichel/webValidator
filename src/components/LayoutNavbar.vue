@@ -38,8 +38,12 @@ const classes = {
         <router-link to="/about" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
           About Validator
         </router-link>
-        <a href="#" :class="['ml-5', classes.menuItem, classes.menuItemAfter]"> Check data </a>
-        <a href="#" :class="['ml-5', classes.menuItem, classes.menuItemAfter]"> Public data viewer </a>
+        <router-link to="/validate" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+          Check data
+        </router-link>
+        <router-link to="/organisations" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+          Public data viewer
+        </router-link>
         <a
           href="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
           target="_blank"
