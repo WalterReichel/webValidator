@@ -1,5 +1,13 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const path = ref(route.path);
+watch(
+  () => route.path,
+  async (_path) => (path.value = _path)
+);
 
 let showMobileNav = ref(false);
 const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
@@ -13,7 +21,9 @@ const classes = {
   menuItem: 'text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 text-gray-7',
   menuItemAfter:
     'after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left',
+  menuItemActive: 'scale-x-100 origin-bottom-left after:scale-x-100 after:origin-bottom-left',
 };
+classes.menuItemAll = `${classes.menuItem} ${classes.menuItemAfter}`;
 </script>
 
 <template>
@@ -34,20 +44,31 @@ const classes = {
     </div>
     <div :class="[classes.navbarMenuWrapper, showMobileNav ? 'block' : 'hidden']">
       <div :class="[classes.navbarMenu]">
-        <router-link to="/" :class="['ml-0', classes.menuItem, classes.menuItemAfter]"> Home </router-link>
-        <router-link to="/about" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+        <router-link to="/" :class="['ml-0', classes.menuItemAll, path === '/' ? classes.menuItemActive : '']">
+          Home
+        </router-link>
+        <router-link
+          to="/about"
+          :class="['ml-5', classes.menuItemAll, path === '/about' ? classes.menuItemActive : '']"
+        >
           About Validator
         </router-link>
-        <router-link to="/validate" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+        <router-link
+          to="/validate"
+          :class="['ml-5', classes.menuItemAll, path === '/validate' ? classes.menuItemActive : '']"
+        >
           Check data
         </router-link>
-        <router-link to="/organisations" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+        <router-link
+          to="/organisations"
+          :class="['ml-5', classes.menuItemAll, path === '/organisations' ? classes.menuItemActive : '']"
+        >
           Public data viewer
         </router-link>
         <a
           href="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
           target="_blank"
-          :class="['ml-5', classes.menuItem, classes.menuItemAfter]"
+          :class="['ml-5', classes.menuItemAll]"
         >
           Public API
         </a>
@@ -55,15 +76,3 @@ const classes = {
     </div>
   </nav>
 </template>
-
-<style>
-.navbar-menu--item--active {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-.navbar-menu--item--active::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-</style>
