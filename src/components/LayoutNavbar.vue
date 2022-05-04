@@ -29,7 +29,7 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
     </div>
     <div
       class="lg:block transition duration-2000 ease basis-full grow items-center"
-      :class="{ block: showMobileNav, hidden: !showMobileNav }"
+      :class="[showMobileNav ? 'block' : 'hidden']"
     >
       <div class="transition-height duration-500 ease-in-out mt-6 flex lg:justify-end flex-col lg:flex-row">
         <a
