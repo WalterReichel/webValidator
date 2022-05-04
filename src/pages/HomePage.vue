@@ -1,6 +1,5 @@
 <script setup>
 import { ref } from 'vue';
-import LayoutHeader from '../components/LayoutHeader.vue';
 
 const count = ref(0);
 
@@ -8,7 +7,6 @@ const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
 </script>
 
 <template>
-  <LayoutHeader />
   <h1 class="text-3xl">{{ msg }}</h1>
 
   <h3 class="text-xl mt-4">Environment (VUE_ENV_ENVIRONMENT): {{ vueEnv }}</h3>
