@@ -27,8 +27,8 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
         <span class="inline-block bg-menu-icon w-6 h-6"></span>
       </button>
     </div>
-    <div class="navbar-collapse collapse" :class="{ show: showMobileNav }">
-      <div class="navbar-menu mt-6 flex justify-end">
+    <div class="lg:block transition duration-2000 ease" :class="{ block: showMobileNav, hidden: !showMobileNav }">
+      <div class="transition-height duration-500 ease-in-out mt-6 flex lg:justify-end flex-col lg:flex-row">
         <a href="/" class="navbar-menu--item"> Home </a>
         <a href="#" class="navbar-menu--item"> About Validator </a>
         <a href="#" class="navbar-menu--item"> Check data </a>
@@ -46,11 +46,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 </template>
 
 <style>
-.navbar .navbar-menu {
-  margin-top: 1.9rem;
-  transition: 2s ease;
-}
-
 .navbar-menu--item {
   display: block;
   position: relative;
@@ -94,31 +89,11 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
   transform-origin: bottom left;
 }
 
-.navbar-collapse.collapse {
-  display: block;
-  transition: 2s ease;
-}
-
-.navbar-collapse.collapse.show {
-  display: block;
-}
-
 @media (max-width: 1150px) {
-  .navbar .navbar--header {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-  }
-  .navbar .navbar-menu {
-    flex-direction: column;
-  }
   .navbar-menu--item {
     margin-left: 0;
     text-align: center;
     margin-bottom: 20px;
-  }
-  .navbar-collapse.collapse {
-    display: none;
   }
 }
 </style>
