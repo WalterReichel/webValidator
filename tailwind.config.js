@@ -12,6 +12,7 @@ module.exports = {
       colors: {
         'gray-7': '#121212',
         primary: '#81c3d6',
+        secondary: '#155366',
       },
       fontFamily: {
         sans: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
