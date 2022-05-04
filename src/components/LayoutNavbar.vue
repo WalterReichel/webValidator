@@ -44,24 +44,21 @@
     </div>
     <div :class="[classes.navbarMenuWrapper, showMobileNav ? 'h-60' : 'h-0']">
       <div :class="[classes.navbarMenu]">
-        <router-link to="/" :class="['ml-0', classes.menuItemAll, path === '/' ? classes.menuItemActive : '']">
+        <router-link to="/" :class="['ml-0', classes.menuItemAll, path === '/' && classes.menuItemActive]">
           Home
         </router-link>
-        <router-link
-          to="/about"
-          :class="['ml-5', classes.menuItemAll, path === '/about' ? classes.menuItemActive : '']"
-        >
+        <router-link to="/about" :class="['ml-5', classes.menuItemAll, path === '/about' && classes.menuItemActive]">
           About Validator
         </router-link>
         <router-link
           to="/validate"
-          :class="['ml-5', classes.menuItemAll, path === '/validate' ? classes.menuItemActive : '']"
+          :class="['ml-5', classes.menuItemAll, path === '/validate' && classes.menuItemActive]"
         >
           Check data
         </router-link>
         <router-link
           to="/organisations"
-          :class="['ml-5', classes.menuItemAll, path === '/organisations' ? classes.menuItemActive : '']"
+          :class="['ml-5', classes.menuItemAll, path === '/organisations' && classes.menuItemActive]"
         >
           Public data viewer
         </router-link>
