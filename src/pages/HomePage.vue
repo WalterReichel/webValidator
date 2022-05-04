@@ -9,7 +9,7 @@
 <template>
   <h1 class="text-3xl">{{ msg }}</h1>
 
-  <h3 class="text-xl mt-4">Environment (VUE_ENV_ENVIRONMENT): {{ vueEnv }}</h3>
+  <h3 class="mt-4 text-xl">Environment (VUE_ENV_ENVIRONMENT): {{ vueEnv }}</h3>
 
   <p class="mt-4">
     Recommended IDE setup:
