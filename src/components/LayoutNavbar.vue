@@ -27,16 +27,39 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
         <span class="inline-block bg-menu-icon w-6 h-6"></span>
       </button>
     </div>
-    <div class="lg:block transition duration-2000 ease" :class="{ block: showMobileNav, hidden: !showMobileNav }">
+    <div
+      class="lg:block transition duration-2000 ease basis-full grow items-center"
+      :class="{ block: showMobileNav, hidden: !showMobileNav }"
+    >
       <div class="transition-height duration-500 ease-in-out mt-6 flex lg:justify-end flex-col lg:flex-row">
-        <a href="/" class="navbar-menu--item"> Home </a>
-        <a href="#" class="navbar-menu--item"> About Validator </a>
-        <a href="#" class="navbar-menu--item"> Check data </a>
-        <a href="#" class="navbar-menu--item"> Public data viewer </a>
+        <a
+          href="/"
+          class="ml-0 text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 text-gray-7 after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left"
+        >
+          Home
+        </a>
+        <a
+          href="#"
+          class="text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 ml-5 text-gray-7 after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left"
+        >
+          About Validator
+        </a>
+        <a
+          href="#"
+          class="text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 ml-5 text-gray-7 after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left"
+        >
+          Check data
+        </a>
+        <a
+          href="#"
+          class="text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 ml-5 text-gray-7 after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left"
+        >
+          Public data viewer
+        </a>
         <a
           href="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
           target="_blank"
-          class="navbar-menu--item"
+          class="text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 ml-5 text-gray-7 after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left"
         >
           Public API
         </a>
@@ -46,34 +69,6 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 </template>
 
 <style>
-.navbar-menu--item {
-  display: block;
-  position: relative;
-  color: #121212;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-size: 1rem;
-  margin-left: 20px;
-  padding: 0;
-}
-
-.navbar-menu--item:first-child {
-  margin-left: 0;
-}
-
-.navbar-menu--item::after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  transform: scaleX(0);
-  height: 3px;
-  bottom: -20px;
-  left: 0;
-  background-color: #81c3d6;
-  transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
-}
-
 .navbar-menu--item--active {
   transform: scaleX(1);
   transform-origin: bottom left;
@@ -82,18 +77,5 @@ const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 .navbar-menu--item--active::after {
   transform: scaleX(1);
   transform-origin: bottom left;
-}
-
-.navbar-menu--item:hover::after {
-  transform: scaleX(1);
-  transform-origin: bottom left;
-}
-
-@media (max-width: 1150px) {
-  .navbar-menu--item {
-    margin-left: 0;
-    text-align: center;
-    margin-bottom: 20px;
-  }
 }
 </style>
