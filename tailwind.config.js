@@ -3,10 +3,11 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        'logo-colour': "url('src/assets/svg/logo-colour.svg')",
-        'menu-icon': "url('src/assets/icons/menu.svg')",
-        'header-image': "url('src/assets/images/marque-white.png')",
         'gradient-iati': 'linear-gradient(0deg, #124555 4%, #155366 20%)',
+        'header-image': "url('src/assets/images/marque-white.png')",
+        'logo-colour': "url('src/assets/svg/logo-colour.svg')",
+        'logo-white': "url('src/assets/svg/logo-white.svg')",
+        'menu-icon': "url('src/assets/icons/menu.svg')",
       },
       backgroundSize: { '70%': '70%' },
       colors: {
