@@ -9,7 +9,7 @@ const classes = {
     'max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12',
   navbarIcon: 'relative block bg-no-repeat bg-contain bg-logo-colour m-0 w-44 h-10 sm:w-64 sm:h-14 sm:mb-auto',
   navbarMenuWrapper: 'lg:block transition duration-2000 ease basis-full grow items-center',
-  navbarMenu: 'transition-height duration-500 ease-in-out mt-6 flex lg:justify-end flex-col lg:flex-row',
+  navbarMenu: 'transition-height duration-500 ease-in-out mt-6 flex lg:justify-end flex-col lg:flex-row cursor-pointer',
   menuItem: 'text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 text-gray-7',
   menuItemAfter:
     'after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left',
@@ -34,8 +34,10 @@ const classes = {
     </div>
     <div :class="[classes.navbarMenuWrapper, showMobileNav ? 'block' : 'hidden']">
       <div :class="[classes.navbarMenu]">
-        <a href="/" :class="['ml-0', classes.menuItem, classes.menuItemAfter]"> Home </a>
-        <a href="#" :class="['ml-5', classes.menuItem, classes.menuItemAfter]"> About Validator </a>
+        <router-link to="/" :class="['ml-0', classes.menuItem, classes.menuItemAfter]"> Home </router-link>
+        <router-link to="/about" :class="['ml-5', classes.menuItem, classes.menuItemAfter]">
+          About Validator
+        </router-link>
         <a href="#" :class="['ml-5', classes.menuItem, classes.menuItemAfter]"> Check data </a>
         <a href="#" :class="['ml-5', classes.menuItem, classes.menuItemAfter]"> Public data viewer </a>
         <a

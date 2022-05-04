@@ -1,11 +1,10 @@
 <script setup>
 import { ref } from 'vue';
+import LayoutHeader from '../components/LayoutHeader.vue';
 
 const count = ref(0);
 
 const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
-
-import LayoutHeader from '../components/LayoutHeader.vue';
 </script>
 
 <template>
