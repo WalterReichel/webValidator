@@ -1,5 +1,5 @@
 <script setup>
-import LayoutNavbar from './LayoutNavbar.vue';
+  import LayoutNavbar from './LayoutNavbar.vue';
 </script>
 
 <template>
@@ -12,38 +12,38 @@ import LayoutNavbar from './LayoutNavbar.vue';
 </template>
 
 <style>
-.header {
-  background: linear-gradient(0deg, #124555 4%, #155366 20%);
-  position: relative;
-  margin-top: -12.5em;
-  padding-top: 15rem;
-}
-.header::after {
-  content: '';
-  background-image: url('../assets/images/marque-white.png');
-  background-size: 70%;
-  background-repeat: no-repeat;
-  background-position: top right;
-  opacity: 0.25;
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-.header h2 {
-  font-size: 50px;
-  border-left: 5px solid #81c3d6;
-  color: #ffffff;
-}
-@media (max-width: 600px) {
-  .header .main-title {
+  .header {
+    background: linear-gradient(0deg, #124555 4%, #155366 20%);
+    position: relative;
+    margin-top: -12.5em;
+    padding-top: 15rem;
+  }
+  .header::after {
+    content: '';
+    background-image: url('../assets/images/marque-white.png');
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: top right;
+    opacity: 0.25;
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
     width: 100%;
-    padding-left: 15px;
+    height: 100%;
   }
-  .main-title h2 {
-    font-size: 45px;
+  .header h2 {
+    font-size: 50px;
+    border-left: 5px solid #81c3d6;
+    color: #ffffff;
   }
-}
+  @media (max-width: 600px) {
+    .header .main-title {
+      width: 100%;
+      padding-left: 15px;
+    }
+    .main-title h2 {
+      font-size: 45px;
+    }
+  }
 </style>

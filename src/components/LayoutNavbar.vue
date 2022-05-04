@@ -1,29 +1,29 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+  import { ref, watch } from 'vue';
+  import { useRoute } from 'vue-router';
 
-const route = useRoute();
-const path = ref(route.path);
-watch(
-  () => route.path,
-  async (_path) => (path.value = _path)
-);
+  const route = useRoute();
+  const path = ref(route.path);
+  watch(
+    () => route.path,
+    async (_path) => (path.value = _path)
+  );
 
-let showMobileNav = ref(false);
-const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
+  let showMobileNav = ref(false);
+  const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 
-const classes = {
-  navbar:
-    'max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12',
-  navbarIcon: 'relative block bg-no-repeat bg-contain bg-logo-colour m-0 w-44 h-10 sm:w-64 sm:h-14 sm:mb-auto',
-  navbarMenuWrapper: 'lg:block lg:h-auto transition-height duration-500 ease-in-out basis-full grow items-center',
-  navbarMenu: 'mt-6 flex lg:justify-end flex-col lg:flex-row cursor-pointer',
-  menuItem: 'text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 text-gray-7',
-  menuItemAfter:
-    'after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left',
-  menuItemActive: 'scale-x-100 origin-bottom-left after:scale-x-100 after:origin-bottom-left',
-};
-classes.menuItemAll = `${classes.menuItem} ${classes.menuItemAfter}`;
+  const classes = {
+    navbar:
+      'max-w-[1200px] overflow-hidden z-5 bg-white shadow-md relative flex flex-wrap lg:flex-nowrap items-center justify-between mx-8 my-12 lg:mx-auto p-4 sm:py-4 sm:px-12',
+    navbarIcon: 'relative block bg-no-repeat bg-contain bg-logo-colour m-0 w-44 h-10 sm:w-64 sm:h-14 sm:mb-auto',
+    navbarMenuWrapper: 'lg:block lg:h-auto transition-height duration-500 ease-in-out basis-full grow items-center',
+    navbarMenu: 'mt-6 flex lg:justify-end flex-col lg:flex-row cursor-pointer',
+    menuItem: 'text-center mb-5 lg:mb-0 block relative uppercase tracking-widest text-base p-0 text-gray-7',
+    menuItemAfter:
+      'after:absolute after:w-full after:h-1 after:-bottom-5 after:left-0 after:scale-x-0 after:origin-bottom-right after:transition-transform after:duration-300 after:ease-out after:bg-primary after:hover:scale-x-100 after:hover:origin-bottom-left',
+    menuItemActive: 'scale-x-100 origin-bottom-left after:scale-x-100 after:origin-bottom-left',
+  };
+  classes.menuItemAll = `${classes.menuItem} ${classes.menuItemAfter}`;
 </script>
 
 <template>

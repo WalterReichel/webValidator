@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+  import { ref } from 'vue';
 
-const count = ref(0);
+  const count = ref(0);
 
-const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
+  const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
 </script>
 
 <template>
@@ -32,15 +32,15 @@ const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
 </template>
 
 <script>
-export default {
-  props: {
-    msg: {
-      type: String,
-      default: '',
+  export default {
+    props: {
+      msg: {
+        type: String,
+        default: '',
+      },
     },
-  },
-  setup(props) {
-    console.log(props.msg);
-  },
-};
+    setup(props) {
+      console.log(props.msg);
+    },
+  };
 </script>
