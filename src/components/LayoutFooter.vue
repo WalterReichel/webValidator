@@ -8,10 +8,10 @@
         <h2 class="text-lg font-bold uppercase text-white">Useful links</h2>
         <ul class="mt-0 mb-2 list-none pl-0 text-left text-white">
           <li class="underline">
-            <a class="useful-list__link" href="https://iatistandard.org/en/contact/">Contact</a>
+            <a href="https://iatistandard.org/en/contact/">Contact</a>
           </li>
           <li class="underline">
-            <a class="useful-list__link" href="https://iatistandard.org/en/privacy-policy/">Privacy policy</a>
+            <a href="https://iatistandard.org/en/privacy-policy/">Privacy policy</a>
           </li>
         </ul>
       </div>
@@ -30,6 +30,21 @@
         </div>
       </div>
     </div>
-    <div>Footer Meta Goes Here</div>
+    <div class="border-t border-tertiary px-6 py-4">
+      <div class="flex w-full justify-between lg:mx-auto lg:max-w-[1140px]">
+        <p class="float-left inline-block text-white">Copyright IATI 2021. All rights reserved</p>
+        <div class="float-right">
+          <a href="https://twitter.com/IATI_aid" class="inline-block h-9 w-9 bg-twitter"></a>
+          <a
+            href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ"
+            class="ml-2.5 inline-block h-9 w-9 bg-youtube"
+          ></a>
+          <a
+            href="https://www.linkedin.com/company/international-aid-transparency-initiative/"
+            class="ml-2.5 inline-block h-9 w-9 bg-linkedin"
+          ></a>
+        </div>
+      </div>
+    </div>
   </footer>
 </template>
