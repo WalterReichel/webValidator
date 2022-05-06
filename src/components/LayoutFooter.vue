@@ -1,5 +1,7 @@
 <script setup>
-  const year = new Date().getFullYear();
+  import { computed } from 'vue';
+
+  const year = computed(() => new Date().getFullYear());
 </script>
 
 <template>
