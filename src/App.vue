@@ -5,6 +5,8 @@
 
 <template>
   <LayoutHeader />
-  <router-view></router-view>
+  <div class="flex-1">
+    <router-view></router-view>
+  </div>
   <LayoutFooter />
 </template>
