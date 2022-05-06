@@ -1,3 +1,7 @@
+<script setup>
+  const year = new Date().getFullYear();
+</script>
+
 <template>
   <footer class="block bg-secondary">
     <div class="flex w-full flex-col justify-between px-4 py-10 lg:mx-auto lg:max-w-[1140px] lg:flex-row lg:px-2">
@@ -32,7 +36,7 @@
     </div>
     <div class="border-t border-tertiary px-6 py-4">
       <div class="flex w-full flex-col justify-between lg:mx-auto lg:max-w-[1140px] lg:flex-row">
-        <p class="lg-pb-0 float-left inline-block pb-4 text-white">Copyright IATI 2021. All rights reserved</p>
+        <p class="lg-pb-0 float-left inline-block pb-4 text-white">Copyright IATI {{ year }}. All rights reserved</p>
         <div class="float-right">
           <a href="https://twitter.com/IATI_aid" class="inline-block h-9 w-9 bg-twitter"></a>
           <a
