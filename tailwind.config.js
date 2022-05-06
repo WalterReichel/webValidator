@@ -13,7 +13,7 @@ module.exports = {
         twitter: "url('src/assets/svg/twitter-icon.svg')",
         youtube: "url('src/assets/svg/youtube-icon.svg')",
       },
-      backgroundSize: { '70%': '70%' },
+      backgroundSize: { '50%': '50%', '90%': '90%' },
       colors: {
         'gray-7': '#121212',
         primary: '#81c3d6',
