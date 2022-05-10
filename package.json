@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite --mode development",
+    "dev": "vite --mode development --port 4200",
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
     "build:production": "vite build --mode production",
