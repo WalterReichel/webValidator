@@ -1,3 +1,7 @@
+<script setup>
+  import SectionSeparator from '../components/SectionSeparator.vue';
+</script>
+
 <template>
   <div class="m-auto my-0 max-w-[1088px] text-left">
     <section class="my-11 px-7">
@@ -33,5 +37,19 @@
         </p>
       </div>
     </section>
+    <SectionSeparator />
+    <section class="my-11 mx-7">
+      <h3 class="my-4 text-lg font-bold">What happens when the IATI Validator identifies invalid data?</h3>
+      <div class="text-base">
+        <p class="mb-3">
+          When the IATI Validator identifies invalid data, it returns a message to the user. A critical, error or a
+          warning message is displayed for each occurrence, identifying what data needs to be corrected and where it
+          occurs in the data file. A count of errors is also displayed which shows how many times an error is repeated
+          throughout a file. For example, if all activities in a dataset have omitted activity dates, then the user will
+          see a count of this repeated error as well as the location of each error.
+        </p>
+      </div>
+    </section>
+    <SectionSeparator />
   </div>
 </template>
