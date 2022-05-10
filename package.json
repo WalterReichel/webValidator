@@ -1,9 +1,9 @@
 {
   "name": "vue-template",
   "private": true,
-  "version": "0.0.0",
+  "version": "2.4.0",
   "scripts": {
-    "dev": "vite --mode development",
+    "dev": "vite --mode development --port 4200",
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
     "build:production": "vite build --mode production",
@@ -16,7 +16,8 @@
     "format": "prettier . --write"
   },
   "dependencies": {
-    "vue": "^3.2.33"
+    "vue": "^3.2.33",
+    "vue-router": "^4.0.15"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.3.2",
@@ -29,6 +30,8 @@
     "lint-staged": "^12.4.1",
     "postcss": "^8.4.13",
     "prettier": "2.6.2",
+    "prettier-plugin-tailwindcss": "^0.1.10",
+    "sass": "^1.51.0",
     "serve": "^13.0.2",
     "tailwindcss": "^3.0.24",
     "vite": "^2.9.8"
