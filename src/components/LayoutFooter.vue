@@ -1,14 +1,24 @@
 <script setup>
   import { computed, reactive, ref, watch } from 'vue';
-  import { getDefaultServicesAPIOptions, buildServicesEndpoint } from '../utils';
+  import { ENVIRONMENT, getDefaultServicesAPIOptions, buildServicesEndpoint } from '../utils';
   import { version } from '../../package.json';
 
-  const releases = reactive({ services: {}, validator: { version }, api: {} });
+  const releases = reactive({ services: {}, web: { version }, api: {} });
   const year = computed(() => new Date().getFullYear());
   const showVersions = ref(false);
 
+  const gitHubURL = 'https://github.com/IATI';
+  const getReleaseURL = (path, version) => {
+    return ENVIRONMENT === 'production' ? `${gitHubURL}${path}/releases/tag/v/${version}` : `${gitHubURL}${path}`;
+  };
+
   watch(releases, () => {
-    showVersions.value = releases.services.version && releases.validator.version && releases.api.version;
+    showVersions.value = releases.services.version && releases.web.version && releases.api.version;
+    if (showVersions.value) {
+      releases.services.url = getReleaseURL('/validator-services', releases.services.version);
+      releases.web.url = getReleaseURL('/IATI-Validator-Web', releases.web.version);
+      releases.api.url = getReleaseURL('/js-validator-api', releases.api.version);
+    }
   });
 
   const fetchRelease = async (url) => {
@@ -56,10 +66,10 @@
           </p>
           <br />
           <p v-if="showVersions">
-            <a class="" :href="releases.validator.url">Web v{{ releases.validator.version }}</a> |
-            <a class="" :href="releases.services.url">Services v{{ releases.services.version }}</a>
+            <a class="underline" :href="releases.web.url">Web v{{ releases.web.version }}</a> |
+            <a class="underline" :href="releases.services.url">Services v{{ releases.services.version }}</a>
             |
-            <a class="" :href="releases.api.url">API v{{ releases.api.version }}</a>
+            <a class="underline" :href="releases.api.url">API v{{ releases.api.version }}</a>
           </p>
         </div>
       </div>
