@@ -1,7 +1,29 @@
 <script setup>
-  import { computed } from 'vue';
+  import { computed, reactive, ref, watch } from 'vue';
+  import { getDefaultServicesAPIOptions, buildServicesEndpoint } from '../utils';
+  import { version } from '../../package.json';
 
+  const releases = reactive({ services: {}, validator: { version }, api: {} });
   const year = computed(() => new Date().getFullYear());
+  const showVersions = ref(false);
+
+  watch(releases, () => {
+    showVersions.value = releases.services.version && releases.validator.version && releases.api.version;
+  });
+
+  const fetchRelease = async (url) => {
+    const response = await window.fetch(url, getDefaultServicesAPIOptions());
+    if (response.status === 200) {
+      return await response.text();
+    }
+  };
+
+  const fetchReleases = async () => {
+    releases.services.version = await fetchRelease(buildServicesEndpoint('/pub/version'));
+    releases.api.version = await fetchRelease(buildServicesEndpoint('/pub/validator-version'));
+  };
+
+  fetchReleases();
 </script>
 
 <template>
@@ -33,6 +55,12 @@
             <a class="underline" href="https://creativecommons.org/licenses/by/4.0/">CC BY 3.0</a>.
           </p>
           <br />
+          <p v-if="showVersions">
+            <a class="" :href="releases.validator.url">Web v{{ releases.validator.version }}</a> |
+            <a class="" :href="releases.services.url">Services v{{ releases.services.version }}</a>
+            |
+            <a class="" :href="releases.api.url">API v{{ releases.api.version }}</a>
+          </p>
         </div>
       </div>
     </div>
