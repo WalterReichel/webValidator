@@ -1,13 +1,8 @@
 <template>
-  <router-link v-if="!external" :to="link" :class="[className, mainClasses, afterClasses, active && activeClasses]">
+  <router-link v-if="!external" :to="link" :class="[classes, mainClasses, afterClasses, active && activeClasses]">
     <slot />
   </router-link>
-  <a
-    v-if="external"
-    :href="link"
-    target="_blank"
-    :class="[className, mainClasses, afterClasses, active && activeClasses]"
-  >
+  <a v-else :href="link" target="_blank" :class="[classes, mainClasses, afterClasses]">
     <slot />
   </a>
 </template>
@@ -17,7 +12,7 @@
     props: {
       link: { type: String, default: '#' },
       active: { type: Boolean, default: false },
-      className: { type: String, default: '' },
+      classes: { type: String, default: '' },
       external: { type: Boolean, default: false },
     },
     setup() {

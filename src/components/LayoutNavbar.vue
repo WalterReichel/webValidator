@@ -27,15 +27,15 @@
       :class="[showMobileNav ? 'h-60' : 'h-0']"
     >
       <div class="mt-6 flex cursor-pointer flex-col lg:flex-row lg:justify-end">
-        <NavbarItem link="/" class-name="ml-0" :active="path === '/'">Home</NavbarItem>
-        <NavbarItem link="/about" class-name="ml-5" :active="path === '/about'">About Validator</NavbarItem>
-        <NavbarItem link="/validate" class-name="ml-5" :active="path === '/validate'">Check data</NavbarItem>
-        <NavbarItem link="/organisations" class-name="ml-5" :active="path === '/organisations'">
+        <NavbarItem link="/" classes="ml-0" :active="path === '/'">Home</NavbarItem>
+        <NavbarItem link="/about" classes="ml-5" :active="path === '/about'">About Validator</NavbarItem>
+        <NavbarItem link="/validate" classes="ml-5" :active="path === '/validate'">Check data</NavbarItem>
+        <NavbarItem link="/organisations" classes="ml-5" :active="path === '/organisations'">
           Public data viewer
         </NavbarItem>
         <NavbarItem
           link="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
-          class-name="ml-5"
+          classes="ml-5"
           :external="true"
         >
           Public API
