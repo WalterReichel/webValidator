@@ -1,6 +1,7 @@
 <script setup>
   import { ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
+  import Logo from './AppLogo.vue';
 
   const route = useRoute();
   const path = ref(route.path);
@@ -26,11 +27,7 @@
     class="relative z-5 mx-0 my-12 flex max-w-[1200px] flex-wrap items-center justify-between overflow-hidden bg-white p-4 shadow-md sm:py-4 sm:px-12 lg:mx-auto lg:flex-nowrap"
   >
     <div class="flex w-full justify-between lg:w-auto">
-      <a
-        class="relative m-0 block h-10 w-44 bg-logo-colour bg-contain bg-no-repeat sm:mb-auto sm:h-14 sm:w-64"
-        href="https://iatistandard.org"
-        title="To the main IATI Standard website"
-      ></a>
+      <Logo />
       <button
         class="flex items-center lg:hidden"
         type="button"
