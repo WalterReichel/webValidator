@@ -2,16 +2,15 @@
   import { ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import Logo from './AppLogo.vue';
+  import NavbarTogo from './NavbarTogo.vue';
 
   const route = useRoute();
   const path = ref(route.path);
+  const showMobileNav = ref(false);
   watch(
     () => route.path,
     async (_path) => (path.value = _path)
   );
-
-  let showMobileNav = ref(false);
-  const toggleNavbar = () => (showMobileNav.value = !showMobileNav.value);
 
   const classes = {
     menuItem: 'relative mb-5 block p-0 text-center text-base uppercase tracking-widest text-gray-7 lg:mb-0',
@@ -28,17 +27,7 @@
   >
     <div class="flex w-full justify-between lg:w-auto">
       <Logo />
-      <button
-        class="flex items-center lg:hidden"
-        type="button"
-        data-toggle="collapse"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-        @click="toggleNavbar"
-      >
-        <span class="inline-block h-6 w-6 bg-menu-icon"></span>
-      </button>
+      <NavbarTogo @toggle-navbar="showMobileNav = !showMobileNav" />
     </div>
     <div
       class="grow basis-full items-center transition-height duration-500 ease-in-out lg:block lg:h-auto"
