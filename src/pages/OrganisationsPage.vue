@@ -1,8 +1,16 @@
 <script setup>
+  import { onMounted } from 'vue';
   import { setPageTitle } from '../state';
   import ContentContainer from '../components/ContentContainer.vue';
+  import { fetchOrganisations } from '../utils';
 
   setPageTitle('Public data viewer');
+
+  onMounted(() => {
+    fetchOrganisations().then((data) => {
+      console.log(data);
+    });
+  });
 </script>
 
 <template>
