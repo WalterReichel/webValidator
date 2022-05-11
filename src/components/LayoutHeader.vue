@@ -1,5 +1,8 @@
 <script setup>
+  import { inject } from 'vue';
   import LayoutNavbar from './LayoutNavbar.vue';
+
+  const layout = inject('layout');
 </script>
 
 <template>
@@ -8,9 +11,10 @@
   >
     <LayoutNavbar />
     <div class="mx-auto max-w-[1200px] pl-3.5 lg:pl-0">
-      <h2 class="border-l-4 border-solid border-primary pl-4 text-left text-4xl font-medium text-white lg:text-5xl">
-        IATI Validator
-      </h2>
+      <div class="border-l-4 border-solid border-primary pl-4">
+        <h2 class="text-left text-4xl text-white"><b>IATI Validator</b></h2>
+        <h3 v-if="layout.title" class="mt-4 text-left text-2xl text-white">{{ layout.title }}</h3>
+      </div>
     </div>
   </div>
 </template>
