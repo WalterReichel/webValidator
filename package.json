@@ -16,6 +16,7 @@
     "format": "prettier . --write"
   },
   "dependencies": {
+    "localforage": "^1.10.0",
     "vue": "^3.2.33",
     "vue-router": "^4.0.15"
   },
