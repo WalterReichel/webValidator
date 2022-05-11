@@ -16,9 +16,9 @@ module.exports = {
       backgroundSize: { '50%': '50%', '90%': '90%' },
       colors: {
         'gray-7': '#121212',
-        primary: '#81c3d6',
-        secondary: '#155366',
-        tertiary: '#1e7590',
+        'iati-blue': '#81c3d6',
+        'iati-grey': '#155366',
+        'iati-accent': '#1e7590',
       },
       fontFamily: {
         sans: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
