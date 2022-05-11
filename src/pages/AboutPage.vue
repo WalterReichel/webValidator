@@ -12,9 +12,9 @@
       description: 'Core validation logic',
     },
     {
-      link: 'https://github.com/IATI/IATI-Validator-Web',
+      link: 'https://github.com/IATI/validator-web',
       caption: 'Front End',
-      description: 'Angular single page application',
+      description: 'Vue.js single page application',
     },
     {
       link: 'https://github.com/IATI/validator-services',
