@@ -1,6 +1,9 @@
 <script setup>
   import SectionSeparator from '../components/SectionSeparator.vue';
   import AboutSection from '../components/AboutSection.vue';
+  import CheckedList from '../components/CheckedList/CheckedList.vue';
+  import ListItem from '../components/CheckedList/ListItem.vue';
+  import StyledLink from '../components/StyledLink.vue';
 </script>
 
 <template>
@@ -15,22 +18,22 @@
     <AboutSection title="How does the IATI Validator work?">
       <div class="text-base">
         <p class="mb-3">There are three ways to use the IATI Validator.</p>
-        <ul class="list-none pl-4">
-          <li class="mb-3 before:pr-3 before:content-['-']">
-            <router-link to="/validate" class="text-secondary">Check Data</router-link> - Anyone can upload their IATI
-            data files to be checked before publishing them.
-          </li>
-          <li class="mb-3 before:pr-3 before:content-['-']">
-            <router-link to="/organisations" class="text-secondary">Public Data Viewer</router-link> - Anyone can check
-            all IATI data files that have been published.
-          </li>
-          <li class="mb-3 before:pr-3 before:content-['-']">
-            <a href="https://developer.iatistandard.org/api-details#api=iati-validator-v2" class="text-secondary"
-              >Public API</a
-            >
+        <CheckedList>
+          <ListItem>
+            <StyledLink to="/validate">Check Data</StyledLink> - Anyone can upload their IATI data files to be checked
+            before publishing them.
+          </ListItem>
+          <ListItem>
+            <StyledLink to="/organisations">Public Data Viewer</StyledLink> - Anyone can check all IATI data files that
+            have been published.
+          </ListItem>
+          <ListItem>
+            <StyledLink to="https://developer.iatistandard.org/api-details#api=iati-validator-v2" :external="true"
+              >Public API
+            </StyledLink>
             - Developers can GET reports for published files or POST a file and receive a validation report
-          </li>
-        </ul>
+          </ListItem>
+        </CheckedList>
         <p class="mb-3">
           The IATI Validator undertakes multiple layers of checks to identify where data does not comply with the IATI
           Standard. The Validator provides messages to indicate where errors have occurred and what needs to be changed.
