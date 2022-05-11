@@ -1,18 +1,18 @@
 <script setup>
   import SectionSeparator from '../components/SectionSeparator.vue';
+  import AboutSection from '../components/AboutSection.vue';
 </script>
 
 <template>
   <div class="m-auto my-0 max-w-[1088px] text-left">
-    <section class="my-11 px-7">
+    <AboutSection>
       <p class="text-base">
         The IATI Validator checks if IATI data complies with the rules and guidance in the IATI Standard. Find
         information on how to improve the quality of development and humanitarian IATI data on resources and results to
         ensure it is accessible and useful.
       </p>
-    </section>
-    <section class="my-11 mx-7">
-      <h3 class="my-4 text-lg font-bold">How does the IATI Validator work?</h3>
+    </AboutSection>
+    <AboutSection title="How does the IATI Validator work?">
       <div class="text-base">
         <p class="mb-3">There are three ways to use the IATI Validator.</p>
         <ul class="list-none pl-4">
@@ -36,10 +36,9 @@
           Standard. The Validator provides messages to indicate where errors have occurred and what needs to be changed.
         </p>
       </div>
-    </section>
+    </AboutSection>
     <SectionSeparator />
-    <section class="my-11 mx-7">
-      <h3 class="my-4 text-lg font-bold">What happens when the IATI Validator identifies invalid data?</h3>
+    <AboutSection title="What happens when the IATI Validator identifies invalid data?">
       <div class="text-base">
         <p class="mb-3">
           When the IATI Validator identifies invalid data, it returns a message to the user. A critical, error or a
@@ -49,7 +48,7 @@
           see a count of this repeated error as well as the location of each error.
         </p>
       </div>
-    </section>
+    </AboutSection>
     <SectionSeparator />
   </div>
 </template>
