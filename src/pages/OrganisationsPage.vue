@@ -6,13 +6,14 @@
   import OrganisationsList from '../components/OrganisationsList.vue';
 
   const cache = inject('cache');
+  const ORGANISATIONS_CACHE_KEY = 'ORGANISATIONS';
 
   setPageTitle('Public data viewer');
   const isFetching = ref(true);
   const organisations = ref(null);
 
   onMounted(() => {
-    cache.get('ORGANISATIONS').then((cachedData) => {
+    cache.get(ORGANISATIONS_CACHE_KEY).then((cachedData) => {
       if (cachedData) {
         organisations.value = cachedData;
         isFetching.value = false;
@@ -20,7 +21,7 @@
         fetchOrganisations().then((data) => {
           isFetching.value = false;
           organisations.value = data;
-          cache.set('ORGANISATIONS', data);
+          cache.set(ORGANISATIONS_CACHE_KEY, data);
         });
       }
     });
