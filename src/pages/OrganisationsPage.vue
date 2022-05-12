@@ -7,11 +7,12 @@
 
   setPageTitle('Public data viewer');
   const isFetching = ref(true);
+  const organisations = ref(null);
 
   onMounted(() => {
     fetchOrganisations().then((data) => {
       isFetching.value = false;
-      console.log(data);
+      organisations.value = data;
     });
   });
 </script>
@@ -23,6 +24,6 @@
       the public IATI data is regularly refreshed from the IATI Registry. New organisations and IATI files will not
       immediately be visible here, but after at most a day.
     </p>
-    <OrganisationsList :is-fetching="isFetching" />
+    <OrganisationsList :is-fetching="isFetching" :organisations="organisations" />
   </ContentContainer>
 </template>

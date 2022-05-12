@@ -1,7 +1,10 @@
 <script setup>
   import LoadingSpinner from '../components/LoadingSpinner.vue';
   import SearchFilter from './SearchFilter.vue';
-  const props = defineProps({ isFetching: { type: Boolean, default: false } });
+  const props = defineProps({
+    isFetching: { type: Boolean, default: false },
+    organisations: { type: Array, default: () => [] },
+  });
 </script>
 
 <template>
