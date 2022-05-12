@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <div class="my-4 flex flex-row justify-between">
+  <div class="sticky top-0 hidden flex-row justify-between bg-white py-4 sm:flex">
     <span class="cursor-pointer" @click="navigate">123</span>
     <span v-for="letter in alphabet" :key="letter" class="cursor-pointer" @click="navigate">{{ letter }}</span>
   </div>

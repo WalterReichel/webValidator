@@ -12,7 +12,7 @@
 
   const organisations = ref(props.organisations || []);
   const anchors = computed(() =>
-    (props.organisations || []).reduce((items, curr) => {
+    organisations.value.reduce((items, curr) => {
       const firstChar = curr.title.split('')[0].toLowerCase();
       return isNaN(Number(firstChar)) && !items.map((item) => item.anchor).includes(firstChar)
         ? items.concat({ anchor: firstChar, name: curr.name })
@@ -35,7 +35,7 @@
   <div v-else class="mb-4">
     <OrganisationSearchFilter :organisations="props.organisations" @on-search="onFilter" @on-init.once="onFilter" />
     <OrganisationAlphabetNavigator />
-    <div class="pb-4">
+    <div class="py-4 sm:pt-0">
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
     <hr class="mb-2" />
