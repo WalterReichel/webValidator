@@ -15,6 +15,10 @@
       ? props.organisations.filter((org) => new RegExp(searchText.value, 'gi').test(org.title))
       : props.organisations || []
   );
+  const alphabet = (() => {
+    const alpha = Array.from(Array(26)).map((e, i) => i + 65);
+    return alpha.map((x) => String.fromCharCode(x));
+  })();
 
   onBeforeUpdate(() => {
     if (!organisations.value && props.organisations) {
@@ -36,7 +40,11 @@
     <div class="py-4">
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
-    <hr class="mb-4" />
+    <hr class="mb-2" />
+    <div class="mb-2 flex flex-row justify-between">
+      <span v-for="letter in alphabet" :key="letter" class="cursor-pointer">{{ letter }}</span>
+      <span class="cursor-pointer">123</span>
+    </div>
     <div v-for="organisation in organisations" :key="organisation.name">
       <StyledLink :to="`/organisation/${organisation.name}`">{{ organisation.title }}</StyledLink>
     </div>
