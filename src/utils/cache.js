@@ -17,14 +17,15 @@ const hasExpired = (expires) => {
 };
 
 const getCache = async (name) => {
-  const { data, expiry } = await localForage.getItem(name);
-  if (hasExpired(expiry)) {
+  const item = await localForage.getItem(name);
+  if (!item) return null;
+  if (hasExpired(item.expiry)) {
     localForage.setItem(name, null);
 
     return null;
   }
 
-  return data;
+  return item.data;
 };
 
 export default {
