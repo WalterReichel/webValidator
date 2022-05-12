@@ -1,18 +1,28 @@
 <script setup>
-  import { onMounted, ref } from 'vue';
+  import { inject, onMounted, ref } from 'vue';
   import { setPageTitle } from '../state';
   import ContentContainer from '../components/ContentContainer.vue';
   import { fetchOrganisations } from '../utils';
   import OrganisationsList from '../components/OrganisationsList.vue';
+
+  const cache = inject('cache');
 
   setPageTitle('Public data viewer');
   const isFetching = ref(true);
   const organisations = ref(null);
 
   onMounted(() => {
-    fetchOrganisations().then((data) => {
-      isFetching.value = false;
-      organisations.value = data;
+    cache.get('ORGANISATIONS').then((cachedData) => {
+      if (cachedData) {
+        organisations.value = cachedData;
+        isFetching.value = false;
+      } else {
+        fetchOrganisations().then((data) => {
+          isFetching.value = false;
+          organisations.value = data;
+          cache.set('ORGANISATIONS', data);
+        });
+      }
     });
   });
 </script>
