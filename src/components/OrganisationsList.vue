@@ -1,32 +1,21 @@
 <script setup>
-  import { computed, ref, onBeforeUpdate } from 'vue';
-  import LoadingSpinner from '../components/LoadingSpinner.vue';
-  import SearchFilter from './SearchFilter.vue';
+  import { ref } from 'vue';
   import StyledLink from './StyledLink.vue';
+  import LoadingSpinner from '../components/LoadingSpinner.vue';
+  import OrganisationSearchFilter from './OrganisationSearchFilter.vue';
 
   const props = defineProps({
     isFetching: { type: Boolean, default: false },
     organisations: { type: Array, default: () => [] },
   });
 
-  const searchText = ref(null);
-  const organisations = computed(() =>
-    searchText.value && props.organisations
-      ? props.organisations.filter((org) => new RegExp(searchText.value, 'gi').test(org.title))
-      : props.organisations || []
-  );
+  const organisations = ref(props.organisations || []);
   const alphabet = (() => {
     const alpha = Array.from(Array(26)).map((e, i) => i + 65);
     return alpha.map((x) => String.fromCharCode(x));
   })();
 
-  onBeforeUpdate(() => {
-    if (!organisations.value && props.organisations) {
-      organisations.value = props.organisations;
-    }
-  });
-
-  const onSearch = (text) => (searchText.value = text);
+  const onFilter = (results) => (organisations.value = results);
 </script>
 
 <template>
@@ -36,7 +25,7 @@
     </div>
   </div>
   <div v-else class="mb-4">
-    <SearchFilter placeholder="Organisation name" @on-search="onSearch" />
+    <OrganisationSearchFilter :organisations="props.organisations" @on-search="onFilter" @on-init.once="onFilter" />
     <div class="py-4">
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
