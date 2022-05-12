@@ -1,9 +1,9 @@
 <script setup>
   import { ref } from 'vue';
-  import StyledLink from './StyledLink.vue';
   import LoadingSpinner from '../components/LoadingSpinner.vue';
   import OrganisationSearchFilter from './OrganisationSearchFilter.vue';
   import OrganisationAlphabetNavigator from './OrganisationAlphabetNavigator.vue';
+  import OrganisationsListItem from './OrganisationsListItem.vue';
 
   const props = defineProps({
     isFetching: { type: Boolean, default: false },
@@ -28,8 +28,10 @@
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
     <hr class="mb-2" />
-    <div v-for="organisation in organisations" :key="organisation.name">
-      <StyledLink :to="`/organisation/${organisation.name}`">{{ organisation.title }}</StyledLink>
-    </div>
+    <OrganisationsListItem
+      v-for="organisation in organisations"
+      :key="organisation.name"
+      :organisation="organisation"
+    />
   </div>
 </template>
