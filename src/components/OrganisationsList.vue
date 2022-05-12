@@ -3,6 +3,7 @@
   import StyledLink from './StyledLink.vue';
   import LoadingSpinner from '../components/LoadingSpinner.vue';
   import OrganisationSearchFilter from './OrganisationSearchFilter.vue';
+  import OrganisationAlphabetNavigator from './OrganisationAlphabetNavigator.vue';
 
   const props = defineProps({
     isFetching: { type: Boolean, default: false },
@@ -10,7 +11,6 @@
   });
 
   const organisations = ref(props.organisations || []);
-  const alphabet = Array.from(Array(26)).map((e, i) => String.fromCharCode(i + 65));
 
   const onFilter = (results) => (organisations.value = results);
 </script>
@@ -23,14 +23,11 @@
   </div>
   <div v-else class="mb-4">
     <OrganisationSearchFilter :organisations="props.organisations" @on-search="onFilter" @on-init.once="onFilter" />
-    <div class="py-4">
+    <OrganisationAlphabetNavigator />
+    <div class="pb-4">
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
     <hr class="mb-2" />
-    <div class="mb-2 flex flex-row justify-between">
-      <span v-for="letter in alphabet" :key="letter" class="cursor-pointer">{{ letter }}</span>
-      <span class="cursor-pointer">123</span>
-    </div>
     <div v-for="organisation in organisations" :key="organisation.name">
       <StyledLink :to="`/organisation/${organisation.name}`">{{ organisation.title }}</StyledLink>
     </div>
