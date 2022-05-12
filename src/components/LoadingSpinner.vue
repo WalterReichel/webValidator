@@ -2,7 +2,7 @@
   <svg
     v-if="show"
     role="status"
-    class="h-14 w-14 animate-spin fill-iati-grey text-gray-200 dark:text-gray-600"
+    class="h-14 w-14 animate-spin fill-iati-grey text-gray-200"
     viewBox="0 0 100 101"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
