@@ -10,10 +10,7 @@
   });
 
   const organisations = ref(props.organisations || []);
-  const alphabet = (() => {
-    const alpha = Array.from(Array(26)).map((e, i) => i + 65);
-    return alpha.map((x) => String.fromCharCode(x));
-  })();
+  const alphabet = Array.from(Array(26)).map((e, i) => String.fromCharCode(i + 65));
 
   const onFilter = (results) => (organisations.value = results);
 </script>
