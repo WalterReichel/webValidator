@@ -11,3 +11,5 @@ export const getServicesCredentials = () => {
 export const getDefaultServicesAPIOptions = () => {
   return { headers: { [API_KEY_NAME]: API_KEY_VALUE } };
 };
+
+export * from './organisations';

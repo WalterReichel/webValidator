@@ -37,7 +37,7 @@
 </script>
 
 <template>
-  <footer class="block bg-secondary">
+  <footer class="block bg-iati-grey">
     <div class="flex w-full flex-col justify-between px-4 py-10 lg:mx-auto lg:max-w-[1140px] lg:flex-row lg:px-2">
       <div class="flex flex-col items-center p-2 lg:items-start">
         <a href="https://iatistandard.org" class="h-20 w-80 bg-logo-white bg-contain bg-no-repeat"></a>
@@ -74,7 +74,7 @@
         </div>
       </div>
     </div>
-    <div class="border-t border-tertiary px-6 py-4">
+    <div class="border-t border-iati-accent px-6 py-4">
       <div class="flex w-full flex-col justify-between lg:mx-auto lg:max-w-[1140px] lg:flex-row">
         <p class="lg-pb-0 float-left inline-block pb-4 text-white">Copyright IATI {{ year }}. All rights reserved</p>
         <div class="float-right">
