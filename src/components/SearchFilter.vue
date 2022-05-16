@@ -8,8 +8,8 @@
   const emit = defineEmits(['onSearch']);
   const search = ref(null);
 
-  watch(search, () => emit('onSearch', search.value));
-  const onSearch = () => emit('onSearch', search.value);
+  watch(search, () => emit('onSearch', search.value.trim()));
+  const onSearch = () => emit('onSearch', search.value.trim());
 </script>
 
 <template>
