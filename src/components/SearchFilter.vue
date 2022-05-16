@@ -1,5 +1,6 @@
 <script setup>
   import { ref, watch } from 'vue';
+  import { debounce } from '../utils';
 
   const props = defineProps({
     buttonCaption: { type: String, default: 'Search' },
@@ -8,7 +9,10 @@
   const emit = defineEmits(['onSearch']);
   const search = ref(null);
 
-  watch(search, () => emit('onSearch', search.value.trim()));
+  watch(
+    search,
+    debounce(() => emit('onSearch', search.value.trim()), 250)
+  );
   const onSearch = () => emit('onSearch', search.value.trim());
 </script>
 
