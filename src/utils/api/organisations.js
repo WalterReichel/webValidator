@@ -15,3 +15,12 @@ export const fetchOrganisations = async () => {
 
   return [];
 };
+
+export const fetchOrganisationByName = async (name) => {
+  const url = `${SERVICES_URL}/pvt/publishers/${name}?lookupKey=name`;
+  const response = await window.fetch(url, getDefaultServicesAPIOptions());
+  if (response.status === 200) {
+    const data = await response.json();
+    return data && data.length ? data[0] : null;
+  }
+};
