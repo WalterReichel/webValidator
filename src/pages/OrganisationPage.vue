@@ -4,6 +4,7 @@
   import { fetchOrganisationByName } from '../utils';
   import { setPageTitle } from '../state';
   import BasicCard from '../components/BasicCard.vue';
+  import CardHeader from '../components/CardHeader.vue';
   import ContentContainer from '../components/ContentContainer.vue';
 
   const layout = setPageTitle('Loading...');
@@ -28,7 +29,12 @@
 <template>
   <ContentContainer>
     <div class="-mx-3.5 flex flex-wrap">
-      <BasicCard>Organisation Content Goes Here</BasicCard>
+      <BasicCard>
+        <template #header>
+          <CardHeader>Public data</CardHeader>
+        </template>
+        Organisation Content Goes Here
+      </BasicCard>
     </div>
   </ContentContainer>
 </template>
