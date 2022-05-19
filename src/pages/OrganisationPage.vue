@@ -3,6 +3,8 @@
   import { useRoute } from 'vue-router';
   import { fetchOrganisationByName } from '../utils';
   import { setPageTitle } from '../state';
+  import BasicCard from '../components/BasicCard.vue';
+  import ContentContainer from '../components/ContentContainer.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -23,4 +25,10 @@
   });
 </script>
 
-<template>Organisation Page Goes Here</template>
+<template>
+  <ContentContainer>
+    <div class="-mx-3.5 flex flex-wrap">
+      <BasicCard>Organisation Content Goes Here</BasicCard>
+    </div>
+  </ContentContainer>
+</template>
