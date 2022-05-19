@@ -19,6 +19,10 @@ module.exports = {
         'iati-blue': '#81c3d6',
         'iati-grey': '#155366',
         'iati-accent': '#1e7590',
+        critical: '#a66ee9',
+        error: '#f73357',
+        success: '#18BC9C',
+        warning: '#ff7264',
       },
       fontFamily: {
         sans: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
