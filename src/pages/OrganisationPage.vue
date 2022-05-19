@@ -9,16 +9,18 @@
   import OrganisationPageInfo from '../components/OrganisationPageInfo.vue';
   import OrganisationDocuments from '../components/OrganisationDocuments.vue';
   import OrganisationDocument from '../components/OrganisationDocument.vue';
+  import LoadingSpinner from '../components/LoadingSpinner.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
 
-  const state = reactive({});
+  const state = reactive({ organisation: null, documents: [], loading: true });
 
   const fetchOrganisationPlusDocuments = (organisationName) => {
     fetchOrganisationByName(organisationName).then((data) => {
       state.organisation = data;
       if (data) layout.title = data.title;
+      state.loading = false;
     });
   };
 
@@ -40,7 +42,10 @@
         <OrganisationPageInfo />
 
         <div class="-mx-3.5">
-          <OrganisationDocuments>
+          <div v-if="state.loading" class="flex items-center justify-center">
+            <LoadingSpinner />
+          </div>
+          <OrganisationDocuments v-else>
             <OrganisationDocument />
           </OrganisationDocuments>
         </div>
