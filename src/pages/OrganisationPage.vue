@@ -1,7 +1,7 @@
 <script setup>
   import { reactive, watch } from 'vue';
   import { useRoute } from 'vue-router';
-  import { fetchOrganisationByName } from '../utils';
+  import { fetchOrganisationByName, fetchOrganisationDocuments } from '../utils';
   import { setPageTitle } from '../state';
   import BasicCard from '../components/BasicCard.vue';
   import CardHeader from '../components/CardHeader.vue';
@@ -17,17 +17,33 @@
   const state = reactive({ organisation: null, documents: [], loading: true });
 
   const fetchOrganisationPlusDocuments = (organisationName) => {
-    fetchOrganisationByName(organisationName).then((data) => {
-      state.organisation = data;
-      if (data) layout.title = data.title;
-      state.loading = false;
-    });
+    fetchOrganisationByName(organisationName)
+      .then((data) => {
+        state.organisation = data;
+        if (data) layout.title = data.title;
+
+        fetchOrganisationDocuments(data.org_id)
+          .then((documents) => {
+            state.documents = documents;
+            state.loading = false;
+          })
+          .catch((error) => {
+            state.documents = [];
+            state.loading = false;
+            console.log(error);
+          });
+      })
+      .catch((error) => {
+        state.organisation = '';
+        state.loading = false;
+        console.log(error);
+      });
   };
 
   fetchOrganisationPlusDocuments(route.params.name);
 
   watch(state, () => {
-    console.log(state.organisation);
+    console.log(state.documents);
   });
 </script>
 

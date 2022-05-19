@@ -24,3 +24,12 @@ export const fetchOrganisationByName = async (name) => {
     return data && data.length ? data[0] : null;
   }
 };
+
+export const fetchOrganisationDocuments = async (organisationID) => {
+  const url = `${SERVICES_URL}/pvt/publishers/${organisationID}/documents`;
+  const response = await window.fetch(url, getDefaultServicesAPIOptions());
+  if (response.status === 200) {
+    const data = await response.json();
+    return data && data.length ? data : [];
+  }
+};
