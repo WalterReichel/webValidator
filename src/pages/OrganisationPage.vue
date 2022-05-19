@@ -57,7 +57,7 @@
           <li>
             <span class="font-bold text-critical">Critical</span> - data contains significant errors, none or not all of
             the data can be used by tools or accessed by the
-            <a href="https://iatidatastore.iatistandard.org" class="text-iati-grey hover:underline">IATI Datastore</a>
+            <a href="https://iatidatastore.iatistandard.org" class="text-iati-green hover:underline">IATI Datastore</a>
           </li>
         </ul>
       </BasicCard>

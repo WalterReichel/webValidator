@@ -1,6 +1,6 @@
 <template>
-  <router-link v-if="!external" :to="to" class="text-iati-grey"><slot /></router-link>
-  <a v-else :href="to" target="_blank" class="text-iati-grey"><slot /></a>
+  <router-link v-if="!external" :to="to" class="text-iati-green"><slot /></router-link>
+  <a v-else :href="to" target="_blank" class="text-iati-green"><slot /></a>
 </template>
 
 <script>
