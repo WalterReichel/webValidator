@@ -1,6 +1,6 @@
 <script setup>
   import { computed, ref, watch, onMounted } from 'vue';
-  import SearchFilter from './SearchFilter.vue';
+  import SearchFilter from '../SearchFilter.vue';
 
   const props = defineProps({ organisations: { type: Array, default: () => [] } });
   const emit = defineEmits(['onInit', 'onSearch']);
