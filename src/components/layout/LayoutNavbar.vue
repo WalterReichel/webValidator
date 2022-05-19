@@ -1,7 +1,7 @@
 <script setup>
   import { ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
-  import Logo from './AppLogo.vue';
+  import Logo from '../AppLogo.vue';
   import NavbarItem from './NavbarItem.vue';
   import NavbarTogo from './NavbarTogo.vue';
 

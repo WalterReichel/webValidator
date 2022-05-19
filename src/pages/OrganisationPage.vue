@@ -5,7 +5,7 @@
   import { setPageTitle } from '../state';
   import BasicCard from '../components/BasicCard.vue';
   import CardHeader from '../components/CardHeader.vue';
-  import ContentContainer from '../components/ContentContainer.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
   import OrganisationPageInfo from '../components/OrganisationPageInfo.vue';
   import OrganisationDocuments from '../components/OrganisationDocuments.vue';
   import OrganisationDocument from '../components/OrganisationDocument.vue';

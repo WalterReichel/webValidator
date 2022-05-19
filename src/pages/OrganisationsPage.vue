@@ -1,7 +1,7 @@
 <script setup>
   import { inject, onMounted, ref } from 'vue';
   import { setPageTitle } from '../state';
-  import ContentContainer from '../components/ContentContainer.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
   import { fetchOrganisations } from '../utils';
   import OrganisationsList from '../components/OrganisationsList.vue';
 

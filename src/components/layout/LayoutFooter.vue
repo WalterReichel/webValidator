@@ -1,7 +1,7 @@
 <script setup>
   import { computed, reactive, ref, watch } from 'vue';
-  import { ENVIRONMENT, getDefaultServicesAPIOptions, buildServicesEndpoint } from '../utils';
-  import { version } from '../../package.json';
+  import { ENVIRONMENT, getDefaultServicesAPIOptions, buildServicesEndpoint } from '../../utils';
+  import { version } from '../../../package.json';
 
   const releases = reactive({ services: {}, web: { version }, api: {} });
   const year = computed(() => new Date().getFullYear());
