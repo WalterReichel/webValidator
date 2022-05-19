@@ -9,7 +9,7 @@
     <span class="font-bold text-warning">Warnings</span> should be corrected when possible.
   </p>
 
-  <ul class="list-disc pl-10">
+  <ul class="list-disc pl-10 pb-3">
     <li>
       <span class="font-bold text-success">Success</span> - file is valid with no errors of any type, congratulations!
     </li>
