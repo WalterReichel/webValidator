@@ -8,6 +8,7 @@
   import ContentContainer from '../components/ContentContainer.vue';
   import OrganisationPageInfo from '../components/OrganisationPageInfo.vue';
   import OrganisationDocuments from '../components/OrganisationDocuments.vue';
+  import OrganisationDocument from '../components/OrganisationDocument.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -39,7 +40,9 @@
         <OrganisationPageInfo />
 
         <div class="-mx-3.5">
-          <OrganisationDocuments />
+          <OrganisationDocuments>
+            <OrganisationDocument />
+          </OrganisationDocuments>
         </div>
       </BasicCard>
     </div>
