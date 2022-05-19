@@ -1,7 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import StyledLink from '../StyledLink.vue';
-  import LoadingSpinner from '../LoadingSpinner.vue';
+  import CaptionedLoadingSpinner from '../CaptionedLoadingSpinner.vue';
   import OrganisationSearchFilter from './OrganisationSearchFilter.vue';
   import OrganisationAlphabetNavigator from './OrganisationAlphabetNavigator.vue';
 
@@ -28,9 +28,7 @@
 
 <template>
   <div v-if="props.isFetching" class="mb-4 flex h-full flex-col">
-    <div class="flex items-center justify-center">
-      <LoadingSpinner />
-    </div>
+    <CaptionedLoadingSpinner>Loading Organisations...</CaptionedLoadingSpinner>
   </div>
   <div v-else class="mb-4">
     <OrganisationSearchFilter :organisations="props.organisations" @on-search="onFilter" @on-init.once="onFilter" />

@@ -9,7 +9,7 @@
   import OrganisationPageInfo from '../components/organisation/OrganisationPageInfo.vue';
   import DocumentList from '../components/organisation/DocumentList.vue';
   import DocumentListItem from '../components/organisation/DocumentListItem.vue';
-  import LoadingSpinner from '../components/LoadingSpinner.vue';
+  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -58,9 +58,7 @@
         <OrganisationPageInfo />
 
         <div class="-mx-3.5">
-          <div v-if="state.loading" class="flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
+          <CaptionedLoadingSpinner v-if="state.loading"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList v-else>
             <DocumentListItem v-for="document in state.documents" :key="document.hash" :document="document" />
           </DocumentList>
