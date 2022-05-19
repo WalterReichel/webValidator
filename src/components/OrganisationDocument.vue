@@ -5,7 +5,7 @@
 </script>
 
 <template>
-  <tr>
+  <tr class="odd:bg-white even:bg-slate-100">
     <td class="py-2 first:pl-3.5">abtbritain-activities.xml</td>
     <td class="py-2">2022-01-24 12:19 (GMT+3)</td>
     <td class="py-2">2022-01-24 12:27 (GMT+3)</td>

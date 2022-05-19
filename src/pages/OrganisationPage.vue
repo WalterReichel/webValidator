@@ -62,7 +62,7 @@
             <LoadingSpinner />
           </div>
           <OrganisationDocuments v-else>
-            <OrganisationDocument />
+            <OrganisationDocument v-for="document in state.documents" :key="document.hash" :document="document" />
           </OrganisationDocuments>
         </div>
       </BasicCard>
