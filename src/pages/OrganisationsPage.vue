@@ -3,7 +3,7 @@
   import { setPageTitle } from '../state';
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { fetchOrganisations } from '../utils';
-  import OrganisationsList from '../components/OrganisationsList.vue';
+  import OrganisationsList from '../components/organisation/OrganisationsList.vue';
 
   const cache = inject('cache');
   const ORGANISATIONS_CACHE_KEY = 'ORGANISATIONS';

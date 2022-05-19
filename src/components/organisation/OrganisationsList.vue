@@ -1,7 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
-  import StyledLink from './StyledLink.vue';
-  import LoadingSpinner from '../components/LoadingSpinner.vue';
+  import StyledLink from '../StyledLink.vue';
+  import LoadingSpinner from '../LoadingSpinner.vue';
   import OrganisationSearchFilter from './OrganisationSearchFilter.vue';
   import OrganisationAlphabetNavigator from './OrganisationAlphabetNavigator.vue';
 

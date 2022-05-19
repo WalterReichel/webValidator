@@ -6,9 +6,9 @@
   import BasicCard from '../components/BasicCard.vue';
   import CardHeader from '../components/CardHeader.vue';
   import ContentContainer from '../components/layout/ContentContainer.vue';
-  import OrganisationPageInfo from '../components/OrganisationPageInfo.vue';
-  import OrganisationDocuments from '../components/OrganisationDocuments.vue';
-  import OrganisationDocument from '../components/OrganisationDocument.vue';
+  import OrganisationPageInfo from '../components/organisation/OrganisationPageInfo.vue';
+  import DocumentList from '../components/organisation/DocumentList.vue';
+  import DocumentListItem from '../components/organisation/DocumentListItem.vue';
   import LoadingSpinner from '../components/LoadingSpinner.vue';
 
   const layout = setPageTitle('Loading...');
@@ -61,9 +61,9 @@
           <div v-if="state.loading" class="flex items-center justify-center">
             <LoadingSpinner />
           </div>
-          <OrganisationDocuments v-else>
-            <OrganisationDocument v-for="document in state.documents" :key="document.hash" :document="document" />
-          </OrganisationDocuments>
+          <DocumentList v-else>
+            <DocumentListItem v-for="document in state.documents" :key="document.hash" :document="document" />
+          </DocumentList>
         </div>
       </BasicCard>
     </div>
