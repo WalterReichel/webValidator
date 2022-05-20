@@ -5,11 +5,21 @@
   const props = defineProps({ document: { type: Object, default: () => {} } });
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
+  const renderDocumentLink = computed(
+    () =>
+      props.document.validation_created === null ||
+      props.document.download_error !== null ||
+      props.document.downloaded === null ||
+      props.document.hash === ''
+  );
 </script>
 
 <template>
   <tr class="odd:bg-white even:bg-slate-100">
-    <td class="py-2 first:pl-3.5">{{ fileName }}</td>
+    <td class="py-2 first:pl-3.5">
+      <a v-if="renderDocumentLink" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
+      <span v-else>{{ fileName }}</span>
+    </td>
     <td class="py-2">2022-01-24 12:19 (GMT+3)</td>
     <td class="py-2">2022-01-24 12:27 (GMT+3)</td>
     <td class="py-2">Warning</td>
