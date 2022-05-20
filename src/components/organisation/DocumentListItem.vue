@@ -1,4 +1,5 @@
 <script setup>
+  import format from 'date-fns/format';
   import { computed } from 'vue';
   import { getDocumentFileName } from '../../utils';
 
@@ -12,6 +13,11 @@
       props.document.downloaded === null ||
       props.document.hash === ''
   );
+  const registryDate = computed(() =>
+    props.document.modified || props.document.first_seen
+      ? format(new Date(props.document.modified || props.document.first_seen), 'yyyy-MM-dd HH:mm (z)')
+      : ''
+  );
 </script>
 
 <template>
@@ -20,7 +26,9 @@
       <a v-if="renderDocumentLink" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
       <span v-else>{{ fileName }}</span>
     </td>
-    <td class="py-2">2022-01-24 12:19 (GMT+3)</td>
+    <td class="py-2">
+      <span>{{ registryDate }}</span>
+    </td>
     <td class="py-2">2022-01-24 12:27 (GMT+3)</td>
     <td class="py-2">Warning</td>
     <td>Yes - 2022-05-13 12:49 (GMT+3)</td>
