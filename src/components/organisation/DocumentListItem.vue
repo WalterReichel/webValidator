@@ -1,20 +1,14 @@
 <script setup>
   import format from 'date-fns/format';
   import { computed } from 'vue';
-  import { getDocumentFileName } from '../../utils';
+  import { getDocumentFileName, hasProperyLink } from '../../utils/document';
 
   const props = defineProps({ document: { type: Object, default: () => {} } });
   const dateFormat = 'yyyy-MM-dd HH:mm (z)';
   const formatDate = (date) => (date ? format(new Date(date), dateFormat) : '');
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
-  const renderDocumentLink = computed(
-    () =>
-      props.document.validation_created === null ||
-      props.document.download_error !== null ||
-      props.document.downloaded === null ||
-      props.document.hash === ''
-  );
+  const renderDocumentLink = computed(() => hasProperyLink(props.document));
   const registryDate = computed(() => formatDate(props.document.modified || props.document.first_seen));
   const validationDate = computed(() => formatDate(props.document.validation_created));
 </script>

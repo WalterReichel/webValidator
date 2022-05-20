@@ -1,5 +1,5 @@
 import { SERVICES_URL, getDefaultServicesAPIOptions } from '.';
-import { compareDocumentSeverity } from '../organisation';
+import { compareDocumentSeverity } from '../document';
 
 export const fetchOrganisations = async () => {
   const url = `${SERVICES_URL}/pvt/publishers`;

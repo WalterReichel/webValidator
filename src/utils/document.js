@@ -18,3 +18,9 @@ const getDocumentSeverity = (document) => {
   }
   return 2;
 };
+
+export const hasProperLink = (document) =>
+  document.validation_created === null ||
+  document.download_error !== null ||
+  document.downloaded === null ||
+  document.hash === '';
