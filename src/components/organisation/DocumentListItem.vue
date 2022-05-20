@@ -4,6 +4,8 @@
   import { getDocumentFileName } from '../../utils';
 
   const props = defineProps({ document: { type: Object, default: () => {} } });
+  const dateFormat = 'yyyy-MM-dd HH:mm (z)';
+  const formatDate = (date) => (date ? format(new Date(date), dateFormat) : '');
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const renderDocumentLink = computed(
@@ -13,11 +15,8 @@
       props.document.downloaded === null ||
       props.document.hash === ''
   );
-  const registryDate = computed(() =>
-    props.document.modified || props.document.first_seen
-      ? format(new Date(props.document.modified || props.document.first_seen), 'yyyy-MM-dd HH:mm (z)')
-      : ''
-  );
+  const registryDate = computed(() => formatDate(props.document.modified || props.document.first_seen));
+  const validationDate = computed(() => formatDate(props.document.validation_created));
 </script>
 
 <template>
@@ -29,7 +28,9 @@
     <td class="py-2">
       <span>{{ registryDate }}</span>
     </td>
-    <td class="py-2">2022-01-24 12:27 (GMT+3)</td>
+    <td class="py-2">
+      <span v-if="validationDate">{{ validationDate }}</span>
+    </td>
     <td class="py-2">Warning</td>
     <td>Yes - 2022-05-13 12:49 (GMT+3)</td>
   </tr>
