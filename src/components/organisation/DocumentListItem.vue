@@ -5,8 +5,6 @@
   const props = defineProps({ document: { type: Object, default: () => {} } });
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
-
-  console.log(props);
 </script>
 
 <template>
