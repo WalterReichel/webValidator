@@ -59,6 +59,30 @@ export const getDocumentDownloadStatus = (document) => {
   }
 };
 
+export const getDocumentValidationStatus = (document) => {
+  const { report } = document;
+  const { valid } = report || { valid: null };
+  const { error, warning } = report ? report.summary : { error: -1, warning: -1 };
+
+  if (document.report === null) {
+    return { value: 'normal', caption: 'N/A' };
+  }
+  if (valid === true && error === 0 && warning === 0) {
+    return { value: 'success', caption: 'Success' };
+  }
+  if (valid === true && error === 0) {
+    return { value: 'warning', caption: 'Warning' };
+  }
+  if (valid === true) {
+    return { value: 'error', caption: 'Error' };
+  }
+  if (valid === false) {
+    return { value: 'critical', caption: 'Critical' };
+  }
+
+  return { value: 'normal', caption: 'N/A' };
+};
+
 const getDocumentSeverity = (document) => {
   const { validation, valid } = document;
   const { error = -1, warning = -1 } = document.report && document.report.summary;

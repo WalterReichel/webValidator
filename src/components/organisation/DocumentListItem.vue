@@ -1,7 +1,12 @@
 <script setup>
   import format from 'date-fns/format';
   import { computed } from 'vue';
-  import { getDocumentDownloadStatus, getDocumentFileName, hasProperLink } from '../../utils/document';
+  import {
+    getDocumentDownloadStatus,
+    getDocumentFileName,
+    getDocumentValidationStatus,
+    hasProperLink,
+  } from '../../utils/document';
 
   const props = defineProps({ document: { type: Object, default: () => {} } });
   const dateFormat = 'yyyy-MM-dd HH:mm (z)';
@@ -9,6 +14,11 @@
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const validationDate = computed(() => formatDate(props.document.validation_created));
+  const validationStatus = computed(() => getDocumentValidationStatus(props.document));
+  const validationStatusClass = computed(() => {
+    const status = validationStatus.value.value;
+    return status !== 'normal' ? `text-${status} font-bold` : 'font-bold';
+  });
 </script>
 
 <template>
@@ -24,7 +34,9 @@
       <span v-if="validationDate">{{ validationDate }}</span>
       <span v-else>{{ getDocumentDownloadStatus(props.document) }}</span>
     </td>
-    <td class="py-2">Warning</td>
+    <td class="py-2">
+      <span :class="validationStatusClass">{{ validationStatus.caption }}</span>
+    </td>
     <td>Yes - 2022-05-13 12:49 (GMT+3)</td>
   </tr>
 </template>
