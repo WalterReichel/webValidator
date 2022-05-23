@@ -26,7 +26,7 @@
 </script>
 
 <template>
-  <tr class="odd:bg-white even:bg-slate-100">
+  <tr class="odd:bg-white even:bg-slate-100 hover:bg-gray-200">
     <td class="py-2 first:pl-3.5">
       <a v-if="hasProperLink(props.document)" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
       <span v-else>{{ fileName }}</span>
