@@ -32,7 +32,7 @@
   watchEffect(() => {
     if (organisationError && organisationError.value) {
       loading.value = false;
-      console.error(organisationError.value);
+      console.log(organisationError.value);
     } else if (organisation && organisation.value) {
       layout.title = organisation.value.title;
     }
@@ -40,7 +40,7 @@
   watchEffect(() => {
     if (documentsError && documentsError.value) {
       loading.value = false;
-      console.error(documentsError.value);
+      console.log(documentsError.value);
     } else if (documents && documents.value) {
       loading.value = false;
     }
