@@ -1,6 +1,7 @@
 <script setup>
   import format from 'date-fns/format';
   import { computed } from 'vue';
+  import { useRouter } from 'vue-router';
   import {
     getDocumentDatastoreAvailability,
     getDocumentDownloadStatus,
@@ -10,6 +11,7 @@
   } from '../../utils/document';
 
   const props = defineProps({ document: { type: Object, default: () => {} } });
+  const router = useRouter();
   const dateFormat = 'yyyy-MM-dd HH:mm (z)';
   const formatDate = (date) => (date ? format(new Date(date), dateFormat) : '');
 
@@ -23,10 +25,16 @@
   const datastoreAvailability = computed(() =>
     getDocumentDatastoreAvailability(props.document, validationStatus.value.value)
   );
+
+  const onClick = () => {
+    if (props.document.validation && props.document.hash) {
+      router.push(`view/dqf/files/${props.document.id}`); // TODO: change to more friendly URL
+    }
+  };
 </script>
 
 <template>
-  <tr class="odd:bg-white even:bg-slate-100 hover:bg-gray-200">
+  <tr class="cursor-pointer odd:bg-white even:bg-slate-100 hover:bg-gray-200" @click="onClick">
     <td class="py-2 first:pl-3.5">
       <a v-if="hasProperLink(props.document)" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
       <span v-else>{{ fileName }}</span>

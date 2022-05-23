@@ -1,5 +1,5 @@
 <script setup>
-  import { reactive, watch } from 'vue';
+  import { reactive } from 'vue';
   import { useRoute } from 'vue-router';
   import { fetchOrganisationByName, fetchOrganisationDocuments } from '../utils';
   import { setPageTitle } from '../state';
@@ -41,10 +41,6 @@
   };
 
   fetchOrganisationPlusDocuments(route.params.name);
-
-  watch(state, () => {
-    console.log(state.documents);
-  });
 </script>
 
 <template>
