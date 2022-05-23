@@ -50,14 +50,14 @@
 <template>
   <ContentContainer>
     <div class="-mx-3.5 flex flex-wrap">
-      <BasicCard>
+      <BasicCard class="rounded-b-none">
         <template #header>
           <CardHeader>Public data</CardHeader>
         </template>
 
         <OrganisationPageInfo />
 
-        <div class="-mx-3.5">
+        <div class="-mx-3.5 -mb-3.5">
           <CaptionedLoadingSpinner v-if="state.loading"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList v-else>
             <DocumentListItem v-for="document in state.documents" :key="document.hash" :document="document" />
