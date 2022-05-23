@@ -124,8 +124,8 @@ export const getDocumentDatastoreAvailability = (document, fileStatus) => {
 };
 
 const getDocumentSeverity = (document) => {
-  const { validation, valid } = document;
-  const { error = -1, warning = -1 } = document.report && document.report.summary;
+  const { validation, valid, report } = document;
+  const { error, warning } = report ? report.summary : { error: -1, warning: -1 };
 
   if (!validation) {
     return 2;
