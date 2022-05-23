@@ -1,7 +1,13 @@
 <script setup>
-  import { reactive } from 'vue';
+  import useSWRV from 'swrv';
+  import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
-  import { fetchOrganisationByName, fetchOrganisationDocuments } from '../utils';
+  import {
+    fetchOrganisationByName,
+    fetchOrganisationDocuments,
+    getOrganisationURL,
+    getOrganisationDocumentsURL,
+  } from '../utils';
   import { setPageTitle } from '../state';
   import BasicCard from '../components/BasicCard.vue';
   import CardHeader from '../components/CardHeader.vue';
@@ -13,34 +19,32 @@
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
+  const loading = ref(true);
 
-  const state = reactive({ organisation: null, documents: [], loading: true });
+  const { data: organisation, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
+    fetchOrganisationByName(route.params.name)
+  );
+  const { data: documents, error: documentsError } = useSWRV(
+    () => (organisation && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
+    () => fetchOrganisationDocuments(organisation.value.org_id)
+  );
 
-  const fetchOrganisationPlusDocuments = (organisationName) => {
-    fetchOrganisationByName(organisationName)
-      .then((data) => {
-        state.organisation = data;
-        if (data) layout.title = data.title;
-
-        fetchOrganisationDocuments(data.org_id)
-          .then((documents) => {
-            state.documents = documents;
-            state.loading = false;
-          })
-          .catch((error) => {
-            state.documents = [];
-            state.loading = false;
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        state.organisation = '';
-        state.loading = false;
-        console.log(error);
-      });
-  };
-
-  fetchOrganisationPlusDocuments(route.params.name);
+  watchEffect(() => {
+    if (organisationError && organisationError.value) {
+      loading.value = false;
+      console.error(organisationError.value);
+    } else if (organisation && organisation.value) {
+      layout.title = organisation.value.title;
+    }
+  });
+  watchEffect(() => {
+    if (documentsError && documentsError.value) {
+      loading.value = false;
+      console.error(documentsError.value);
+    } else if (documents && documents.value) {
+      loading.value = false;
+    }
+  });
 </script>
 
 <template>
@@ -54,9 +58,9 @@
         <OrganisationPageInfo />
 
         <div class="-mx-3.5 -mb-3.5">
-          <CaptionedLoadingSpinner v-if="state.loading"> Loading Reports... </CaptionedLoadingSpinner>
+          <CaptionedLoadingSpinner v-if="loading"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList v-else>
-            <DocumentListItem v-for="document in state.documents" :key="document.hash" :document="document" />
+            <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" />
           </DocumentList>
         </div>
       </BasicCard>

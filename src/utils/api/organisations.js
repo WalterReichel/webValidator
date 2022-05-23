@@ -17,8 +17,9 @@ export const fetchOrganisations = async () => {
   return [];
 };
 
+export const getOrganisationURL = (name) => `${SERVICES_URL}/pvt/publishers/${name}?lookupKey=name`;
 export const fetchOrganisationByName = async (name) => {
-  const url = `${SERVICES_URL}/pvt/publishers/${name}?lookupKey=name`;
+  const url = getOrganisationURL(name);
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
@@ -26,8 +27,10 @@ export const fetchOrganisationByName = async (name) => {
   }
 };
 
+export const getOrganisationDocumentsURL = (organisationID) =>
+  `${SERVICES_URL}/pvt/publishers/${organisationID}/documents`;
 export const fetchOrganisationDocuments = async (organisationID) => {
-  const url = `${SERVICES_URL}/pvt/publishers/${organisationID}/documents`;
+  const url = getOrganisationDocumentsURL(organisationID);
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
