@@ -1,30 +1,23 @@
 <script setup>
-  import { inject, onMounted, ref } from 'vue';
+  import useSWRV from 'swrv';
+  import { ref, watchEffect } from 'vue';
   import { setPageTitle } from '../state';
   import ContentContainer from '../components/layout/ContentContainer.vue';
-  import { fetchOrganisations } from '../utils';
+  import { fetchOrganisations, getOrganisationsURL } from '../utils';
   import OrganisationsList from '../components/organisation/OrganisationsList.vue';
-
-  const cache = inject('cache');
-  const ORGANISATIONS_CACHE_KEY = 'ORGANISATIONS';
 
   setPageTitle('Public data viewer');
   const isFetching = ref(true);
-  const organisations = ref(null);
 
-  onMounted(() => {
-    cache.get(ORGANISATIONS_CACHE_KEY).then((cachedData) => {
-      if (cachedData) {
-        organisations.value = cachedData;
-        isFetching.value = false;
-      } else {
-        fetchOrganisations().then((data) => {
-          isFetching.value = false;
-          organisations.value = data;
-          cache.set(ORGANISATIONS_CACHE_KEY, data);
-        });
-      }
-    });
+  const { data: organisations, error } = useSWRV(getOrganisationsURL(), () => fetchOrganisations());
+
+  watchEffect(() => {
+    if (error && error.value) {
+      isFetching.value = false;
+      console.error(error.value);
+    } else if (organisations && organisations.value) {
+      isFetching.value = false;
+    }
   });
 </script>
 

@@ -1,8 +1,9 @@
 import { SERVICES_URL, getDefaultServicesAPIOptions } from '.';
 import { compareDocumentSeverity } from '../document';
 
+export const getOrganisationsURL = () => `${SERVICES_URL}/pvt/publishers`;
 export const fetchOrganisations = async () => {
-  const url = `${SERVICES_URL}/pvt/publishers`;
+  const url = getOrganisationsURL();
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
