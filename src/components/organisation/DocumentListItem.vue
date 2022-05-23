@@ -2,6 +2,7 @@
   import format from 'date-fns/format';
   import { computed } from 'vue';
   import {
+    getDocumentDatastoreAvailability,
     getDocumentDownloadStatus,
     getDocumentFileName,
     getDocumentValidationStatus,
@@ -19,6 +20,9 @@
     const status = validationStatus.value.value;
     return status !== 'normal' ? `text-${status} font-bold` : 'font-bold';
   });
+  const datastoreAvailability = computed(() =>
+    getDocumentDatastoreAvailability(props.document, validationStatus.value.value)
+  );
 </script>
 
 <template>
@@ -37,6 +41,6 @@
     <td class="py-2">
       <span :class="validationStatusClass">{{ validationStatus.caption }}</span>
     </td>
-    <td>Yes - 2022-05-13 12:49 (GMT+3)</td>
+    <td>{{ datastoreAvailability }}</td>
   </tr>
 </template>

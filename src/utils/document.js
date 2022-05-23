@@ -1,3 +1,5 @@
+import { formatDate } from '.';
+
 export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
@@ -83,6 +85,44 @@ export const getDocumentValidationStatus = (document) => {
   return { value: 'normal', caption: 'N/A' };
 };
 
+export const getDocumentDatastoreAvailability = (document, fileStatus) => {
+  /* see this ticket for full explanation on these availability statuses
+  https://trello.com/c/XeovXQrf/232-front-end-indicator-that-file-is-partially-in-ds-for-al-validation */
+  const { report, solrize_end, alv_end, alv_start, alv_error } = document;
+
+  if (solrize_end) {
+    const formatedDate = formatDate(solrize_end);
+
+    return `${fileStatus === 'critical' && alv_end ? 'Partial' : 'Yes'} - ${formatedDate}`;
+  }
+
+  if (
+    fileStatus === 'critical' &&
+    ((report?.fileType === 'iati-activities' && !alv_start) || alv_error === 'No valid activities')
+  ) {
+    return 'No';
+  }
+
+  if (
+    (report?.fileType === 'iati-activities' && fileStatus !== 'critical') ||
+    (report?.fileType === 'iati-activities' &&
+      fileStatus === 'critical' &&
+      !alv_start &&
+      report?.iatiVersion !== '' &&
+      report?.iatiVersion !== '1*' &&
+      checkDocumentHasErrorVersions(['0.6.1', '0.2.1', '0.1.1'], report?.errors)) ||
+    (fileStatus === 'critical' && alv_end)
+  ) {
+    return 'Pending';
+  }
+
+  if (document.report?.fileType === 'iati-organisations') {
+    return 'N/A';
+  }
+
+  return '';
+};
+
 const getDocumentSeverity = (document) => {
   const { validation, valid } = document;
   const { error = -1, warning = -1 } = document.report && document.report.summary;
@@ -102,3 +142,6 @@ const getDocumentSeverity = (document) => {
 };
 
 const getDownloadErrorString = (document) => (document.download_error ? document.download_error.toString() : '');
+
+const checkDocumentHasErrorVersions = (versions, errors) =>
+  !!(errors && errors.find((error) => versions.includes(error.identifier))); // TODO: check with Nick if identifier == id
