@@ -14,7 +14,7 @@
   watchEffect(() => {
     if (error && error.value) {
       isFetching.value = false;
-      console.log(error.value);
+      console.log(error.value); // TODO: properly handle error - show error on UI
     } else if (organisations && organisations.value) {
       isFetching.value = false;
     }

@@ -34,21 +34,23 @@
 </script>
 
 <template>
-  <tr class="cursor-pointer odd:bg-white even:bg-slate-100 hover:bg-gray-200" @click="onClick">
-    <td class="py-2 first:pl-3.5">
+  <div class="grid cursor-pointer grid-cols-5 gap-0 odd:bg-white even:bg-slate-100 hover:bg-gray-200" @click="onClick">
+    <div class="py-2 first:pl-3.5">
       <a v-if="hasProperLink(props.document)" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
       <span v-else>{{ fileName }}</span>
-    </td>
-    <td class="py-2">
+    </div>
+    <div class="py-2">
       <span>{{ formatDate(props.document.modified || props.document.first_seen) }}</span>
-    </td>
-    <td class="py-2">
+    </div>
+    <div class="py-2">
       <span v-if="validationDate">{{ validationDate }}</span>
       <span v-else>{{ getDocumentDownloadStatus(props.document) }}</span>
-    </td>
-    <td class="py-2">
+    </div>
+    <div class="py-2">
       <span :class="validationStatusClass">{{ validationStatus.caption }}</span>
-    </td>
-    <td>{{ datastoreAvailability }}</td>
-  </tr>
+    </div>
+    <div class="py-2">
+      {{ datastoreAvailability }}
+    </div>
+  </div>
 </template>

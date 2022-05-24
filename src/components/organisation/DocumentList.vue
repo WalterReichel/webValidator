@@ -1,16 +1,16 @@
+<script setup>
+  const headerClassNames = 'hidden border-y border-solid border-gray-300 py-2.5 pr-2.5 font-bold sm:block';
+</script>
+
 <template>
-  <table class="w-full table-auto">
-    <thead class="border-y border-solid border-gray-300">
-      <tr>
-        <th class="py-2.5 pr-2.5 first:pl-3.5">File Name</th>
-        <th class="py-2.5 pr-2.5">Identified in Registry</th>
-        <th class="py-2.5 pr-2.5">Validated</th>
-        <th class="py-2.5 pr-2.5">Validation Status</th>
-        <th class="py-2.5">Available in IATI Datastore</th>
-      </tr>
-    </thead>
-    <tbody>
-      <slot />
-    </tbody>
-  </table>
+  <div class="grid grid-cols-1">
+    <div class="grid grid-cols-5 gap-0">
+      <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
+      <div :class="headerClassNames">Identified in Registry</div>
+      <div :class="headerClassNames">Validated</div>
+      <div :class="headerClassNames">Validation Status</div>
+      <div :class="headerClassNames">Available in IATI Datastore</div>
+    </div>
+    <slot />
+  </div>
 </template>
