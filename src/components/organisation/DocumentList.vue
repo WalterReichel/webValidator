@@ -1,5 +1,5 @@
 <script setup>
-  const headerClassNames = 'hidden border-y border-solid border-gray-300 py-2.5 pr-2.5 font-bold sm:block';
+  const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
 </script>
 
 <template>
