@@ -1,34 +1,24 @@
 <script setup>
-  import { ref } from 'vue';
-
-  const count = ref(0);
-
-  const vueEnv = ref(import.meta.env.VUE_ENV_ENVIRONMENT);
+  import ContentContainer from '../components/layout/ContentContainer.vue';
+  import StyledLink from '../components/StyledLink.vue';
 </script>
 
 <template>
-  <h1 class="text-3xl">{{ msg }}</h1>
-
-  <h3 class="mt-4 text-xl">Environment (VUE_ENV_ENVIRONMENT): {{ vueEnv }}</h3>
-
-  <p class="mt-4">
-    Recommended IDE setup:
-    <a class="text-emerald-400" href="https://code.visualstudio.com/" target="_blank">VSCode</a>
-    +
-    <a class="text-emerald-400" href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>
-  </p>
-
-  <p class="mt-4">
-    <a class="text-emerald-400" href="https://vitejs.dev/guide/features.html" target="_blank"> Vite Documentation </a>
-    |
-    <a class="text-emerald-400" href="https://v3.vuejs.org/" target="_blank">Vue 3 Documentation</a>
-  </p>
-
-  <button class="mt-4 border-gray-900" type="button" @click="count++">count is: {{ count }}</button>
-  <p class="mt-4">
-    Edit
-    <code>components/Home.vue</code> to test hot module replacement.
-  </p>
+  <ContentContainer class="pt-6">
+    <p class="pb-4 text-lg">
+      The IATI Validator is an online tool for checking if data aligns with the rules and guidance of IATI Standard. It
+      allows users to check and improve the quality of IATI data to ensure it is accessible and useful to anyone working
+      with data on development and humanitarian resources and results.
+    </p>
+    <p class="pb-4 text-lg">
+      For more information, see
+      <StyledLink
+        to="https://prod-iati-website.azureedge.net/prod-iati-website/documents/QA__IATI_Validator-__September_2021_2.pdf"
+        :external="true"
+        >IATI Validator Q&A</StyledLink
+      >.
+    </p>
+  </ContentContainer>
 </template>
 
 <script>
