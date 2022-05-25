@@ -51,6 +51,21 @@
 
 <template>
   <ContentContainer>
+    <div>
+      <CaptionedLoadingSpinner v-if="!organisation" class="pb-3"> Loading Info ... </CaptionedLoadingSpinner>
+      <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
+        <img
+          :src="organisation.image_url"
+          :alt="organisation.name"
+          @error="(event) => (event.target.src = '../src/assets/images/placeholder-organization.png')"
+        />
+      </div>
+      <div v-if="organisation && organisation.description">
+        <h3 class="font-bold">Description</h3>
+        <p class="my-3">{{ organisation.description }}</p>
+      </div>
+    </div>
+
     <div class="-mx-3.5 flex flex-wrap">
       <BasicCard class="rounded-b-none">
         <template #header>
