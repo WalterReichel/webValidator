@@ -4,7 +4,7 @@
 
 <template>
   <div class="grid grid-cols-1">
-    <div class="grid grid-cols-5 gap-0">
+    <div class="sticky top-0 grid grid-cols-5 gap-0 bg-white">
       <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
       <div :class="headerClassNames">Identified in Registry</div>
       <div :class="headerClassNames">Validated</div>
