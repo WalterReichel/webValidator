@@ -61,10 +61,10 @@
 
         <div class="-mx-3.5 -mb-3.5">
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else-if="!loading && !organisationError && !downloadsError && documents && documents.length">
+          <DocumentList v-else-if="!loading && documents && documents.length">
             <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" />
           </DocumentList>
-          <div v-else class="m-3.5">
+          <div v-else-if="documentsError || organisationError" class="m-3.5">
             <BasicAlert>
               Couldn't fetch the documents. Please try again later. If the problem persists, email support at
               <StyledLink to="mailto:support@iatistandard.org" :external="true">support@iatistandard.org</StyledLink>
