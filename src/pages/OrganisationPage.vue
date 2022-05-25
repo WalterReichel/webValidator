@@ -16,6 +16,8 @@
   import DocumentList from '../components/organisation/DocumentList.vue';
   import DocumentListItem from '../components/organisation/DocumentListItem.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
+  import BasicAlert from '../components/BasicAlert.vue';
+  import StyledLink from '../components/StyledLink.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -58,10 +60,16 @@
         <OrganisationPageInfo />
 
         <div class="-mx-3.5 -mb-3.5">
-          <CaptionedLoadingSpinner v-if="loading"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else>
+          <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
+          <DocumentList v-else-if="!loading && !organisationError && !downloadsError && documents && documents.length">
             <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" />
           </DocumentList>
+          <div v-else class="m-3.5">
+            <BasicAlert>
+              Couldn't fetch the documents. Please try again later. If the problem persists, email support at
+              <StyledLink to="mailto:support@iatistandard.org" :external="true">support@iatistandard.org</StyledLink>
+            </BasicAlert>
+          </div>
         </div>
       </BasicCard>
     </div>
