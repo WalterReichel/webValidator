@@ -1,5 +1,4 @@
 <script setup>
-  import format from 'date-fns/format';
   import { computed } from 'vue';
   import { useRouter } from 'vue-router';
   import {
@@ -9,11 +8,10 @@
     getDocumentValidationStatus,
     hasProperLink,
   } from '../../utils/document';
+  import { formatDate } from '../../utils';
 
   const props = defineProps({ document: { type: Object, default: () => {} } });
   const router = useRouter();
-  const dateFormat = 'yyyy-MM-dd HH:mm (z)';
-  const formatDate = (date) => (date ? format(new Date(date), dateFormat) : '');
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const validationDate = computed(() => formatDate(props.document.validation_created));
