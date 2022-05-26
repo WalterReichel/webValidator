@@ -19,6 +19,7 @@ module.exports = {
         'iati-blue': '#81c3d6',
         'iati-green': '#155366',
         'iati-accent': '#1e7590',
+        'iati-code': '#e83e8c',
         critical: '#a66ee9',
         error: '#f73357',
         success: '#18BC9C',
