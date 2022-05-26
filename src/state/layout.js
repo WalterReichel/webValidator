@@ -6,4 +6,6 @@ export const setPageTitle = (title) => {
   _layout.title = title;
 
   onBeforeUnmount(() => (_layout.title = ''));
+
+  return _layout;
 };

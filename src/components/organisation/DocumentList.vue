@@ -1,0 +1,16 @@
+<script setup>
+  const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
+</script>
+
+<template>
+  <div class="grid grid-cols-1">
+    <div class="sticky top-0 grid grid-cols-5 gap-0 bg-white">
+      <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
+      <div :class="headerClassNames">Identified in Registry</div>
+      <div :class="headerClassNames">Validated</div>
+      <div :class="headerClassNames">Validation Status</div>
+      <div :class="headerClassNames">Available in IATI Datastore</div>
+    </div>
+    <slot />
+  </div>
+</template>

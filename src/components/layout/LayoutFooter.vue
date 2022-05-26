@@ -1,7 +1,7 @@
 <script setup>
   import { computed, reactive, ref, watch } from 'vue';
-  import { ENVIRONMENT, getDefaultServicesAPIOptions, buildServicesEndpoint } from '../utils';
-  import { version } from '../../package.json';
+  import { ENVIRONMENT, getDefaultServicesAPIOptions, buildServicesEndpoint } from '../../utils';
+  import { version } from '../../../package.json';
 
   const releases = reactive({ services: {}, web: { version }, api: {} });
   const year = computed(() => new Date().getFullYear());
@@ -37,7 +37,7 @@
 </script>
 
 <template>
-  <footer class="block bg-iati-grey">
+  <footer class="block bg-iati-green">
     <div class="flex w-full flex-col justify-between px-4 py-10 lg:mx-auto lg:max-w-[1140px] lg:flex-row lg:px-2">
       <div class="flex flex-col items-center p-2 lg:items-start">
         <a href="https://iatistandard.org" class="h-20 w-80 bg-logo-white bg-contain bg-no-repeat"></a>

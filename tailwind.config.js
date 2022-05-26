@@ -17,11 +17,18 @@ module.exports = {
       colors: {
         'gray-7': '#121212',
         'iati-blue': '#81c3d6',
-        'iati-grey': '#155366',
+        'iati-green': '#155366',
         'iati-accent': '#1e7590',
+        critical: '#a66ee9',
+        error: '#f73357',
+        success: '#18BC9C',
+        warning: '#ff7264',
       },
       fontFamily: {
         sans: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
+      },
+      fontSize: {
+        tiny: '.9rem',
       },
       transitionDuration: {
         2000: '2000ms',
