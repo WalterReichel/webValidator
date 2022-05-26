@@ -8,6 +8,7 @@
     getOrganisationURL,
     getOrganisationDocumentsURL,
   } from '../utils';
+  import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
   import BasicCard from '../components/BasicCard.vue';
   import CardHeader from '../components/CardHeader.vue';
@@ -57,7 +58,7 @@
         <img
           :src="organisation.image_url"
           :alt="organisation.name"
-          @error="(event) => (event.target.src = '../src/assets/images/placeholder-organization.png')"
+          @error="(event) => (event.target.src = placeholderImage)"
         />
       </div>
       <div v-if="organisation && organisation.description">
