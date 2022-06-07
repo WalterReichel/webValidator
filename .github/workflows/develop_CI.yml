@@ -23,8 +23,8 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           build: npm run build:development
-          start: npm run serve
-          wait-on: "http://localhost:3000"
+          start: npm run serve -- -p 4200
+          wait-on: "http://localhost:4200"
           config-file: cypress/envs/cypress.ci.json
 
   automerge:
