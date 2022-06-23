@@ -66,4 +66,4 @@ jobs:
         uses: cypress-io/github-action@v2
         with:
           wait-on: "https://dev-validator-vue.iatistandard.org"
-          config-file: cypress/envs/cypress.development.json
+          config-file: cypress.config.dev.js
