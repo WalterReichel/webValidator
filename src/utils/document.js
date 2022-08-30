@@ -272,3 +272,16 @@ export const getDocumentReportSeverities = (report) => {
 
   return severities;
 };
+
+export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
+  if (identifier === 'file') {
+    return report.errors.reduce((errors, actOrgFile) => {
+      if (actOrgFile.identifier === 'file') {
+        return actOrgFile.errors;
+      }
+      return errors;
+    }, []);
+  }
+
+  return report.filter((actOrgFile) => actOrgFile.identifier !== 'file');
+};
