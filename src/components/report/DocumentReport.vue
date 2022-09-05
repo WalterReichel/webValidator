@@ -21,9 +21,7 @@
             <h4 class="text-base font-bold">View by message type</h4>
             <div class="text-sm text-slate-700">Click to show or hide individual message types</div>
           </div>
-          <template v-for="severity in severities">
-            <SeverityItem v-if="severity.types.length" :key="severity.id" :severity="severity" />
-          </template>
+          <SeverityItem v-for="severity in severities" :key="severity.id" :severity="severity" />
           <div class="px-4 pt-2">
             <h4 class="text-base font-bold">View by category</h4>
           </div>

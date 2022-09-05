@@ -265,12 +265,13 @@ export const getDocumentReportSeverities = (report) => {
   }, []);
   errorTypes.forEach((t) => {
     const sev = severities.find((s) => s.id === t.sev);
-    if (sev !== undefined) {
+    if (sev) {
       sev.types.push({ id: t.id, text: t.text, show: true });
     }
   });
 
-  return severities;
+  // only return active severities i.e. those that have a type
+  return severities.filter((severity) => severity.types.length);
 };
 
 export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
