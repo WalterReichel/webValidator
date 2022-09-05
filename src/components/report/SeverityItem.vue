@@ -42,6 +42,17 @@
     <template #content>
       <div class="border border-gray-200 bg-gray-100 px-4">
         <div class="py-2 text-sm text-slate-700">{{ props.severity.description }}</div>
+        <CheckBox
+          v-for="severityType in props.severity.types"
+          :id="severityType.id"
+          :key="severityType.id"
+          :label="severityType.text"
+          :name="severityType.id"
+          :checked="true"
+          :label-class="'text-sm'"
+          @checked="onFilter(severityType.id, true)"
+          @unchecked="onFilter(severityType.id)"
+        />
       </div>
     </template>
   </AppAccordion>
