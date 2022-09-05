@@ -29,7 +29,7 @@
       </svg>
     </button>
 
-    <div v-show="isOpen" class="p-4">
+    <div v-show="isOpen">
       <slot name="content" />
     </div>
   </div>

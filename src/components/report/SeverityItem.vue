@@ -19,6 +19,8 @@
     'bg-critical': props.severity.id === 'critical',
   };
 
+  console.log(props.severity);
+
   const onFilter = (severity, checked = false) => {
     console.log(checked ? 'Checked:' : 'Unchecked:', severity);
   };
@@ -37,6 +39,10 @@
         />
       </div>
     </template>
-    <template #content> Content Goes Here </template>
+    <template #content>
+      <div class="border border-gray-200 bg-gray-100 px-4">
+        <div class="py-2 text-sm text-slate-700">{{ props.severity.description }}</div>
+      </div>
+    </template>
   </AppAccordion>
 </template>
