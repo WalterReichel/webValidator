@@ -1,8 +1,17 @@
 <script setup>
+  import { computed } from 'vue';
   import AppAccordion from '../AppAccordion.vue';
   import CheckBox from '../CheckBox.vue';
 
   const props = defineProps({ severity: { type: Object, default: null } });
+  const label = computed(() => {
+    if (props.severity) {
+      const { name, types } = props.severity;
+      return `${name}: ${types.length} ${types.length == 1 ? 'type' : 'types'}`;
+    }
+
+    return '';
+  });
   const bgClass = {
     'bg-success': props.severity.id === 'success',
     'bg-warning': props.severity.id === 'warning',
@@ -20,7 +29,7 @@
       <div :class="bgClass" class="w-full px-4 py-2 text-left text-white">
         <CheckBox
           :id="props.severity.name"
-          :label="props.severity.name"
+          :label="label"
           :name="props.severity.name"
           :checked="true"
           @checked="onFilter(props.severity.name, true)"
