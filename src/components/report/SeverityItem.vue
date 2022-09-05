@@ -50,6 +50,7 @@
           :name="severityType.id"
           :checked="true"
           :label-class="'text-sm'"
+          size="small"
           @checked="onFilter(severityType.id, true)"
           @unchecked="onFilter(severityType.id)"
         />

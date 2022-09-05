@@ -7,6 +7,7 @@
     name: { type: String, default: '' },
     checked: { type: Boolean, default: false },
     labelClass: { type: String, default: '' },
+    size: { type: String, default: '' },
   });
   const emit = defineEmits(['checked', 'unchecked']);
   const checked = ref(props.checked);
@@ -16,7 +17,7 @@
   });
 </script>
 <template>
-  <div class="icheck-green">
+  <div class="icheck-green" :class="props.size">
     <input :id="props.id" v-model="checked" type="checkbox" :name="props.name" />
     <label :for="props.id" :class="props.labelClass">{{ props.label }}</label>
   </div>
@@ -73,6 +74,12 @@
     background: #fff;
   }
 
+  [class*='icheck-'].small > input:first-child + label::before,
+  [class*='icheck-'].small > input:first-child + input[type='hidden'] + label::before {
+    width: 16px;
+    height: 16px;
+  }
+
   [class*='icheck-'] > input:first-child:checked + label::after,
   [class*='icheck-'] > input:first-child:checked + input[type='hidden'] + label::after {
     content: '';
@@ -87,6 +94,14 @@
     border-top: none;
     transform: translate(7.75px, 4.5px) rotate(45deg);
     -ms-transform: translate(7.75px, 4.5px) rotate(45deg);
+  }
+
+  [class*='icheck-'].small > input:first-child:checked + label::after,
+  [class*='icheck-'].small > input:first-child:checked + input[type='hidden'] + label::after {
+    width: 6px;
+    height: 10px;
+    left: -3px;
+    top: -3px;
   }
 
   [class*='icheck-'] > input[type='radio']:first-child + label::before,
