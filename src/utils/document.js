@@ -248,27 +248,46 @@ export const getSeverities = () => {
   ];
 };
 
+const getTypeMessageCount = (report, typeId) => {
+  let count = 0;
+
+  report.errors.forEach((file) => {
+    file.errors.forEach((errorCategory) => {
+      errorCategory.errors.forEach((error) => {
+        const { id } = error;
+        if (typeId === id) {
+          count += 1;
+        }
+      });
+    });
+  });
+
+  return count;
+};
+
 export const getDocumentReportSeverities = (report) => {
   const severities = getSeverities();
-  const errorTypes = report.errors.reduce((types, file) => {
+  // get error message types & add them to their respective severities
+  report.errors.reduce((types, file) => {
     file.errors.forEach((errorCategory) => {
       errorCategory.errors.forEach((error) => {
         const { message, severity, id } = error;
         if (!types.some((t) => t.id === id)) {
-          const newType = { sev: severity, id, text: message };
-          types.push(newType);
+          // find and add to matching severity
+          const sev = severities.find((s) => s.id === severity);
+          if (sev) {
+            const count = getTypeMessageCount(report, id); // number of messages of this type
+            sev.types.push({ id, text: message, show: true, count });
+          }
+          types.push({ id });
         }
       });
     });
 
     return types;
   }, []);
-  errorTypes.forEach((t) => {
-    const sev = severities.find((s) => s.id === t.sev);
-    if (sev) {
-      sev.types.push({ id: t.id, text: t.text, show: true });
-    }
-  });
+  // Sort type messages inside severity. Type with more messages on top
+  severities.forEach((severity) => severity.types.sort((a, b) => b.count - a.count));
 
   // only return active severities i.e. those that have a type
   return severities.filter((severity) => severity.types.length);

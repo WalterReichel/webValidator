@@ -52,7 +52,7 @@
           v-for="severityType in severityTypes"
           :id="severityType.id"
           :key="severityType.id"
-          :label="severityType.text"
+          :label="`${severityType.text} (${severityType.count})`"
           :name="severityType.id"
           :checked="severityType.show"
           :label-class="'text-sm'"
