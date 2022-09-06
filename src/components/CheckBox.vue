@@ -13,11 +13,17 @@
   const checked = ref(props.checked);
 
   watch(checked, () => {
-    emit(checked.value ? 'checked' : 'unchecked');
+    if (checked.value !== props.checked) {
+      emit(checked.value ? 'checked' : 'unchecked');
+    }
   });
   watch(
     () => props.checked,
-    () => (checked.value = props.checked)
+    () => {
+      if (checked.value !== props.checked) {
+        checked.value = props.checked;
+      }
+    }
   );
 </script>
 <template>
