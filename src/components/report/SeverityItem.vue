@@ -4,6 +4,7 @@
   import CheckBox from '../CheckBox.vue';
 
   const props = defineProps({ severity: { type: Object, default: null } });
+  const emit = defineEmits(['select']);
   const label = computed(() => {
     if (props.severity) {
       const { name, types } = props.severity;
@@ -12,14 +13,14 @@
 
     return '';
   });
-  const selectAll = ref(true);
-  const severityTypes = computed(() => {
-    return props.severity.types.map((_type) => {
-      _type.show = selectAll;
+  const setErrorTypesVisibility = (visible) =>
+    props.severity.types.map((_type) => {
+      _type.show = visible;
 
       return _type;
     });
-  });
+  const selectAll = ref(true);
+  const errorTypes = ref(setErrorTypesVisibility(selectAll.value));
   const bgClass = {
     'bg-success': props.severity.id === 'success',
     'bg-warning': props.severity.id === 'warning',
@@ -27,9 +28,19 @@
     'bg-critical': props.severity.id === 'critical',
   };
 
-  console.log(props.severity);
+  const onToggleSeverity = () => {
+    selectAll.value = !selectAll.value;
+    errorTypes.value = setErrorTypesVisibility(selectAll.value);
+    emit('select', { ...props.severity, types: errorTypes.value });
+  };
+  const onToggleType = (errorType) => {
+    errorTypes.value = errorTypes.value.map((_type) => {
+      _type.show = _type.id == errorType ? !_type.show : _type.show;
 
-  const onToggleSeverity = () => (selectAll.value = !selectAll.value);
+      return _type;
+    });
+    emit('select', { ...props.severity, types: errorTypes.value });
+  };
 </script>
 <template>
   <AppAccordion>
@@ -49,15 +60,15 @@
       <div class="border border-gray-200 bg-gray-100 px-4">
         <div class="py-2 text-sm text-slate-700">{{ props.severity.description }}</div>
         <CheckBox
-          v-for="severityType in severityTypes"
-          :id="severityType.id"
-          :key="severityType.id"
-          :label="`${severityType.text} (${severityType.count})`"
-          :name="severityType.id"
-          :checked="severityType.show"
+          v-for="errorType in errorTypes"
+          :id="errorType.id"
+          :key="errorType.id"
+          :label="`${errorType.text} (${errorType.count})`"
+          :name="errorType.id"
+          :checked="errorType.show"
           :label-class="'text-sm'"
-          @checked="onFilter(severityType.id, true)"
-          @unchecked="onFilter(severityType.id)"
+          @checked="onToggleType(errorType.id)"
+          @unchecked="onToggleType(errorType.id)"
         />
       </div>
     </template>
