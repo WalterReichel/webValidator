@@ -48,9 +48,8 @@
           :key="severityType.id"
           :label="severityType.text"
           :name="severityType.id"
-          :checked="true"
+          :checked="severityType.show"
           :label-class="'text-sm'"
-          size="small"
           @checked="onFilter(severityType.id, true)"
           @unchecked="onFilter(severityType.id)"
         />
