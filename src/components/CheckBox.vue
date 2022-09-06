@@ -15,6 +15,10 @@
   watch(checked, () => {
     emit(checked.value ? 'checked' : 'unchecked');
   });
+  watch(
+    () => props.checked,
+    () => (checked.value = props.checked)
+  );
 </script>
 <template>
   <div class="icheck-green" :class="props.size">
