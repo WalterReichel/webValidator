@@ -1,9 +1,10 @@
 <script setup>
   import { computed } from 'vue';
   import { getDocumentReportCategories, getDocumentReportSeverities, getReportErrorsByIdentifier } from '../../utils';
-  import SeverityItem from './SeverityItem.vue';
+  import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
   import FileErrors from './FileErrors.vue';
+  import SeverityItem from './SeverityItem.vue';
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
 
@@ -51,7 +52,8 @@
     <div class="shrink-0 grow-0 basis-2/3">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Feedback</h3>
-        <FileErrors :errors="getReportErrorsByIdentifier(props.report)" />
+        <FileErrors v-if="props.report" :errors="getReportErrorsByIdentifier(props.report)" />
+        <ActivityErrors v-if="props.report" :errors="getReportErrorsByIdentifier(props.report, 'activity')" />
       </div>
     </div>
   </div>

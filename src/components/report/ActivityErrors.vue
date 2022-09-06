@@ -3,4 +3,4 @@
   console.log(props);
 </script>
 
-<template><div>File Errors Go Here</div></template>
+<template><div>Activity Errors Go Here</div></template>

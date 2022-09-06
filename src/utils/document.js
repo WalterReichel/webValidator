@@ -304,5 +304,6 @@ export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
     }, []);
   }
 
-  return report.filter((actOrgFile) => actOrgFile.identifier !== 'file');
+  // none file errors are activity errors
+  return report.errors.filter((actOrgFile) => actOrgFile.identifier !== 'file');
 };
