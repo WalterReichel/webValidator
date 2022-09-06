@@ -10,7 +10,7 @@
   const categories = computed(() => getDocumentReportCategories(props.report));
   const severities = computed(() => getDocumentReportSeverities(props.report));
 
-  const onSelectSeverity = (severity) => {
+  const onFilterBySeverity = (severity) => {
     console.log(severity);
   };
 </script>
@@ -29,7 +29,7 @@
             v-for="severity in severities"
             :key="severity.id"
             :severity="severity"
-            @select="onSelectSeverity"
+            @select="onFilterBySeverity"
           />
           <div class="px-4 pt-2">
             <h4 class="text-base font-bold">View by category</h4>
