@@ -13,6 +13,9 @@
   const onFilterBySeverity = (severity) => {
     console.log(severity);
   };
+  const onFilterByCategory = (category) => {
+    console.log(category);
+  };
 </script>
 
 <template>
@@ -35,7 +38,12 @@
             <h4 class="text-base font-bold">View by category</h4>
           </div>
           <div class="px-4 py-2">
-            <CategoryItem v-for="category in categories" :key="category.id" :category="category" />
+            <CategoryItem
+              v-for="category in categories"
+              :key="category.id"
+              :category="category"
+              @select="onFilterByCategory"
+            />
           </div>
         </div>
       </div>

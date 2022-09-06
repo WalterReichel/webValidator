@@ -185,6 +185,7 @@ export const getDocumentReportCategories = (report) => {
           id: error.category,
           name: getCategoryLabel(error.category),
           count: getCategoryCount(report.errors, error.category),
+          show: true,
         });
       }
     });
