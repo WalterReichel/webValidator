@@ -1,7 +1,9 @@
 <script setup>
   import { ref } from 'vue';
 
-  const isOpen = ref(false);
+  const props = defineProps({ open: { type: Boolean, default: false } });
+
+  const isOpen = ref(props.open);
 
   const toggleAccordion = () => {
     isOpen.value = !isOpen.value;
