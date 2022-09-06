@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from 'vue';
+  import { computed, ref } from 'vue';
   import AppAccordion from '../AppAccordion.vue';
   import CheckBox from '../CheckBox.vue';
 
@@ -12,6 +12,14 @@
 
     return '';
   });
+  const selectAll = ref(true);
+  const severityTypes = computed(() => {
+    return props.severity.types.map((_type) => {
+      _type.show = selectAll;
+
+      return _type;
+    });
+  });
   const bgClass = {
     'bg-success': props.severity.id === 'success',
     'bg-warning': props.severity.id === 'warning',
@@ -21,9 +29,7 @@
 
   console.log(props.severity);
 
-  const onFilter = (severity, checked = false) => {
-    console.log(checked ? 'Checked:' : 'Unchecked:', severity);
-  };
+  const onToggleSeverity = () => (selectAll.value = !selectAll.value);
 </script>
 <template>
   <AppAccordion>
@@ -33,9 +39,9 @@
           :id="props.severity.name"
           :label="label"
           :name="props.severity.name"
-          :checked="true"
-          @checked="onFilter(props.severity.name, true)"
-          @unchecked="onFilter(props.severity.name)"
+          :checked="selectAll"
+          @checked="onToggleSeverity"
+          @unchecked="onToggleSeverity"
         />
       </div>
     </template>
@@ -43,7 +49,7 @@
       <div class="border border-gray-200 bg-gray-100 px-4">
         <div class="py-2 text-sm text-slate-700">{{ props.severity.description }}</div>
         <CheckBox
-          v-for="severityType in props.severity.types"
+          v-for="severityType in severityTypes"
           :id="severityType.id"
           :key="severityType.id"
           :label="severityType.text"
