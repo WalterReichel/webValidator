@@ -249,7 +249,7 @@ export const getSeverities = () => {
   ];
 };
 
-const getTypeMessageCount = (report, typeId) => {
+const getReportMessageTypeCount = (report, typeId) => {
   let count = 0;
 
   report.errors.forEach((file) => {
@@ -277,7 +277,7 @@ export const getDocumentReportSeverities = (report) => {
           // find and add to matching severity
           const sev = severities.find((s) => s.id === severity);
           if (sev) {
-            const count = getTypeMessageCount(report, id); // number of messages of this type
+            const count = getReportMessageTypeCount(report, id); // number of messages of this type
             sev.types.push({ id, text: message, show: true, count });
           }
           types.push({ id });
