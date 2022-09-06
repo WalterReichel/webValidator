@@ -52,7 +52,11 @@
     <div class="shrink-0 grow-0 basis-2/3">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Feedback</h3>
-        <FileErrors v-if="props.report" :errors="getReportErrorsByIdentifier(props.report)" />
+        <FileErrors
+          v-if="props.report"
+          :title="'File Errors Go Here'"
+          :errors="getReportErrorsByIdentifier(props.report)"
+        />
         <ActivityErrors v-if="props.report" :errors="getReportErrorsByIdentifier(props.report, 'activity')" />
       </div>
     </div>

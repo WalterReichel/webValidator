@@ -307,3 +307,15 @@ export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
   // none file errors are activity errors
   return report.errors.filter((actOrgFile) => actOrgFile.identifier !== 'file');
 };
+
+export const getFileErrorsMessageTypeCount = (errors, messageType) => {
+  return errors.reduce((count, catGroup) => {
+    catGroup.errors.forEach((err) => {
+      if (err.severity === messageType) {
+        count += err.context.length;
+      }
+    });
+
+    return count;
+  }, 0);
+};
