@@ -4,6 +4,7 @@
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
   import { getFileErrorsMessageTypeCount } from '../../utils';
+  import AppAlert from '../AppAlert.vue';
 
   const props = defineProps({ title: { type: String, default: '' }, report: { type: Object, default: null } });
   const errors = computed(() => getReportErrorsByIdentifier(props.report));
@@ -24,7 +25,11 @@
       </div>
     </template>
     <template #content>
-      <div class="border border-gray-200 px-4">Content Goes Here</div>
+      <div class="border border-gray-200 p-4">
+        <AppAlert v-if="!errors.length" variant="success">
+          <span>Congratulations! This IATI activity file has successfully passed IATI XML schema validation!</span>
+        </AppAlert>
+      </div>
     </template>
   </AppAccordion>
 </template>
