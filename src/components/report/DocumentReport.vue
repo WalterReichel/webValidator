@@ -22,6 +22,12 @@
         return { title: 'Not an IATI file' };
     }
   });
+  const hasMessages = computed(() => {
+    if (!props.report) return false;
+
+    const { summary } = props.report;
+    return Object.keys(summary).some((item) => summary[item] > 0);
+  });
 
   const onFilterBySeverity = (severity) => {
     console.log(severity);
@@ -33,7 +39,7 @@
 
 <template>
   <div class="-mx-3.5 flex flex-wrap">
-    <div class="shrink-0 grow-0 basis-1/3">
+    <div v-if="hasMessages" class="shrink-0 grow-0 basis-1/3">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
         <div class="bg-slate-300">
@@ -61,7 +67,7 @@
         </div>
       </div>
     </div>
-    <div class="shrink-0 grow-0 basis-2/3">
+    <div class="shrink-0 grow-0" :class="hasMessages ? 'basis-2/3' : 'w-full'">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Feedback</h3>
         <FileErrors
