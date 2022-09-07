@@ -321,3 +321,21 @@ export const getFileErrorsMessageTypeCount = (errors, messageType) => {
     return count;
   }, 0);
 };
+
+export const getFeedbackCategoryLabel = (category) => {
+  const categories = {
+    schema: 'Schema',
+    information: 'Basic activity information',
+    financial: 'Financial',
+    identifiers: 'Identification',
+    organisation: 'Basic organisation information',
+    participating: 'Participating organisations',
+    geo: 'Geopolitical information',
+    classifications: 'Classifications',
+    documents: 'Related documents',
+    performance: 'Performance',
+    iati: 'IATI file',
+    relations: 'Relations',
+  };
+  return categories[category];
+};

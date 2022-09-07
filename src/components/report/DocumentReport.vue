@@ -16,7 +16,7 @@
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
 
   const { data: guidanceLinks } = useSWRV(
-    () => props.report && getGuidanceLinksURL(props.report.iatiVersion),
+    () => (props.report && props.report.iatiVersion ? getGuidanceLinksURL(props.report.iatiVersion) : null),
     () => fetchGuidanceLinks(props.report.iatiVersion)
   );
   const categories = computed(() => getDocumentReportCategories(props.report));
