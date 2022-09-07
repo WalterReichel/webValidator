@@ -6,7 +6,11 @@
   import { getFileErrorsMessageTypeCount } from '../../utils';
   import AppAlert from '../AppAlert.vue';
 
-  const props = defineProps({ title: { type: String, default: '' }, report: { type: Object, default: null } });
+  const props = defineProps({
+    title: { type: String, default: '' },
+    report: { type: Object, default: null },
+    fileType: { type: String, default: 'activity' }, // options are activity and organisation
+  });
   const errors = computed(() => getReportErrorsByIdentifier(props.report));
 
   const messageTypes = ['critical', 'error', 'warning', 'info', 'success']
@@ -27,7 +31,9 @@
     <template #content>
       <div class="border border-gray-200 p-4">
         <AppAlert v-if="!errors.length" variant="success">
-          <span>Congratulations! This IATI activity file has successfully passed IATI XML schema validation!</span>
+          <span>
+            Congratulations! This IATI {{ props.fileType }} file has successfully passed IATI XML schema validation!
+          </span>
         </AppAlert>
       </div>
     </template>

@@ -10,6 +10,18 @@
 
   const categories = computed(() => getDocumentReportCategories(props.report));
   const severities = computed(() => getDocumentReportSeverities(props.report));
+  const fileErrorProps = computed(() => {
+    if (!props.report) return { title: '' };
+    switch (props.report.fileType) {
+      case 'iati-activities':
+        return { type: 'activity', title: 'Activity file feedback' };
+      case 'iati-organisations':
+        return { type: 'organisation', title: 'Organisation file feedback' };
+
+      default:
+        return { title: 'Not an IATI file' };
+    }
+  });
 
   const onFilterBySeverity = (severity) => {
     console.log(severity);
@@ -52,7 +64,12 @@
     <div class="shrink-0 grow-0 basis-2/3">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Feedback</h3>
-        <FileErrors v-if="props.report" :title="'Activity file feedback'" :report="props.report" />
+        <FileErrors
+          v-if="props.report"
+          :file-type="fileErrorProps.type"
+          :title="fileErrorProps.title"
+          :report="props.report"
+        />
         <ActivityErrors
           v-if="props.report"
           :title="'Feedback per activity'"
