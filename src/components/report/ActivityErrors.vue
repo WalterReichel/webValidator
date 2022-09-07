@@ -6,9 +6,9 @@
 </script>
 
 <template>
-  <AppAccordion :open="false">
+  <AppAccordion :open="false" class="mt-4">
     <template #title>
-      <div class="mt-4 w-full bg-slate-300 px-4 py-2 text-left">
+      <div class="w-full bg-slate-300 px-4 py-2 text-left">
         {{ props.title }}
       </div>
     </template>
