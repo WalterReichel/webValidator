@@ -295,6 +295,8 @@ export const getDocumentReportSeverities = (report) => {
 };
 
 export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
+  if (!report) return [];
+
   if (identifier === 'file') {
     return report.errors.reduce((errors, actOrgFile) => {
       if (actOrgFile.identifier === 'file') {
