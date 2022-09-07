@@ -1,6 +1,13 @@
 <script setup>
+  import useSWRV from 'swrv';
   import { computed } from 'vue';
-  import { getDocumentReportCategories, getDocumentReportSeverities, getReportErrorsByIdentifier } from '../../utils';
+  import {
+    fetchGuidanceLinks,
+    getDocumentReportCategories,
+    getDocumentReportSeverities,
+    getGuidanceLinksURL,
+    getReportErrorsByIdentifier,
+  } from '../../utils';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
   import FileErrors from './FileErrors.vue';
@@ -8,6 +15,10 @@
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
 
+  const { data: guidanceLinks } = useSWRV(
+    () => props.report && getGuidanceLinksURL(props.report.iatiVersion),
+    () => fetchGuidanceLinks(props.report.iatiVersion)
+  );
   const categories = computed(() => getDocumentReportCategories(props.report));
   const severities = computed(() => getDocumentReportSeverities(props.report));
   const fileErrorProps = computed(() => {
@@ -75,6 +86,7 @@
           :file-type="fileErrorProps.type"
           :title="fileErrorProps.title"
           :report="props.report"
+          :guidance-links="guidanceLinks"
         />
         <ActivityErrors
           v-if="props.report"

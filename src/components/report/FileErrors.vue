@@ -10,6 +10,7 @@
     title: { type: String, default: '' },
     report: { type: Object, default: null },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
+    guidanceLinks: { type: Object, default: null },
   });
   const errors = computed(() => getReportErrorsByIdentifier(props.report));
 
