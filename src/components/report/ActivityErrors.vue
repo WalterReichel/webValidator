@@ -6,7 +6,7 @@
 </script>
 
 <template>
-  <AppAccordion :open="false" class="mt-4">
+  <AppAccordion :open="false">
     <template #title>
       <div class="w-full bg-slate-300 px-4 py-2 text-left">
         {{ props.title }}

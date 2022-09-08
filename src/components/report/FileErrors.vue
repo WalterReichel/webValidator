@@ -10,7 +10,6 @@
     title: { type: String, default: '' },
     report: { type: Object, default: null },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
-    guidanceLinks: { type: Object, default: null },
   });
   const messages = computed(() => getReportErrorsByIdentifier(props.report));
 
@@ -20,7 +19,11 @@
 </script>
 
 <template>
-  <AppAccordion v-if="(props.report && props.report.summary.critical === 0) || messages.length" :open="true">
+  <AppAccordion
+    v-if="(props.report && props.report.summary.critical === 0) || messages.length"
+    :open="true"
+    class="mb-4"
+  >
     <template #title>
       <div class="flex w-full items-center bg-slate-300 px-4 py-2 text-left">
         <span class="mr-2">{{ props.title }}</span>
