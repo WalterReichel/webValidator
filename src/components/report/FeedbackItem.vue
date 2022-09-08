@@ -24,11 +24,17 @@
 
     return '';
   });
+  const codelistLink = computed(() =>
+    'codelist' in props.item ? `${GUIDANCE_LINK_URL}/${version.value}/codelists/${props.item.codelist}` : ''
+  );
 </script>
 
 <template>
   <AppAlert class="mt-2" :variant="props.item.severity">
     <a v-if="isGuidanceAvailable" :href="guidanceLink" target="_blank" title="Open guidance in a new window">
+      (see guidance)
+    </a>
+    <a v-if="codelistLink" href="codelistLink" target="_blank" title="Open guidance in a new window">
       (see guidance)
     </a>
     {{ props.item.message }}
