@@ -9,6 +9,10 @@ export const fetchGuidanceLinks = async (version) => {
 
     return data;
   }
+  const error = await response.json();
+  if (error.error) {
+    throw new Error(error.message);
+  }
 
   return null;
 };
