@@ -6,7 +6,6 @@
     getDocumentReportCategories,
     getDocumentReportSeverities,
     getGuidanceLinksURL,
-    getReportErrorsByIdentifier,
   } from '../../utils';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
@@ -89,11 +88,7 @@
           :report="props.report"
           :guidance-links="guidanceLinks"
         />
-        <ActivityErrors
-          v-if="props.report"
-          :title="'Feedback per activity'"
-          :errors="getReportErrorsByIdentifier(props.report, 'activity')"
-        />
+        <ActivityErrors v-if="props.report" :title="'Feedback per activity'" :report="props.report" />
       </div>
     </div>
   </div>

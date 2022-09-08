@@ -1,8 +1,11 @@
 <script setup>
+  import { computed } from 'vue';
+  import { getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
 
   const props = defineProps({ errors: { type: Object, default: null }, title: { type: String, default: '' } });
-  console.log(props);
+  const data = computed(() => getReportErrorsByIdentifier(props.report, 'activity'));
+  console.log(data);
 </script>
 
 <template>
