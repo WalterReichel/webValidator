@@ -41,7 +41,10 @@
           (see guidance)
         </a>
       </span>
-      {{ props.item.message }}
+      <span>{{ props.item.message }}</span>
+      <ul v-if="props.item.context.length > 1 || props.item.context[0].text !== ''" class="list-disc pl-10">
+        <li v-for="(context, index) of props.item.context" :key="index">{{ context.text }}</li>
+      </ul>
     </div>
   </AppAlert>
 </template>
