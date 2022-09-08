@@ -4,7 +4,7 @@
   import AppAccordion from '../AppAccordion.vue';
   import AppAlert from '../AppAlert.vue';
   import AppBadge from '../AppBadge.vue';
-  import FeedbackItem from './FeedbackItem.vue';
+  import FeedbackList from './FeedbackList.vue';
 
   const props = defineProps({
     title: { type: String, default: '' },
@@ -36,7 +36,7 @@
             Congratulations! This IATI {{ props.fileType }} file has successfully passed IATI XML schema validation!
           </span>
         </AppAlert>
-        <FeedbackItem v-for="(message, index) in messages" v-else :key="index" :message="message" />
+        <FeedbackList v-for="(message, index) in messages" v-else :key="index" :message="message" />
       </div>
     </template>
   </AppAccordion>
