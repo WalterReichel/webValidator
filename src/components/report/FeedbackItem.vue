@@ -31,12 +31,17 @@
 
 <template>
   <AppAlert class="mt-2" :variant="props.item.severity">
-    <a v-if="isGuidanceAvailable" :href="guidanceLink" target="_blank" title="Open guidance in a new window">
-      (see guidance)
-    </a>
-    <a v-if="codelistLink" href="codelistLink" target="_blank" title="Open guidance in a new window">
-      (see guidance)
-    </a>
-    {{ props.item.message }}
+    <div>
+      <span class="float-right">
+        {{ props.item.id }}
+        <a v-if="isGuidanceAvailable" :href="guidanceLink" target="_blank" title="Open guidance in a new window">
+          (see guidance)
+        </a>
+        <a v-if="codelistLink" href="codelistLink" target="_blank" title="Open guidance in a new window">
+          (see guidance)
+        </a>
+      </span>
+      {{ props.item.message }}
+    </div>
   </AppAlert>
 </template>
