@@ -1,6 +1,6 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { computed } from 'vue';
+  import { computed, provide } from 'vue';
   import {
     fetchGuidanceLinks,
     getDocumentReportCategories,
@@ -19,6 +19,7 @@
     () => (props.report && props.report.iatiVersion ? getGuidanceLinksURL(props.report.iatiVersion) : null),
     () => fetchGuidanceLinks(props.report.iatiVersion)
   );
+  provide('guidanceLinks', guidanceLinks);
   const categories = computed(() => getDocumentReportCategories(props.report));
   const severities = computed(() => getDocumentReportSeverities(props.report));
   const fileErrorProps = computed(() => {
