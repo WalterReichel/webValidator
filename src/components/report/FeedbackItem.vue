@@ -2,6 +2,7 @@
   import { computed, inject } from 'vue';
   import AppAlert from '../AppAlert.vue';
   import { GUIDANCE_LINK_URL } from '../../utils';
+  import StyledLink from '../StyledLink.vue';
 
   const props = defineProps({ item: { type: Object, default: null }, version: { type: String, default: '' } });
   const guidanceLinks = inject('guidanceLinks');
@@ -34,12 +35,16 @@
     <div>
       <span class="float-right">
         {{ props.item.id }}
-        <a v-if="isGuidanceAvailable" :href="guidanceLink" target="_blank" title="Open guidance in a new window">
-          (see guidance)
-        </a>
-        <a v-if="codelistLink" href="codelistLink" target="_blank" title="Open guidance in a new window">
-          (see guidance)
-        </a>
+        <StyledLink
+          v-if="isGuidanceAvailable"
+          :to="guidanceLink"
+          :external="true"
+          :title="'Open guidance in a new window'"
+          >(see guidance)</StyledLink
+        >
+        <StyledLink v-if="codelistLink" :to="codelistLink" :external="true" :title="'Open guidance in a new window'"
+          >(see guidance)</StyledLink
+        >
       </span>
       <span>{{ props.item.message }}</span>
       <ul v-if="props.item.context.length > 1 || props.item.context[0].text !== ''" class="list-disc pl-10">

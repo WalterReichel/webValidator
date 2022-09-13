@@ -27,7 +27,7 @@
 </script>
 
 <template>
-  <AppAccordion :open="false">
+  <AppAccordion :open="true">
     <template #title>
       <div class="w-full bg-slate-300 px-4 py-2 text-left">
         {{ props.title }}
