@@ -50,8 +50,8 @@
 
 <template>
   <div class="-mx-3.5 flex flex-wrap">
-    <div v-if="hasMessages" class="shrink-0 grow-0 basis-1/3">
-      <div class="m-2.5">
+    <div v-if="hasMessages" class="relative shrink-0 grow-0 basis-1/3">
+      <div class="sticky top-0 m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
         <div class="bg-slate-300">
           <div class="px-4 py-2">
