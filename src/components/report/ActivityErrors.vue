@@ -6,7 +6,9 @@
   import FeedbackGroup from './FeedbackGroup.vue';
 
   const props = defineProps({ report: { type: Object, default: null }, title: { type: String, default: '' } });
-  const data = computed(() => getReportErrorsByIdentifier(props.report, 'activity'));
+  const data = computed(
+    () => getReportErrorsByIdentifier(props.report, 'activity').filter((item) => item.errors.length) // only include items with feedback to show
+  );
   const page = ref(1);
   const PAGE_LIMIT = 10;
   const pageData = computed(() => {
