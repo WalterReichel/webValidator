@@ -11,6 +11,6 @@
   <CenteredLoadingSpinner v-if="!props.message" />
   <div v-else>
     <AppBadge>{{ getFeedbackCategoryLabel(props.message.category) }}</AppBadge>
-    <FeedbackItem v-for="item in props.message.errors" :key="item.id" :item="item" />
+    <FeedbackItem v-for="(item, index) in props.message.errors" :key="`${index}-${item.id}`" :item="item" />
   </div>
 </template>
