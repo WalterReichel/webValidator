@@ -1,16 +1,19 @@
 <script setup>
+  import { computed } from 'vue';
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
   import FeedbackList from './FeedbackList.vue';
   import { getFileErrorsMessageTypeCount } from '../../utils';
 
   const props = defineProps({ activity: { type: Object, default: null } });
-  const messageTypes = ['critical', 'error', 'warning', 'info', 'success']
-    .map((messageType) => ({
-      type: messageType,
-      count: getFileErrorsMessageTypeCount(props.activity.errors, messageType),
-    }))
-    .filter((messageType) => messageType.count > 0);
+  const messageTypes = computed(() =>
+    ['critical', 'error', 'warning', 'info', 'success']
+      .map((messageType) => ({
+        type: messageType,
+        count: getFileErrorsMessageTypeCount(props.activity.errors, messageType),
+      }))
+      .filter((messageType) => messageType.count > 0)
+  );
 
   const cleanIdentifier = (identifier) => {
     const newLineIndex = identifier.indexOf('\n');

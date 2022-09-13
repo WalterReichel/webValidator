@@ -31,7 +31,7 @@
   const onToggleSeverity = () => {
     selectAll.value = !selectAll.value;
     errorTypes.value = setErrorTypesVisibility(selectAll.value);
-    emit('select', { ...props.severity, types: errorTypes.value });
+    emit('select', { ...props.severity, types: errorTypes.value, show: selectAll.value });
   };
   const onToggleType = (errorType) => {
     errorTypes.value = errorTypes.value.map((_type) => {

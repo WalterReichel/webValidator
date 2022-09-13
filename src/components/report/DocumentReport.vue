@@ -1,6 +1,7 @@
 <script setup>
+  import { cloneDeep } from 'lodash';
   import useSWRV from 'swrv';
-  import { computed, provide } from 'vue';
+  import { computed, provide, ref, watch } from 'vue';
   import {
     fetchGuidanceLinks,
     getDocumentReportCategories,
@@ -19,7 +20,18 @@
     () => fetchGuidanceLinks(props.report.iatiVersion)
   );
   provide('guidanceLinks', guidanceLinks);
-  const categories = computed(() => getDocumentReportCategories(props.report));
+  const activeSeverity = ref(null);
+  const activeCategory = ref(null);
+  const categories = computed(() => {
+    const _categories = !categories.value ? getDocumentReportCategories(props.report) : categories.value;
+    return _categories.map((category) => {
+      if (activeCategory.value && category.id === activeCategory.value.id) {
+        category.show = activeCategory.value.show;
+      }
+
+      return category;
+    });
+  });
   const severities = computed(() => getDocumentReportSeverities(props.report));
   const fileErrorProps = computed(() => {
     if (!props.report) return { title: '' };
@@ -39,12 +51,26 @@
     const { summary } = props.report;
     return Object.keys(summary).some((item) => summary[item] > 0);
   });
+  const filteredReport = ref(props.report);
+
+  // watch and filter report by category
+  watch(categories, () => {
+    const report = cloneDeep(props.report);
+    report.errors
+      .filter((file) => file.identifier !== 'file')
+      .forEach((item) => {
+        item.errors = item.errors.filter((feedback) =>
+          categories.value.some((c) => c.show === true && c.id === feedback.category)
+        );
+      });
+    filteredReport.value = report;
+  });
 
   const onFilterBySeverity = (severity) => {
-    console.log(severity);
+    activeSeverity.value = severity;
   };
   const onFilterByCategory = (category) => {
-    console.log(category);
+    activeCategory.value = category;
   };
 </script>
 
@@ -88,7 +114,7 @@
           :report="props.report"
           :guidance-links="guidanceLinks"
         />
-        <ActivityErrors v-if="props.report" :title="'Feedback per activity'" :report="props.report" />
+        <ActivityErrors v-if="filteredReport" :title="'Feedback per activity'" :report="filteredReport" />
       </div>
     </div>
   </div>
