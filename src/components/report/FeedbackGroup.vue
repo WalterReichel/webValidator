@@ -1,6 +1,7 @@
 <script setup>
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
+  import FeedbackList from './FeedbackList.vue';
   import { getFileErrorsMessageTypeCount } from '../../utils';
 
   const props = defineProps({ activity: { type: Object, default: null } });
@@ -37,7 +38,9 @@
       </div>
     </template>
     <template #content>
-      <div class="border border-gray-100 px-4">Activity Content Goes Here</div>
+      <div class="border border-gray-100 px-4 py-2">
+        <FeedbackList v-for="(message, index) in props.activity.errors" :key="index" :message="message" class="pb-2" />
+      </div>
     </template>
   </AppAccordion>
 </template>
