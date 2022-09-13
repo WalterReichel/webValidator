@@ -17,8 +17,8 @@
 
   const onNext = () => {
     const nextPage = page.value + 1;
-    const maxPages = data.value.length / PAGE_LIMIT;
-    if (nextPage < maxPages) page.value = nextPage;
+    const maxPages = Math.ceil(data.value.length / PAGE_LIMIT);
+    if (nextPage <= maxPages) page.value = nextPage;
   };
   const onPrevious = () => {
     const previousPage = page.value - 1;
@@ -36,7 +36,7 @@
     <template #content>
       <div class="border border-gray-200 px-4 pt-4">
         <FeedbackGroup v-for="activity in pageData" :key="activity.identifier" :activity="activity" />
-        <AppPagination @next="onNext" @previous="onPrevious">
+        <AppPagination v-if="data.length > 10" @next="onNext" @previous="onPrevious">
           <span class="text-sm">Page {{ page }} of {{ Math.ceil(data.length / PAGE_LIMIT) }}</span>
         </AppPagination>
       </div>
