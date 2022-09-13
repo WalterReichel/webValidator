@@ -2,10 +2,10 @@
   import { computed } from 'vue';
   import { getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
+  import FeedbackGroup from './FeedbackGroup.vue';
 
-  const props = defineProps({ errors: { type: Object, default: null }, title: { type: String, default: '' } });
+  const props = defineProps({ report: { type: Object, default: null }, title: { type: String, default: '' } });
   const data = computed(() => getReportErrorsByIdentifier(props.report, 'activity'));
-  console.log(data);
 </script>
 
 <template>
@@ -16,7 +16,9 @@
       </div>
     </template>
     <template #content>
-      <div class="border border-gray-200 px-4">Activity Errors</div>
+      <div class="border border-gray-200 px-4 pt-4">
+        <FeedbackGroup v-for="activity in data" :key="activity.identifier" :activity="activity" />
+      </div>
     </template>
   </AppAccordion>
 </template>
