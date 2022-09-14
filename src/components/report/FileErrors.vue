@@ -11,7 +11,7 @@
     report: { type: Object, default: null },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
   });
-  const messages = computed(() => getReportErrorsByIdentifier(props.report));
+  const messages = computed(() => getReportErrorsByIdentifier(props.report).filter((item) => item.errors.length)); // only include items with feedback to show
 
   const messageTypes = ['critical', 'error', 'warning', 'info', 'success']
     .map((messageType) => ({ type: messageType, count: getFileErrorsMessageTypeCount(messages.value, messageType) }))
