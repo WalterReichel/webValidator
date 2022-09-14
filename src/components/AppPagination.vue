@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <div class="mb-4 px-4 text-center">
+  <div class="px-4 text-center">
     <button class="mr-1 rounded-md border border-slate-200 p-4" @click="emits('previous')">
       <svg
         class="w-3 rotate-90 transform transition-all duration-200"
