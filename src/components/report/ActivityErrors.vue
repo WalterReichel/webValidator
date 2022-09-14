@@ -29,9 +29,9 @@
 </script>
 
 <template>
-  <AppAccordion :open="true">
+  <AppAccordion :open="true" class="iati-accordion">
     <template #title>
-      <div class="w-full bg-slate-300 px-4 py-2 text-left">
+      <div class="w-full bg-iati-green px-4 py-2 text-left text-white">
         {{ props.title }}
       </div>
     </template>

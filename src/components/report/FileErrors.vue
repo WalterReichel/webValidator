@@ -22,10 +22,10 @@
   <AppAccordion
     v-if="(props.report && props.report.summary.critical === 0) || messages.length"
     :open="true"
-    class="mb-4"
+    class="iati-accordion mb-4"
   >
     <template #title>
-      <div class="flex w-full items-center bg-slate-300 px-4 py-2 text-left">
+      <div class="flex w-full items-center bg-iati-green px-4 py-2 text-left text-white">
         <span class="mr-2">{{ props.title }}</span>
         <AppBadge v-for="messageType in messageTypes" :key="messageType.type" :variant="messageType.type">
           {{ messageType.count }}

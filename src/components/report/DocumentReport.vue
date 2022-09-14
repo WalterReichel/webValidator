@@ -119,3 +119,9 @@
     </div>
   </div>
 </template>
+
+<style>
+  .iati-accordion > button > svg {
+    color: #ffffff;
+  }
+</style>
