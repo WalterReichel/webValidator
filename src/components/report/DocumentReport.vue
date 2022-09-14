@@ -7,7 +7,6 @@
     getDocumentReportCategories,
     getDocumentReportSeverities,
     getGuidanceLinksURL,
-    getReportErrorsByIdentifier,
   } from '../../utils';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
@@ -67,28 +66,26 @@
   // watch and filter report by category
   watch(categories, () => {
     const report = cloneDeep(props.report);
-    getReportErrorsByIdentifier(report, 'activity') // get activity errors
-      .forEach((item) => {
-        item.errors = item.errors.filter((feedback) =>
-          categories.value.some((c) => c.show === true && c.id === feedback.category)
-        );
-      });
+    report.errors.forEach((item) => {
+      item.errors = item.errors.filter((feedback) =>
+        categories.value.some((c) => c.show === true && c.id === feedback.category)
+      );
+    });
     filteredReport.value = report;
   });
 
   // watch and filter report by severity
   watch(severities, () => {
     const report = cloneDeep(props.report);
-    getReportErrorsByIdentifier(report, 'activity') // get activity errors
-      .forEach((activity) => {
-        activity.errors.forEach((item) => {
-          item.errors = item.errors.filter(
-            (feedback) =>
-              severities.value.some((sev) => sev.show === true && sev.slug === feedback.severity) && // filter by severity
-              severities.value.some((t) => t.types.some((m) => m.show === true && m.id === feedback.id)) // filter by severity message type
-          );
-        });
+    report.errors.forEach((activity) => {
+      activity.errors.forEach((item) => {
+        item.errors = item.errors.filter(
+          (feedback) =>
+            severities.value.some((sev) => sev.show === true && sev.slug === feedback.severity) && // filter by severity
+            severities.value.some((t) => t.types.some((m) => m.show === true && m.id === feedback.id)) // filter by severity message type
+        );
       });
+    });
     filteredReport.value = report;
   });
 
@@ -137,7 +134,7 @@
           v-if="props.report"
           :file-type="fileErrorProps.type"
           :title="fileErrorProps.title"
-          :report="props.report"
+          :report="filteredReport"
           :guidance-links="guidanceLinks"
         />
         <ActivityErrors v-if="filteredReport" :title="'Feedback per activity'" :report="filteredReport" />
