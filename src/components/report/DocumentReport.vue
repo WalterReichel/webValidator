@@ -7,6 +7,7 @@
     getDocumentReportCategories,
     getDocumentReportSeverities,
     getGuidanceLinksURL,
+    getReportErrorsByIdentifier,
   } from '../../utils';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
@@ -32,7 +33,17 @@
       return category;
     });
   });
-  const severities = computed(() => getDocumentReportSeverities(props.report));
+  const severities = computed(() => {
+    const _severities = !severities.value ? getDocumentReportSeverities(props.report) : severities.value;
+
+    return _severities.map((severity) => {
+      if (activeSeverity.value && severity.id === activeSeverity.value.id) {
+        severity = activeSeverity.value;
+      }
+
+      return severity;
+    });
+  });
   const fileErrorProps = computed(() => {
     if (!props.report) return { title: '' };
     switch (props.report.fileType) {
@@ -56,12 +67,25 @@
   // watch and filter report by category
   watch(categories, () => {
     const report = cloneDeep(props.report);
-    report.errors
-      .filter((file) => file.identifier !== 'file')
+    getReportErrorsByIdentifier(report, 'activity') // get activity errors
       .forEach((item) => {
         item.errors = item.errors.filter((feedback) =>
           categories.value.some((c) => c.show === true && c.id === feedback.category)
         );
+      });
+    filteredReport.value = report;
+  });
+
+  // watch and filter report by severity
+  watch(severities, () => {
+    const report = cloneDeep(props.report);
+    getReportErrorsByIdentifier(report, 'activity') // get activity errors
+      .forEach((activity) => {
+        activity.errors.forEach((item) => {
+          item.errors = item.errors.filter((feedback) =>
+            severities.value.some((sev) => sev.show === true && sev.slug === feedback.severity)
+          );
+        });
       });
     filteredReport.value = report;
   });

@@ -6,6 +6,7 @@
   import { getFileErrorsMessageTypeCount } from '../../utils';
 
   const props = defineProps({ activity: { type: Object, default: null } });
+  const messages = computed(() => props.activity.errors.filter((message) => message.errors.length));
   const messageTypes = computed(() =>
     ['critical', 'error', 'warning', 'info', 'success']
       .map((messageType) => ({
@@ -42,7 +43,8 @@
     </template>
     <template #content>
       <div class="border border-gray-100 px-4 py-2">
-        <FeedbackList v-for="(message, index) in props.activity.errors" :key="index" :message="message" class="pb-2" />
+        <FeedbackList v-for="(message, index) in messages" :key="index" :message="message" class="pb-2" />
+        <span v-if="!messages.length">There is no feedback to display</span>
       </div>
     </template>
   </AppAccordion>
