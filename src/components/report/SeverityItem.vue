@@ -47,6 +47,15 @@
 
       return _type;
     });
+    // update select all if all types are selected or all types are not selected
+    const visibleErrorTypes = errorTypes.value.filter((type) => type.show);
+    if (visibleErrorTypes.length) {
+      if (visibleErrorTypes.length === errorTypes.value.length) {
+        selectAll.value = true;
+      }
+    } else {
+      selectAll.value = false;
+    }
     emit('select', { ...props.severity, types: errorTypes.value });
   };
 </script>
