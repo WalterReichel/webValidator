@@ -102,7 +102,7 @@
 
 <template>
   <div class="-mx-3.5 flex flex-wrap">
-    <div v-if="hasMessages" class="relative shrink-0 grow-0 basis-1/3">
+    <div v-if="hasMessages" class="relative flex shrink grow flex-col sm:w-full md:basis-1/3">
       <div class="sticky top-0 m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
         <div class="bg-slate-300">
@@ -130,7 +130,7 @@
         </div>
       </div>
     </div>
-    <div class="shrink-0 grow-0" :class="hasMessages ? 'basis-2/3' : 'w-full'">
+    <div class="flex shrink grow flex-col" :class="hasMessages ? 'sm:w-full  md:basis-2/3' : 'w-full'">
       <div class="m-2.5">
         <h3 class="text-xl font-bold">Feedback</h3>
         <FileErrors
