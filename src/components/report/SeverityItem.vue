@@ -1,6 +1,7 @@
 <script setup>
   import { computed, ref } from 'vue';
   import AppAccordion from '../AppAccordion.vue';
+  import AppBadge from '../AppBadge.vue';
   import CheckBox from '../CheckBox.vue';
 
   const props = defineProps({ severity: { type: Object, default: null } });
@@ -21,6 +22,13 @@
     });
   const selectAll = ref(true);
   const errorTypes = ref(setErrorTypesVisibility(selectAll.value));
+  const selectionMessage = computed(() => {
+    const visibleErrorTypes = errorTypes.value.filter((type) => type.show);
+
+    return visibleErrorTypes.length !== errorTypes.value.length
+      ? `${visibleErrorTypes.length} of ${errorTypes.value.length} messages selected`
+      : '';
+  });
   const bgClass = {
     'bg-success': props.severity.id === 'success',
     'bg-warning': props.severity.id === 'warning',
@@ -43,17 +51,21 @@
   };
 </script>
 <template>
-  <AppAccordion>
+  <AppAccordion class="iati-accordion">
     <template #title>
-      <div :class="bgClass" class="w-full px-4 py-2 text-left text-white">
+      <div :class="bgClass" class="inline-block w-full px-4 py-2 text-left text-white">
         <CheckBox
           :id="props.severity.name"
           :label="label"
           :name="props.severity.name"
           :checked="selectAll"
+          class="inline"
           @checked="onToggleSeverity"
           @unchecked="onToggleSeverity"
         />
+        <AppBadge v-if="selectionMessage" class="ml-4 bg-white font-normal" :class="`text-${props.severity.id}`">
+          {{ selectionMessage }}
+        </AppBadge>
       </div>
     </template>
     <template #content>
