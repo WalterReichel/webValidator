@@ -55,6 +55,7 @@
   const activityErrorsTitle = ref('');
 
   provide('fileType', fileType);
+  provide('report', filteredReport);
 
   watchEffect(() => {
     if (props.report) {
@@ -146,15 +147,9 @@
           v-if="props.report"
           :file-type="fileType"
           :title="fileErrorsTitle"
-          :report="filteredReport"
           :guidance-links="guidanceLinks"
         />
-        <ActivityErrors
-          v-if="filteredReport"
-          :title="activityErrorsTitle"
-          :file-type="fileType"
-          :report="filteredReport"
-        />
+        <ActivityErrors v-if="filteredReport" :title="activityErrorsTitle" :file-type="fileType" />
       </div>
     </div>
   </div>

@@ -1,17 +1,17 @@
 <script setup>
-  import { computed, ref, watch } from 'vue';
+  import { computed, inject, ref, watch } from 'vue';
   import { getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppPagination from '../AppPagination.vue';
   import FeedbackGroup from './FeedbackGroup.vue';
 
   const props = defineProps({
-    report: { type: Object, default: null },
     title: { type: String, default: '' },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
   });
+  const report = inject('report');
   const data = computed(() =>
-    getReportErrorsByIdentifier(props.report, 'activity').filter(
+    getReportErrorsByIdentifier(report.value, 'activity').filter(
       (item) => item.errors.length && item.errors.some((i) => i.errors.length) // only include items with feedback to show
     )
   );
@@ -23,12 +23,9 @@
     return data.value.filter((_item, index) => index < max && index >= min);
   });
 
-  watch(
-    () => props.report,
-    () => {
-      page.value = 1;
-    }
-  );
+  watch(report, () => {
+    page.value = 1;
+  });
 
   const onNext = () => {
     const nextPage = page.value + 1;

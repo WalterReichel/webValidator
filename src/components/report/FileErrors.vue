@@ -1,5 +1,5 @@
 <script setup>
-  import { computed } from 'vue';
+  import { computed, inject, watchEffect } from 'vue';
   import { getFileErrorsMessageTypeCount, getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppAlert from '../AppAlert.vue';
@@ -8,19 +8,23 @@
 
   const props = defineProps({
     title: { type: String, default: '' },
-    report: { type: Object, default: null },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
   });
-  const messages = computed(() => getReportErrorsByIdentifier(props.report).filter((item) => item.errors.length)); // only include items with feedback to show
+  const report = inject('report');
+  const messages = computed(() => getReportErrorsByIdentifier(report.value).filter((item) => item.errors.length)); // only include items with feedback to show
 
   const messageTypes = ['critical', 'error', 'warning', 'info', 'success']
     .map((messageType) => ({ type: messageType, count: getFileErrorsMessageTypeCount(messages.value, messageType) }))
     .filter((messageType) => messageType.count > 0);
+
+  watchEffect(() => {
+    console.log(report.value);
+  });
 </script>
 
 <template>
   <AppAccordion
-    v-if="(props.report && props.report.summary.critical === 0) || messages.length"
+    v-if="(report && report.summary.critical === 0) || messages.length"
     :open="true"
     class="iati-accordion mb-4"
   >
