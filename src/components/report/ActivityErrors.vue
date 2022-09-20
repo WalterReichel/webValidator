@@ -5,7 +5,11 @@
   import AppPagination from '../AppPagination.vue';
   import FeedbackGroup from './FeedbackGroup.vue';
 
-  const props = defineProps({ report: { type: Object, default: null }, title: { type: String, default: '' } });
+  const props = defineProps({
+    report: { type: Object, default: null },
+    title: { type: String, default: '' },
+    fileType: { type: String, default: 'activity' }, // options are activity and organisation
+  });
   const data = computed(() =>
     getReportErrorsByIdentifier(props.report, 'activity').filter(
       (item) => item.errors.length && item.errors.some((i) => i.errors.length) // only include items with feedback to show

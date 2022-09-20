@@ -43,9 +43,16 @@
       return severity;
     });
   });
-  const fileErrorProps = computed(() => {
-    if (!props.report) return { title: '' };
-    switch (props.report.fileType) {
+  const hasMessages = computed(() => {
+    if (!props.report) return false;
+
+    const { summary } = props.report;
+    return Object.keys(summary).some((item) => summary[item] > 0);
+  });
+  const filteredReport = ref(props.report);
+  const fileTypeProps = (report) => {
+    if (!report) return { title: '' };
+    switch (report.fileType) {
       case 'iati-activities':
         return { type: 'activity', title: 'Activity file feedback' };
       case 'iati-organisations':
@@ -54,14 +61,7 @@
       default:
         return { title: 'Not an IATI file' };
     }
-  });
-  const hasMessages = computed(() => {
-    if (!props.report) return false;
-
-    const { summary } = props.report;
-    return Object.keys(summary).some((item) => summary[item] > 0);
-  });
-  const filteredReport = ref(props.report);
+  };
 
   // watch and filter report by category and severity
   watch([categories, severities], () => {
@@ -126,12 +126,17 @@
         <h3 class="text-xl font-bold">Feedback</h3>
         <FileErrors
           v-if="props.report"
-          :file-type="fileErrorProps.type"
-          :title="fileErrorProps.title"
+          :file-type="fileTypeProps(props.report).type"
+          :title="fileTypeProps(props.report).title"
           :report="filteredReport"
           :guidance-links="guidanceLinks"
         />
-        <ActivityErrors v-if="filteredReport" :title="'Feedback per activity'" :report="filteredReport" />
+        <ActivityErrors
+          v-if="filteredReport"
+          :title="'Feedback per activity'"
+          :report="filteredReport"
+          :file-type="fileTypeProps(props.report).type"
+        />
       </div>
     </div>
   </div>
