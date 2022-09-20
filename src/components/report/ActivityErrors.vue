@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import { getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppPagination from '../AppPagination.vue';
@@ -18,6 +18,13 @@
     const max = min + PAGE_LIMIT;
     return data.value.filter((_item, index) => index < max && index >= min);
   });
+
+  watch(
+    () => props.report,
+    () => {
+      page.value = 1;
+    }
+  );
 
   const onNext = () => {
     const nextPage = page.value + 1;
