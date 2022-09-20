@@ -85,10 +85,11 @@ export const getDocumentValidationStatus = (document) => {
   return { value: 'normal', caption: 'N/A' };
 };
 
-export const getDocumentDatastoreAvailability = (document, fileStatus) => {
+export const getDocumentDatastoreAvailability = (document) => {
   /* see this ticket for full explanation on these availability statuses
   https://trello.com/c/XeovXQrf/232-front-end-indicator-that-file-is-partially-in-ds-for-al-validation */
   const { report, solrize_end, alv_end, alv_start, alv_error } = document;
+  const fileStatus = getDocumentValidationStatus(document).value;
 
   if (solrize_end) {
     const formatedDate = formatDate(solrize_end);
@@ -145,3 +146,196 @@ const getDownloadErrorString = (document) => (document.download_error ? document
 
 const checkDocumentHasErrorVersions = (versions, errors) =>
   !!(errors && errors.find((error) => versions.includes(error.identifier))); // TODO: check with Nick if identifier == id
+
+const getCategoryLabel = (category) => {
+  const categories = {
+    schema: 'Schema',
+    information: 'Basic activity information',
+    financial: 'Financial',
+    identifiers: 'Identification',
+    organisation: 'Basic organisation information',
+    participating: 'Participating organisations',
+    geo: 'Geopolitical information',
+    classifications: 'Classifications',
+    documents: 'Related documents',
+    performance: 'Performance',
+    iati: 'IATI file',
+    relations: 'Relations',
+  };
+  return categories[category];
+};
+
+const getCategoryCount = (reportErrors, categoryID) => {
+  return reportErrors.reduce((count, activeOrgFile) => {
+    activeOrgFile.errors.forEach((errorCatGroup) => {
+      if (errorCatGroup.category === categoryID) {
+        count += errorCatGroup.errors.length;
+      }
+    });
+
+    return count;
+  }, 0);
+};
+
+export const getDocumentReportCategories = (report) => {
+  return report.errors.reduce((categories, file) => {
+    file.errors.forEach((error) => {
+      if (!categories.some((u) => u.id === error.category)) {
+        categories.push({
+          id: error.category,
+          name: getCategoryLabel(error.category),
+          count: getCategoryCount(report.errors, error.category),
+          show: true,
+        });
+      }
+    });
+
+    return categories;
+  }, []);
+};
+
+export const getSeverities = () => {
+  return [
+    {
+      id: 'critical',
+      slug: 'critical',
+      name: 'Critical',
+      description: 'Files with critical errors will not be processed by the datastore',
+      count: null,
+      order: 1,
+      show: true,
+      types: [],
+    },
+    {
+      id: 'error',
+      slug: 'error',
+      name: 'Errors',
+      description: 'Errors make it hard or impossible to use the data.',
+      count: null,
+      order: 2,
+      show: true,
+      types: [],
+    },
+    {
+      id: 'warning',
+      slug: 'warning',
+      name: 'Warnings',
+      description: 'Warnings indicate where the data can be more valuable.',
+      count: null,
+      order: 3,
+      show: true,
+      types: [],
+    },
+    {
+      id: 'improvement',
+      slug: 'info',
+      name: 'Improvements',
+      description: 'Improvements can make the data more useful.',
+      count: null,
+      order: 4,
+      show: true,
+      types: [],
+    },
+    {
+      id: 'notification',
+      slug: 'success',
+      name: 'Notifications',
+      description: 'Notifications are for your information.',
+      count: null,
+      order: 5,
+      show: true,
+      types: [],
+    },
+  ];
+};
+
+const getReportMessageTypeCount = (report, typeId) => {
+  let count = 0;
+
+  report.errors.forEach((file) => {
+    file.errors.forEach((errorCategory) => {
+      errorCategory.errors.forEach((error) => {
+        const { id } = error;
+        if (typeId === id) {
+          count += 1;
+        }
+      });
+    });
+  });
+
+  return count;
+};
+
+export const getDocumentReportSeverities = (report) => {
+  const severities = getSeverities();
+  // get error message types & add them to their respective severities
+  report.errors.reduce((types, file) => {
+    file.errors.forEach((errorCategory) => {
+      errorCategory.errors.forEach((error) => {
+        const { message, severity, id } = error;
+        if (!types.some((t) => t.id === id)) {
+          // find and add to matching severity
+          const sev = severities.find((s) => s.id === severity);
+          if (sev) {
+            const count = getReportMessageTypeCount(report, id); // number of messages of this type
+            sev.types.push({ id, text: message, show: true, count });
+          }
+          types.push({ id });
+        }
+      });
+    });
+
+    return types;
+  }, []);
+  // Sort type messages inside severity. Type with more messages on top
+  severities.forEach((severity) => severity.types.sort((a, b) => b.count - a.count));
+
+  // only return active severities i.e. those that have a type
+  return severities.filter((severity) => severity.types.length);
+};
+
+export const getReportErrorsByIdentifier = (report, identifier = 'file') => {
+  if (!report) return [];
+
+  if (identifier === 'file') {
+    return report.errors.reduce((errors, actOrgFile) => {
+      if (actOrgFile.identifier === 'file') {
+        return actOrgFile.errors;
+      }
+      return errors;
+    }, []);
+  }
+
+  // none file errors are activity errors
+  return report.errors.filter((actOrgFile) => actOrgFile.identifier !== 'file');
+};
+
+export const getFileErrorsMessageTypeCount = (errors, messageType) => {
+  return errors.reduce((count, catGroup) => {
+    catGroup.errors.forEach((err) => {
+      if (err.severity === messageType) {
+        count += err.context.length;
+      }
+    });
+
+    return count;
+  }, 0);
+};
+
+export const getFeedbackCategoryLabel = (category) => {
+  const categories = {
+    schema: 'Schema',
+    information: 'Basic activity information',
+    financial: 'Financial',
+    identifiers: 'Identification',
+    organisation: 'Basic organisation information',
+    participating: 'Participating organisations',
+    geo: 'Geopolitical information',
+    classifications: 'Classifications',
+    documents: 'Related documents',
+    performance: 'Performance',
+    iati: 'IATI file',
+    relations: 'Relations',
+  };
+  return categories[category];
+};

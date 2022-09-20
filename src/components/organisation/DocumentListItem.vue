@@ -20,13 +20,11 @@
     const status = validationStatus.value.value;
     return status !== 'normal' ? `text-${status} font-bold` : 'font-bold';
   });
-  const datastoreAvailability = computed(() =>
-    getDocumentDatastoreAvailability(props.document, validationStatus.value.value)
-  );
+  const datastoreAvailability = computed(() => getDocumentDatastoreAvailability(props.document));
 
   const onClick = () => {
     if (props.document.validation && props.document.hash) {
-      router.push(`view/dqf/files/${props.document.id}`); // TODO: change to more friendly URL
+      router.push(`/report/${props.document.id}`); // TODO: change to more friendly URL
     }
   };
 
