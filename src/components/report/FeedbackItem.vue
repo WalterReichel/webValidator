@@ -4,10 +4,11 @@
   import { GUIDANCE_LINK_URL } from '../../utils';
   import StyledLink from '../StyledLink.vue';
 
-  const props = defineProps({ item: { type: Object, default: null }, version: { type: String, default: '' } });
+  const props = defineProps({ item: { type: Object, default: null } });
   const guidanceLinks = inject('guidanceLinks');
+  const report = inject('report');
 
-  const version = computed(() => props.version.replace('.', ''));
+  const version = computed(() => report.value.iatiVersion.replace('.', ''));
   const isGuidanceAvailable = computed(
     () => guidanceLinks.value && guidanceLinks.value.version && props.item.id in guidanceLinks.value.content
   );
