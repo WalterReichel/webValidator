@@ -1,6 +1,6 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { ref, watchEffect } from 'vue';
+  import { provide, ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
   import { setPageTitle } from '../state';
   import {
@@ -35,6 +35,7 @@
     () => validationReportURL(route.params.id, 'id'),
     () => fetchValidationReport(route.params.id)
   );
+  provide('organisation', organisation);
 
   watchEffect(() => {
     if (documentError.value) {

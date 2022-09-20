@@ -54,7 +54,7 @@
   const fileErrorsTitle = ref('');
   const activityErrorsTitle = ref('');
 
-  provide('fileType', fileType.value);
+  provide('fileType', fileType);
 
   watchEffect(() => {
     if (props.report) {
