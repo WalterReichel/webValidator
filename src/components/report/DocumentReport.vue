@@ -63,21 +63,15 @@
   });
   const filteredReport = ref(props.report);
 
-  // watch and filter report by category
-  watch(categories, () => {
-    const report = cloneDeep(props.report);
-    report.errors.forEach((item) => {
-      item.errors = item.errors.filter((feedback) =>
-        categories.value.some((c) => c.show === true && c.id === feedback.category)
-      );
-    });
-    filteredReport.value = report;
-  });
-
-  // watch and filter report by severity
-  watch(severities, () => {
+  // watch and filter report by category and severity
+  watch([categories, severities], () => {
     const report = cloneDeep(props.report);
     report.errors.forEach((activity) => {
+      // filter report by category
+      activity.errors = activity.errors.filter((feedback) =>
+        categories.value.some((c) => c.show === true && c.id === feedback.category)
+      );
+      // filter report by severity
       activity.errors.forEach((item) => {
         item.errors = item.errors.filter(
           (feedback) =>
