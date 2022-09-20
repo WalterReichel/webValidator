@@ -1,7 +1,7 @@
 <script setup>
   import { cloneDeep } from 'lodash';
   import useSWRV from 'swrv';
-  import { computed, provide, ref, watch } from 'vue';
+  import { computed, provide, ref, watch, watchEffect } from 'vue';
   import {
     fetchGuidanceLinks,
     getDocumentReportCategories,
@@ -50,22 +50,36 @@
     return Object.keys(summary).some((item) => summary[item] > 0);
   });
   const filteredReport = ref(props.report);
-  const fileTypeProps = (report, propsFor = 'file') => {
-    // alternative option for propsFor is 'activity'
-    if (!report) return { title: '' };
-    switch (report.fileType) {
-      case 'iati-activities':
-        return { type: 'activity', title: propsFor === 'file' ? 'Activity file feedback' : 'Feedback per activity' };
-      case 'iati-organisations':
-        return {
-          type: 'organisation',
-          title: propsFor === 'file' ? 'Organisation file feedback' : 'Organisation feedback',
-        };
+  const fileType = ref(null);
+  const fileErrorsTitle = ref('');
+  const activityErrorsTitle = ref('');
 
-      default:
-        return { title: 'Not an IATI file' };
+  provide('fileType', fileType.value);
+
+  watchEffect(() => {
+    if (props.report) {
+      if (props.report.fileType === 'iati-activities') {
+        fileType.value = 'activity';
+        fileErrorsTitle.value = 'Activity file feedback';
+        activityErrorsTitle.value = 'Feedback per activity';
+      }
+      if (props.report.fileType === 'iati-organisations') {
+        fileType.value = 'organisation';
+        fileErrorsTitle.value = 'Organisation file feedback';
+        activityErrorsTitle.value = 'Organisation feedback';
+      }
+
+      if (!props.report.fileType === 'iati-activities' && !props.report.fileType === 'iati-organisations') {
+        fileType.value = null;
+        fileErrorsTitle.value = 'Not an IATI file';
+        activityErrorsTitle.value = '';
+      }
+    } else {
+      fileType.value = null;
+      fileErrorsTitle.value = 'Not an IATI file';
+      activityErrorsTitle.value = '';
     }
-  };
+  });
 
   // watch and filter report by category and severity
   watch([categories, severities], () => {
@@ -130,15 +144,15 @@
         <h3 class="text-xl font-bold">Feedback</h3>
         <FileErrors
           v-if="props.report"
-          :file-type="fileTypeProps(props.report).type"
-          :title="fileTypeProps(props.report).title"
+          :file-type="fileType"
+          :title="fileErrorsTitle"
           :report="filteredReport"
           :guidance-links="guidanceLinks"
         />
         <ActivityErrors
           v-if="filteredReport"
-          :title="fileTypeProps(props.report, 'activity').title"
-          :file-type="fileTypeProps(props.report, 'activity').type"
+          :title="activityErrorsTitle"
+          :file-type="fileType"
           :report="filteredReport"
         />
       </div>
