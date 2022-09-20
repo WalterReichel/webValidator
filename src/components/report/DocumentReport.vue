@@ -50,13 +50,17 @@
     return Object.keys(summary).some((item) => summary[item] > 0);
   });
   const filteredReport = ref(props.report);
-  const fileTypeProps = (report) => {
+  const fileTypeProps = (report, propsFor = 'file') => {
+    // alternative option for propsFor is 'activity'
     if (!report) return { title: '' };
     switch (report.fileType) {
       case 'iati-activities':
-        return { type: 'activity', title: 'Activity file feedback' };
+        return { type: 'activity', title: propsFor === 'file' ? 'Activity file feedback' : 'Feedback per activity' };
       case 'iati-organisations':
-        return { type: 'organisation', title: 'Organisation file feedback' };
+        return {
+          type: 'organisation',
+          title: propsFor === 'file' ? 'Organisation file feedback' : 'Organisation feedback',
+        };
 
       default:
         return { title: 'Not an IATI file' };
@@ -133,9 +137,9 @@
         />
         <ActivityErrors
           v-if="filteredReport"
-          :title="'Feedback per activity'"
+          :title="fileTypeProps(props.report, 'activity').title"
+          :file-type="fileTypeProps(props.report, 'activity').type"
           :report="filteredReport"
-          :file-type="fileTypeProps(props.report).type"
         />
       </div>
     </div>
