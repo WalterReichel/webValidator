@@ -29,7 +29,7 @@
 </script>
 <template>
   <div class="icheck-green" :class="props.size">
-    <input :id="props.id" v-model="checked" :type="props.type" :name="props.name" />
+    <input :id="props.id" v-model="checked" :checked="checked" :type="props.type" :name="props.name" />
     <label :for="props.id" :class="props.labelClass">{{ props.label }}</label>
   </div>
 </template>
