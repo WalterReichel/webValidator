@@ -8,6 +8,7 @@
     checked: { type: Boolean, default: false },
     labelClass: { type: String, default: '' },
     size: { type: String, default: '' },
+    type: { type: String, default: 'checkbox' },
   });
   const emit = defineEmits(['checked', 'unchecked']);
   const checked = ref(props.checked);
@@ -28,7 +29,7 @@
 </script>
 <template>
   <div class="icheck-green" :class="props.size">
-    <input :id="props.id" v-model="checked" type="checkbox" :name="props.name" />
+    <input :id="props.id" v-model="checked" :type="props.type" :name="props.name" />
     <label :for="props.id" :class="props.labelClass">{{ props.label }}</label>
   </div>
 </template>
