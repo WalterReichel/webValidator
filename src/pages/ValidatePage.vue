@@ -2,17 +2,13 @@
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { setPageTitle } from '../state';
   import CheckBox from '../components/CheckBox.vue';
-  import { ref, watch } from 'vue';
+  import { ref } from 'vue';
   import LocalFilesValidator from '../components/LocalFilesValidator.vue';
   import RemoteFIlesValidator from '../components/RemoteFIlesValidator.vue';
 
   setPageTitle('Check data');
 
   const fileSource = ref('upload');
-
-  watch(fileSource, () => {
-    console.log(fileSource.value);
-  });
 </script>
 
 <template>
