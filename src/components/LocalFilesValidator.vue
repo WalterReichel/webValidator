@@ -1,12 +1,13 @@
 <script setup>
   import CardiB from '../components/CardiB.vue';
   import LinkButton from '../components/LinkButton.vue';
+  import FileInputButton from './FileInputButton.vue';
 </script>
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px] text-left">
       <p class="text-center">Select your IATI files. You can select multiple files at the same time.</p>
-      <LinkButton to="/validate" class="text-tiny"> Browse </LinkButton>
+      <FileInputButton accept=".xml" :multiple="true" class="text-tiny">Browse</FileInputButton>
     </CardiB>
     <CardiB heading="Step 2" class="w-[300px] text-left">
       <p class="text-center">Upload your IATI files and start validation.</p>
