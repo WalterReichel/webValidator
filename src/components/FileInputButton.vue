@@ -1,16 +1,20 @@
 <script setup>
+  import { ref } from 'vue';
+  import StyledButton from './StyledButton.vue';
+
   const props = defineProps({
     disabled: { type: Boolean, default: false },
     accept: { type: String, default: '*' },
     multiple: { type: Boolean, default: false },
   });
+  const files = ref([]);
 
   const onChange = (event) => {
-    console.log(event.target.files);
+    files.value = event.target.files;
   };
 </script>
 <template>
-  <div class="mx-auto mt-auto inline-block">
+  <div v-if="!files.length" class="inline-block">
     <label class="bg-iati-green px-5 py-2 uppercase !text-white hover:bg-iati-blue" for="file-upload">
       <slot />
     </label>
@@ -23,5 +27,15 @@
       class="hidden"
       @change="onChange"
     />
+  </div>
+  <div v-else class="mt-2 inline-block w-full">
+    <p
+      v-for="file in files"
+      :key="file.name"
+      class="inline-block w-full overflow-hidden text-ellipsis whitespace-nowrap"
+    >
+      {{ file.name }}
+    </p>
+    <StyledButton class="mt-2" @click="files = []">Clear</StyledButton>
   </div>
 </template>
