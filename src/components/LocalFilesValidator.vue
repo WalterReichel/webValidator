@@ -1,7 +1,10 @@
 <script setup>
+  import { ref } from 'vue';
   import CardiB from '../components/CardiB.vue';
   import LinkButton from '../components/LinkButton.vue';
   import FileInputButton from './FileInputButton.vue';
+
+  const activeStep = ref(1);
 </script>
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
@@ -11,11 +14,11 @@
         Browse
       </FileInputButton>
     </CardiB>
-    <CardiB heading="Step 2" class="w-[300px]">
+    <CardiB heading="Step 2" class="w-[300px]" :class="{ 'pointer-events-none opacity-50': activeStep === 1 }">
       <p class="text-center">Upload your IATI files and start validation.</p>
       <LinkButton to="/validate" class="text-tiny"> Upload </LinkButton>
     </CardiB>
-    <CardiB heading="Step 3" class="w-[300px]">
+    <CardiB heading="Step 3" class="w-[300px]" :class="{ 'pointer-events-none opacity-50': activeStep !== 3 }">
       <p class="mb-4 text-center">
         Your files are being validated - click below to view their progress and, when complete, reports.
       </p>
