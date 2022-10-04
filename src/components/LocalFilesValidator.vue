@@ -5,12 +5,22 @@
   import FileInputButton from './FileInputButton.vue';
 
   const activeStep = ref(1);
+  const files = ref([]);
+  const onAddFiles = (_files) => {
+    files.value = _files;
+    activeStep.value = files.value.length ? 2 : 1;
+  };
 </script>
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px]">
       <p class="text-center">Select your IATI files. You can select multiple files at the same time.</p>
-      <FileInputButton accept=".xml" :multiple="true" class="mx-auto mt-auto text-center text-tiny">
+      <FileInputButton
+        accept=".xml"
+        :multiple="true"
+        class="mx-auto mt-auto text-center text-tiny"
+        @change="onAddFiles"
+      >
         Browse
       </FileInputButton>
     </CardiB>

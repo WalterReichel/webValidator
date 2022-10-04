@@ -1,5 +1,5 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import StyledButton from './StyledButton.vue';
 
   const props = defineProps({
@@ -7,11 +7,16 @@
     accept: { type: String, default: '*' },
     multiple: { type: Boolean, default: false },
   });
+  const emit = defineEmits(['change']);
   const files = ref([]);
 
   const onChange = (event) => {
     files.value = event.target.files;
   };
+
+  watch(files, () => {
+    emit('change', files.value);
+  });
 </script>
 <template>
   <div v-if="!files.length" class="inline-block">
