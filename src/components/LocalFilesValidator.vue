@@ -1,14 +1,55 @@
 <script setup>
-  import { ref } from 'vue';
+  import Cookies from 'js-cookie';
+  import { forkJoin } from 'rxjs';
+  import { computed, ref } from 'vue';
   import CardiB from '../components/CardiB.vue';
   import LinkButton from '../components/LinkButton.vue';
+  import { uploadFile } from '../utils';
+  import AppAlert from './AppAlert.vue';
   import FileInputButton from './FileInputButton.vue';
+  import LoadingSpinner from './LoadingSpinner.vue';
+  import StyledButton from './StyledButton.vue';
 
   const activeStep = ref(1);
   const files = ref([]);
+  const requestStatus = ref(''); // 'pending' | 'draft' | 'success' | 'error' = 'draft'
+  const tmpWorkspaceId = computed(() => {
+    if (Cookies.get('adhocsession')) {
+      return Cookies.get('adhocsession');
+    }
+
+    const workspaceID = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    Cookies.set('adhocsession', workspaceID);
+
+    return workspaceID;
+  });
+
   const onAddFiles = (_files) => {
     files.value = _files;
+    requestStatus.value = 'draft';
     activeStep.value = files.value.length ? 2 : 1;
+  };
+
+  const parallelUpload = (files) => forkJoin(files.map((file) => uploadFile(file, tmpWorkspaceId.value)));
+
+  const uploadFiles = () => {
+    // const _files = Array.prototype.slice.call(files.value); TODO: remove when sure it's not needed
+    const handleError = () => {
+      requestStatus.value = 'error';
+    };
+
+    if (files.value.length) {
+      requestStatus.value = 'pending';
+
+      parallelUpload(files).subscribe({
+        next: (response) => {
+          console.log(response); // TODO: remove when done debugging
+          activeStep.value = 3;
+          requestStatus.value = 'success';
+        },
+        error: handleError,
+      });
+    }
   };
 </script>
 <template>
@@ -30,7 +71,23 @@
       :class="{ 'pointer-events-none opacity-50': activeStep === 1, 'border-t-iati-blue': activeStep !== 2 }"
     >
       <p class="text-center">Upload your IATI files and start validation.</p>
-      <LinkButton to="/validate" class="text-tiny"> Upload </LinkButton>
+      <div v-if="requestStatus && requestStatus !== 'draft'" class="my-3 text-sm">
+        <AppAlert v-if="requestStatus === 'error'" variant="error">
+          File(s) uploading failed. Check your files and try again.
+        </AppAlert>
+        <AppAlert v-else-if="requestStatus === 'success'" variant="success">
+          File(s) have been uploaded successfully
+        </AppAlert>
+        <AppAlert v-else variant="default">
+          <div class="flex flex-col items-center">
+            <LoadingSpinner class="w-8" />
+          </div>
+          <div class="text-center">
+            Your files are uploading now. Large files could be uploading for more than few minutes.
+          </div>
+        </AppAlert>
+      </div>
+      <StyledButton class="text-tiny" :disabled="requestStatus !== 'draft'" @click="uploadFiles"> Upload </StyledButton>
     </CardiB>
     <CardiB
       heading="Step 3"
