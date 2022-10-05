@@ -10,6 +10,7 @@ const routes = [
   { path: '/', component: HomePage },
   { path: '/about', component: AboutPage },
   { path: '/validate', component: ValidatePage },
+  { path: '/validate/:tempWorkspaceID', component: ValidatePage },
   { path: '/organisations', component: OrganisationsPage },
   { path: '/organisation/:name', component: OrganisationPage },
   { path: '/report/:id', component: ReportPage },
