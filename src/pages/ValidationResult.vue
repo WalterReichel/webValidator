@@ -3,6 +3,7 @@
   import { useRoute } from 'vue-router';
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { setPageTitle } from '../state';
+  import FileStatusInfo from '../components/FileStatusInfo.vue';
 
   setPageTitle('Validation results');
   const route = useRoute();
@@ -15,5 +16,6 @@
 <template>
   <ContentContainer class="pb-8">
     <p class="mb-4">Your personal workspace is</p>
+    <FileStatusInfo />
   </ContentContainer>
 </template>
