@@ -11,7 +11,6 @@ export const uploadFile = async (file, tmpWorkspaceId) => {
   const uploadData = new FormData();
   uploadData.append('file', file, file.name);
 
-  // const req = await window.fetch('POST', url, uploadData, { headers: this.authHeader });
   const req = await window.fetch(url, { ...getDefaultServicesAPIOptions(), method: 'post', body: uploadData });
 
   return last(req.json());

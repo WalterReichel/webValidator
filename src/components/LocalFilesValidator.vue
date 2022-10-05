@@ -41,7 +41,7 @@
     if (files.value.length) {
       requestStatus.value = 'pending';
 
-      parallelUpload(files).subscribe({
+      parallelUpload(Array.from(files.value)).subscribe({
         next: (response) => {
           console.log(response); // TODO: remove when done debugging
           activeStep.value = 3;
