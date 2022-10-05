@@ -1,16 +1,59 @@
 <script setup>
-  import { ref } from 'vue';
+  import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
+  import { timer } from 'rxjs';
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { setPageTitle } from '../state';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
+  import { fetchTempWorkspace, fileStatus } from '../utils';
 
   setPageTitle('Validation results');
   const route = useRoute();
+  const workspaceID = route.params.tempWorkspaceID;
+  const workspaceData = ref([]);
+  const subscribeTimer = ref();
 
-  const tempWorkspaceID = ref(route.params.tempWorkspaceID);
+  onMounted(() => {
+    subscribeTimer.value = timer(100, 2500).subscribe(() => loadData());
+  });
 
-  console.log(tempWorkspaceID);
+  onBeforeUnmount(() => {
+    subscribeTimer?.value.unsubscribe();
+  });
+
+  watch(workspaceData, () => {
+    // check that workspace valition returned data
+    if (!workspaceData.value.length) {
+      return;
+    }
+    // check that all returned data has a report
+    for (const idd of workspaceData.value) {
+      if (idd.report === null) {
+        return;
+      }
+    }
+
+    console.log('unsubscribe');
+    subscribeTimer?.value.unsubscribe();
+  });
+
+  const loadData = () => {
+    fetchTempWorkspace(workspaceID)
+      .then((data) => {
+        console.log('testing', workspaceID);
+        // TODO: handle email
+        // if (!this.email.value && data.email) {
+        //   this.email.setValue(data.email);
+        //   this.emailMode = 'saved';
+        // }
+        for (const element of data) {
+          element.class = fileStatus(element);
+        }
+
+        workspaceData.value = data;
+      })
+      .catch((error) => window.console.error('Faild to load iati data', error));
+  };
 </script>
 
 <template>
