@@ -13,7 +13,7 @@
   const activeStep = ref(1);
   const files = ref([]);
   const requestStatus = ref(''); // 'pending' | 'draft' | 'success' | 'error' = 'draft'
-  const tmpWorkspaceId = computed(() => {
+  const tempWorkspaceID = computed(() => {
     if (Cookies.get('adhocsession')) {
       return Cookies.get('adhocsession');
     }
@@ -30,7 +30,7 @@
     activeStep.value = files.value.length ? 2 : 1;
   };
 
-  const parallelUpload = (files) => forkJoin(files.map((file) => uploadFile(file, tmpWorkspaceId.value)));
+  const parallelUpload = (files) => forkJoin(files.map((file) => uploadFile(file, tempWorkspaceID.value)));
 
   const uploadFiles = () => {
     // const _files = Array.prototype.slice.call(files.value); TODO: remove when sure it's not needed
@@ -97,7 +97,7 @@
       <p class="mb-4 text-center">
         Your files are being validated - click below to view their progress and, when complete, reports.
       </p>
-      <LinkButton to="/validate" class="text-tiny"> View Progress and Reports </LinkButton>
+      <LinkButton :to="`/validate/${tempWorkspaceID}`" class="text-tiny"> View Progress and Reports </LinkButton>
     </CardiB>
   </div>
 </template>
