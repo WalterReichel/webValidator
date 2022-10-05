@@ -6,6 +6,7 @@
   import { setPageTitle } from '../state';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
   import { fetchTempWorkspace, fileStatus } from '../utils';
+  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
 
   setPageTitle('Validation results');
   const route = useRoute();
@@ -60,5 +61,6 @@
   <ContentContainer class="pb-8">
     <p class="mb-4">Your personal workspace is</p>
     <FileStatusInfo />
+    <CaptionedLoadingSpinner v-if="!workspaceData.length">Loading</CaptionedLoadingSpinner>
   </ContentContainer>
 </template>
