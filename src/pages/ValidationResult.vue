@@ -5,7 +5,7 @@
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { setPageTitle } from '../state';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
-  import { fetchTempWorkspace, fileStatus } from '../utils';
+  import { fetchTempWorkspace, getFileStatusClass, formatDate, getFileValidationStatus } from '../utils';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
 
   setPageTitle('Validation results');
@@ -41,20 +41,24 @@
   const loadData = () => {
     fetchTempWorkspace(workspaceID)
       .then((data) => {
-        console.log('testing', workspaceID);
         // TODO: handle email
         // if (!this.email.value && data.email) {
         //   this.email.setValue(data.email);
         //   this.emailMode = 'saved';
         // }
         for (const element of data) {
-          element.class = fileStatus(element);
+          element.class = getFileStatusClass(element);
+          element.status = getFileValidationStatus(element);
         }
 
         workspaceData.value = data;
       })
-      .catch((error) => window.console.error('Faild to load iati data', error));
+      .catch((error) => window.console.error('Failed to load iati data', error));
   };
+
+  const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
+  const textClasses =
+    'overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal text-tiny';
 </script>
 
 <template>
@@ -62,5 +66,38 @@
     <p class="mb-4">Your personal workspace is</p>
     <FileStatusInfo />
     <CaptionedLoadingSpinner v-if="!workspaceData.length">Loading</CaptionedLoadingSpinner>
+
+    <div v-if="workspaceData.length" class="grid grid-cols-1 border border-solid border-gray-300">
+      <div class="sticky top-0 grid grid-cols-4 gap-0 bg-white">
+        <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
+        <div :class="headerClassNames">Uploaded</div>
+        <div :class="headerClassNames">Validated</div>
+        <div :class="headerClassNames">Validation Status</div>
+      </div>
+
+      <div
+        v-for="item in workspaceData"
+        :key="item.filename"
+        class="flex cursor-pointer flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 hover:bg-gray-200 sm:grid sm:grid-cols-4 sm:border-0"
+        @click="onClick"
+      >
+        <div class="py-2 pb-2 first:pl-3.5" :class="textClasses">
+          <p class="text-base font-bold sm:hidden">File Name</p>
+          <span>{{ item.filename }}</span>
+        </div>
+        <div class="pl-3.5 pt-0 pb-2 sm:py-2" :class="textClasses">
+          <p class="text-base font-bold sm:hidden">Uploaded</p>
+          <span>{{ formatDate(item.created) }}</span>
+        </div>
+        <div class="pt-0 pb-2 pl-3.5 sm:py-2" :class="textClasses">
+          <p class="text-base font-bold sm:hidden">Validated</p>
+          <span>{{ formatDate(item.validated) }}</span>
+        </div>
+        <div class="pt-0 pb-2 pl-3.5 sm:py-2" :class="textClasses">
+          <span class="pr-2 text-base font-bold sm:hidden">Validation Status:</span>
+          <span :class="item.class" class="text-base font-bold">{{ item.status }}</span>
+        </div>
+      </div>
+    </div>
   </ContentContainer>
 </template>

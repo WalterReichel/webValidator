@@ -30,28 +30,39 @@ export const fetchTempWorkspace = async (workspaceID) => {
   return null;
 };
 
-export const fileStatus = (dataset) => {
-  let error = -1;
-  let warning = -1;
-  let valid = null;
+const getValidationReportStatus = (dataset) => {
+  const { error, warning, critical } = dataset.report.summary;
 
-  if (dataset.report !== null) {
-    ({ valid } = dataset.report);
-    error = dataset.report.summary.error;
-    warning = dataset.report.summary.warning;
+  if (!dataset.valid || critical) return 'critical';
+  if (dataset.valid && error) return 'error';
+  if (dataset.valid && warning) return 'warning';
+
+  return 'success';
+};
+
+export const getFileStatusClass = (dataset) => {
+  if (dataset.report) {
+    const status = getValidationReportStatus(dataset);
+    return {
+      'text-error': status === 'error',
+      'text-critical': status === 'critical',
+      'text-warning': status === 'warning',
+      'text-success': status === 'success',
+    };
   }
 
-  if (dataset.report === null) {
-    return 'normal';
-  } else if (valid === true && error === 0 && warning === 0) {
-    return 'success dqf';
-  } else if (valid === true && error === 0) {
-    return 'warning dqf';
-  } else if (valid === true) {
-    return 'error dqf';
-  } else if (valid === false) {
-    return 'critical dqf';
-  } else {
-    return 'normal';
+  return { 'text-default': true };
+};
+
+export const getFileValidationStatus = (dataset) => {
+  if (dataset.report) {
+    const status = getValidationReportStatus(dataset);
+
+    return status
+      .split('')
+      .map((c, index) => (index === 0 ? c.toUpperCase() : c))
+      .join('');
   }
+
+  return null;
 };
