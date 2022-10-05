@@ -15,5 +15,5 @@ export const getDefaultServicesAPIOptions = () => {
 
 export * from './data-quality';
 export * from './documents';
-export * from './file-upload';
+export * from './validate';
 export * from './organisations';
