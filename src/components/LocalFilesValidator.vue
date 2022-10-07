@@ -87,7 +87,9 @@
           </div>
         </AppAlert>
       </div>
-      <StyledButton class="text-tiny" :disabled="requestStatus !== 'draft'" @click="uploadFiles"> Upload </StyledButton>
+      <StyledButton class="text-tiny uppercase" :disabled="requestStatus !== 'draft'" @click="uploadFiles">
+        Upload
+      </StyledButton>
     </CardiB>
     <CardiB
       heading="Step 3"

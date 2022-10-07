@@ -41,6 +41,6 @@
     >
       {{ file.name }}
     </p>
-    <StyledButton class="mt-2" @click="files = []">Clear</StyledButton>
+    <StyledButton class="mt-2 uppercase" @click="files = []">Clear</StyledButton>
   </div>
 </template>

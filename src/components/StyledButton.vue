@@ -11,7 +11,7 @@
 
 <template>
   <button
-    class="mx-auto mt-auto inline-block px-5 py-2 uppercase disabled:cursor-not-allowed disabled:opacity-75"
+    class="mx-auto mt-auto inline-block px-5 py-2 disabled:cursor-not-allowed disabled:opacity-75"
     :class="classes"
     @click="emit('click')"
   >
