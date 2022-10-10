@@ -2,17 +2,22 @@
   import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { useRoute } from 'vue-router';
   import { timer } from 'rxjs';
+  import copy from 'copy-to-clipboard';
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import { setPageTitle } from '../state';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
   import { fetchTempWorkspace, getFileStatusClass, formatDate, getFileValidationStatus } from '../utils';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import StyledButton from '../components/StyledButton.vue';
 
   setPageTitle('Validation results');
   const route = useRoute();
   const workspaceID = route.params.tempWorkspaceID;
+  const baseURL = window.location.origin;
   const workspaceData = ref([]);
   const subscribeTimer = ref();
+  const addressCopied = ref(false);
 
   onMounted(() => {
     subscribeTimer.value = timer(100, 2500).subscribe(() => loadData());
@@ -56,6 +61,11 @@
       .catch((error) => window.console.error('Failed to load iati data', error));
   };
 
+  const copyToClipboard = (text) => {
+    copy(text);
+    addressCopied.value = true;
+    setTimeout(() => (addressCopied.value = false), 3000);
+  };
   const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
   const textClasses =
     'overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal text-tiny';
@@ -63,7 +73,15 @@
 
 <template>
   <ContentContainer class="pb-8">
-    <p class="mb-4">Your personal workspace is</p>
+    <div class="mb-4 inline-flex">
+      <p class="mr-1">
+        Your personal workspace is
+        <StyledLink :to="route.path" class="mr-2">{{ `${baseURL}${route.fullPath}` }}</StyledLink>
+        <StyledButton :outline="true" @click="copyToClipboard(`${baseURL}${route.fullPath}`)">
+          {{ addressCopied ? 'Copied to clipboard' : 'Copy the address' }}
+        </StyledButton>
+      </p>
+    </div>
     <FileStatusInfo />
     <CaptionedLoadingSpinner v-if="!workspaceData.length">Loading</CaptionedLoadingSpinner>
 
