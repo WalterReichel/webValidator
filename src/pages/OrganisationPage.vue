@@ -15,7 +15,6 @@
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
   import DocumentList from '../components/organisation/DocumentList.vue';
-  import DocumentListItem from '../components/organisation/DocumentListItem.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
@@ -31,6 +30,7 @@
     () => (organisation && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
     () => fetchOrganisationDocuments(organisation.value.org_id)
   );
+  console.log(documents);
 
   watchEffect(() => {
     if (organisationError && organisationError.value) {
@@ -78,8 +78,8 @@
 
         <div class="-mx-3.5 -mb-3.5">
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else-if="!loading && documents && documents.length">
-            <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" />
+          <DocumentList v-else-if="!loading && documents && documents.length" :documents="documents">
+            <!-- <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" /> -->
           </DocumentList>
           <div v-else-if="documentsError || organisationError" class="m-3.5">
             <BasicAlert>
