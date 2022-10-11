@@ -41,7 +41,6 @@
       }
     }
 
-    console.log('unsubscribe');
     subscribeTimer?.value.unsubscribe();
   });
 
@@ -79,6 +78,12 @@
     router.push('/validate');
   };
 
+  const onClickRow = (dataset) => {
+    if (dataset.valid) {
+      router.push({ path: `/report/${dataset.guid}/`, query: { isTestfiles: true } });
+    }
+  };
+
   const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
   const textClasses =
     'overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal text-tiny';
@@ -110,7 +115,7 @@
         v-for="item in workspaceData"
         :key="item.filename"
         class="flex cursor-pointer flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 hover:bg-gray-200 sm:grid sm:grid-cols-4 sm:border-0"
-        @click="onClick"
+        @click="onClickRow(item)"
       >
         <div class="py-2 pb-2 first:pl-3.5" :class="textClasses">
           <p class="text-base font-bold sm:hidden">File Name</p>
