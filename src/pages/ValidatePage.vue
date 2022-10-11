@@ -1,6 +1,8 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import Cookies from 'js-cookie';
+  import { computed, onMounted, ref } from 'vue';
   import { useRoute } from 'vue-router';
+  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import CheckBox from '../components/CheckBox.vue';
   import IconChevron from '../components/IconChevron.vue';
   import ContentContainer from '../components/layout/ContentContainer.vue';
@@ -13,8 +15,14 @@
 
   const route = useRoute();
   const workspaceID = computed(() => route.query.tempWorkspaceID);
+  const fileSource = ref('');
 
-  const fileSource = ref('upload');
+  onMounted(() => {
+    if (workspaceID.value && (!Cookies.get('adhocsession') || Cookies.get('adhocsession') !== workspaceID.value)) {
+      Cookies.set('adhocsession', workspaceID.value);
+    }
+    fileSource.value = 'upload';
+  });
 </script>
 
 <template>
@@ -40,6 +48,7 @@
       name="fileSource"
       @checked="fileSource = 'remote'"
     />
+    <CaptionedLoadingSpinner v-if="!fileSource">Loading</CaptionedLoadingSpinner>
     <LocalFilesValidator v-if="fileSource === 'upload'" />
     <RemoteFIlesValidator v-if="fileSource === 'remote'" />
   </ContentContainer>
