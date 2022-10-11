@@ -343,7 +343,9 @@ export const getFeedbackCategoryLabel = (category) => {
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   const processedDocuments = [];
   if (documents.length) {
+    console.log(documents);
     for (let i = 0; i < documents.length; i++) {
+      console.log(documents[i].modified || documents[i].first_seen, i);
       processedDocuments.push(documents[i]);
     }
     if (sortKey === 'fileName') {
@@ -351,6 +353,17 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
         if (a['name'] > b['name']) {
           return sortDirection === 'ascending' ? 1 : -1;
         } else if (a['name'] < b['name']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+      return processedDocuments;
+    }
+    if (sortKey === 'registryIdentity') {
+      processedDocuments.sort(function (a, b) {
+        if ((a['modified'] || a['first_seen']) > (b['modified'] || b['first_seen'])) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if ((a['modified'] || a['first_seen']) < (b['modified'] || b['first_seen'])) {
           return sortDirection === 'ascending' ? -1 : 1;
         }
         return 0;
