@@ -92,7 +92,41 @@
           </svg>
         </span>
       </div>
-      <div :class="headerClassNames" @click="onSortKeyChange('validationDate')">Validated</div>
+      <div :class="headerClassNames">
+        Validated
+        <span>
+          <svg
+            class="h-6 w-6 text-gray-500"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            @click="onSortKeyChange('validationDate', 'ascending')"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M18 15l-6-6l-6 6h12" />
+          </svg>
+          <svg
+            class="h-6 w-6 text-gray-500"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            stroke-width="2"
+            stroke="currentColor"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            @click="onSortKeyChange('validationDate', 'descending')"
+          >
+            <path stroke="none" d="M0 0h24v24H0z" />
+            <path d="M18 15l-6-6l-6 6h12" transform="rotate(180 12 12)" />
+          </svg>
+        </span>
+      </div>
       <div :class="headerClassNames" @click="onSortKeyChange('validationStatus')">Validation Status</div>
       <div :class="headerClassNames" @click="onSortKeyChange('availabilityInDatastore')">
         Available in IATI Datastore

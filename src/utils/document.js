@@ -370,6 +370,17 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       });
       return processedDocuments;
     }
+    if (sortKey === 'validationDate') {
+      processedDocuments.sort(function (a, b) {
+        if (a['validation_created'] > b['validation_created']) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if (a['validation_created'] < b['validation_created']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+      return processedDocuments;
+    }
   }
   return documents;
 };
