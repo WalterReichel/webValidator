@@ -23,6 +23,7 @@
   setPageTitle('File validation report');
   const route = useRoute();
   const loading = ref(true);
+  const isTestFile = route.query.isTestFile;
 
   const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.id), () =>
     fetchDocumentByID(route.params.id)
@@ -33,7 +34,7 @@
   );
   const { data: dataset, error: datasetError } = useSWRV(
     () => validationReportURL(route.params.id, 'id'),
-    () => fetchValidationReport(route.params.id)
+    () => fetchValidationReport(route.params.id, isTestFile)
   );
   provide('organisation', organisation);
 

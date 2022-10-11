@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, inject, watchEffect } from 'vue';
+  import { computed, inject } from 'vue';
   import { getFileErrorsMessageTypeCount, getReportErrorsByIdentifier } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppAlert from '../AppAlert.vue';
@@ -16,10 +16,6 @@
   const messageTypes = ['critical', 'error', 'warning', 'info', 'success']
     .map((messageType) => ({ type: messageType, count: getFileErrorsMessageTypeCount(messages.value, messageType) }))
     .filter((messageType) => messageType.count > 0);
-
-  watchEffect(() => {
-    console.log(report.value);
-  });
 </script>
 
 <template>

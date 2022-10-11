@@ -80,7 +80,7 @@
 
   const onClickRow = (dataset) => {
     if (dataset.valid) {
-      router.push({ path: `/report/${dataset.guid}/`, query: { isTestfiles: true } });
+      router.push({ path: `/report/${dataset.guid}/`, query: { isTestFile: true } });
     }
   };
 
