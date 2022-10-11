@@ -340,7 +340,7 @@ export const getFeedbackCategoryLabel = (category) => {
   return categories[category];
 };
 
-export const processedTableDocumentFields = (documents, sortKey, ascending) => {
+export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   const processedDocuments = [];
   if (documents.length) {
     for (let i = 0; i < documents.length; i++) {
@@ -349,9 +349,9 @@ export const processedTableDocumentFields = (documents, sortKey, ascending) => {
     if (sortKey === 'fileName') {
       processedDocuments.sort(function (a, b) {
         if (a['name'] > b['name']) {
-          return ascending ? 1 : -1;
+          return sortDirection === 'ascending' ? 1 : -1;
         } else if (a['name'] < b['name']) {
-          return ascending ? -1 : 1;
+          return sortDirection === 'ascending' ? -1 : 1;
         }
         return 0;
       });
