@@ -1,18 +1,26 @@
 <script setup>
-  import ContentContainer from '../components/layout/ContentContainer.vue';
-  import { setPageTitle } from '../state';
+  import { computed, ref } from 'vue';
+  import { useRoute } from 'vue-router';
   import CheckBox from '../components/CheckBox.vue';
-  import { ref } from 'vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
   import LocalFilesValidator from '../components/LocalFilesValidator.vue';
   import RemoteFIlesValidator from '../components/RemoteFIlesValidator.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import { setPageTitle } from '../state';
 
   setPageTitle('Check data');
+
+  const route = useRoute();
+  const workspaceID = computed(() => route.query.tempWorkspaceID);
 
   const fileSource = ref('upload');
 </script>
 
 <template>
   <ContentContainer class="pb-8">
+    <div v-if="workspaceID" class="mb-6 inline-flex">
+      <StyledLink :to="`/validate/${workspaceID}`" class="mr-2">&lt;&lt; Return to your workspace </StyledLink>
+    </div>
     <p class="mb-4">Upload your IATI file and receive validation feedback.</p>
     <CheckBox
       id="upload"
