@@ -339,3 +339,24 @@ export const getFeedbackCategoryLabel = (category) => {
   };
   return categories[category];
 };
+
+export const processedTableDocumentFields = (documents, sortKey, ascending) => {
+  const processedDocuments = [];
+  if (documents.length) {
+    for (let i = 0; i < documents.length; i++) {
+      processedDocuments.push(documents[i]);
+    }
+    if (sortKey === 'fileName') {
+      processedDocuments.sort(function (a, b) {
+        if (a['name'] > b['name']) {
+          return ascending ? 1 : -1;
+        } else if (a['name'] < b['name']) {
+          return ascending ? -1 : 1;
+        }
+        return 0;
+      });
+      return processedDocuments;
+    }
+  }
+  return documents;
+};

@@ -30,7 +30,6 @@
     () => (organisation && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
     () => fetchOrganisationDocuments(organisation.value.org_id)
   );
-  console.log(documents);
 
   watchEffect(() => {
     if (organisationError && organisationError.value) {
