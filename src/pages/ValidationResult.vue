@@ -1,6 +1,6 @@
 <script setup>
   import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import { timer } from 'rxjs';
   import copy from 'copy-to-clipboard';
   import ContentContainer from '../components/layout/ContentContainer.vue';
@@ -13,6 +13,7 @@
 
   setPageTitle('Validation results');
   const route = useRoute();
+  const router = useRouter();
   const workspaceID = route.params.tempWorkspaceID;
   const baseURL = window.location.origin;
   const workspaceData = ref([]);
@@ -66,6 +67,11 @@
     addressCopied.value = true;
     setTimeout(() => (addressCopied.value = false), 3000);
   };
+
+  const onAddMoreFiles = () => {
+    router.push({ path: '/validate/', query: { tempWorkspaceID: workspaceID } });
+  };
+
   const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
   const textClasses =
     'overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal text-tiny';
@@ -77,7 +83,7 @@
       <p class="mr-1">
         Your personal workspace is
         <StyledLink :to="route.path" class="mr-2">{{ `${baseURL}${route.fullPath}` }}</StyledLink>
-        <StyledButton :outline="true" @click="copyToClipboard(`${baseURL}${route.fullPath}`)">
+        <StyledButton class="text-sm" :outline="true" @click="copyToClipboard(`${baseURL}${route.fullPath}`)">
           {{ addressCopied ? 'Copied to clipboard' : 'Copy the address' }}
         </StyledButton>
       </p>
@@ -116,6 +122,11 @@
           <span :class="item.class" class="text-base font-bold">{{ item.status }}</span>
         </div>
       </div>
+    </div>
+
+    <div v-if="workspaceData.length" class="mt-4">
+      <StyledButton class="mr-3 text-sm uppercase" @click="onAddMoreFiles">Add more files</StyledButton>
+      <StyledButton class="hidden bg-iati-accent text-sm uppercase">Clear Workspace</StyledButton>
     </div>
   </ContentContainer>
 </template>
