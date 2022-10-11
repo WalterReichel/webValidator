@@ -1,15 +1,16 @@
 <script setup>
+  import copy from 'copy-to-clipboard';
+  import Cookies from 'js-cookie';
+  import { timer } from 'rxjs';
   import { onBeforeUnmount, onMounted, ref, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
-  import { timer } from 'rxjs';
-  import copy from 'copy-to-clipboard';
-  import ContentContainer from '../components/layout/ContentContainer.vue';
-  import { setPageTitle } from '../state';
-  import FileStatusInfo from '../components/FileStatusInfo.vue';
-  import { fetchTempWorkspace, getFileStatusClass, formatDate, getFileValidationStatus } from '../utils';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
-  import StyledLink from '../components/StyledLink.vue';
+  import FileStatusInfo from '../components/FileStatusInfo.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
   import StyledButton from '../components/StyledButton.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import { setPageTitle } from '../state';
+  import { fetchTempWorkspace, formatDate, getFileStatusClass, getFileValidationStatus } from '../utils';
 
   setPageTitle('Validation results');
   const route = useRoute();
@@ -72,6 +73,17 @@
     router.push({ path: '/validate/', query: { tempWorkspaceID: workspaceID } });
   };
 
+  const onClearWorkspace = () => {
+    if (
+      !window.confirm('Are you sure you want to clear all files from your workspace and return to the upload page?')
+    ) {
+      return;
+    }
+
+    Cookies.remove('adhocsession');
+    router.push('/validate');
+  };
+
   const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
   const textClasses =
     'overflow-hidden text-ellipsis whitespace-nowrap hover:overflow-visible hover:whitespace-normal text-tiny';
@@ -126,7 +138,7 @@
 
     <div v-if="workspaceData.length" class="mt-4">
       <StyledButton class="mr-3 text-sm uppercase" @click="onAddMoreFiles">Add more files</StyledButton>
-      <StyledButton class="hidden bg-iati-accent text-sm uppercase">Clear Workspace</StyledButton>
+      <StyledButton class="bg-iati-accent text-sm uppercase" @click="onClearWorkspace">Clear Workspace</StyledButton>
     </div>
   </ContentContainer>
 </template>
