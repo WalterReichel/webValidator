@@ -48,11 +48,6 @@
   const loadData = () => {
     fetchTempWorkspace(workspaceID)
       .then((data) => {
-        // TODO: handle email
-        // if (!this.email.value && data.email) {
-        //   this.email.setValue(data.email);
-        //   this.emailMode = 'saved';
-        // }
         for (const element of data) {
           element.class = getFileStatusClass(element);
           element.status = getFileValidationStatus(element);
