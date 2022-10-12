@@ -23,7 +23,6 @@
   const parallelUpload = (files) => forkJoin(files.map((file) => uploadFile(file, props.workspaceID)));
 
   const uploadFiles = () => {
-    // const _files = Array.prototype.slice.call(files.value); TODO: remove when sure it's not needed
     const handleError = () => {
       requestStatus.value = 'error';
     };
@@ -85,7 +84,7 @@
       class="w-[300px]"
       :class="{ 'pointer-events-none opacity-50': activeStep !== 3, 'border-t-iati-blue': activeStep !== 3 }"
     >
-      <p class="mb-4 mb-4 text-center">
+      <p class="mb-4 text-center">
         Your files are being validated - click below to view their progress and, when complete, reports.
       </p>
       <LinkButton :to="`/validate/${props.workspaceID}`" class="text-tiny"> View Progress and Reports </LinkButton>
