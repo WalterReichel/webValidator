@@ -8,6 +8,7 @@
     fetchOrganisationDocuments,
     getOrganisationURL,
     getOrganisationDocumentsURL,
+    sortOptions,
   } from '../utils';
   import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
@@ -23,16 +24,7 @@
   const state = reactive({
     selected: null,
   });
-  const sortOptions = [
-    { label: 'File Name:alphabetical order', direction: 'ascending' },
-    { label: 'File name:reverse alphabetical order', direction: 'descending' },
-    { label: 'Identified in Registry:latest-old', direction: 'descending' },
-    { label: 'Identified in Registry:old-latest', direction: 'descending' },
-    { label: 'Validated:latest-old', direction: 'descending' },
-    { label: 'Validated:old-latest', direction: 'ascending' },
-    { label: 'Validation Status:success-error', direction: 'ascending' },
-    { label: 'Validation Status:error-success', direction: 'descending' },
-  ];
+
   const layout = setPageTitle('Loading...');
   const route = useRoute();
   const loading = ref(true);
@@ -95,9 +87,13 @@
             :options="sortOptions.map((option) => option.label)"
             placeholder="Sort by"
           ></VueMultiselect>
-          <p>{{ state.selected }}</p>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else-if="!loading && documents && documents.length" :documents="documents"> </DocumentList>
+          <DocumentList
+            v-else-if="!loading && documents && documents.length"
+            :documents="documents"
+            :sortvariable="state.selected"
+          >
+          </DocumentList>
           <div v-else-if="documentsError || organisationError" class="m-3.5">
             <BasicAlert>
               Couldn't fetch the documents. Please try again later. If the problem persists, email support at

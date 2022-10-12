@@ -1,6 +1,6 @@
 <script setup>
   import { reactive } from 'vue';
-  import { processedTableDocumentFields } from '../../utils';
+  import { getSortDirection, getSortValue, processedTableDocumentFields, sortOptions } from '../../utils';
   import DocumentListItem from './DocumentListItem.vue';
 
   const state = reactive({
@@ -13,9 +13,17 @@
   }
 
   const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
-  const props = defineProps({ documents: { type: Object, default: () => {} } });
+  const props = defineProps({
+    documents: { type: Object, default: () => {} },
+    sortvariable: { type: String, default: '' },
+  });
   const documentSort = () => {
-    return processedTableDocumentFields(props.documents, state.sortKey, state.sortDirection);
+    console.log('running');
+    return processedTableDocumentFields(
+      props.documents,
+      getSortValue(props.sortvariable, sortOptions),
+      getSortDirection(props.sortvariable, sortOptions)
+    );
   };
 </script>
 
