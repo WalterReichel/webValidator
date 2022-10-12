@@ -14,7 +14,18 @@
   setPageTitle('Check data');
 
   const route = useRoute();
-  const workspaceID = computed(() => route.query.tempWorkspaceID);
+  const workspaceID = computed(() => {
+    if (route.query.tempWorkspaceID) return route.query.tempWorkspaceID;
+
+    if (Cookies.get('adhocsession')) {
+      return Cookies.get('adhocsession');
+    }
+
+    const tempWorkspaceID = Date.now().toString(36) + Math.random().toString(36).substr(2);
+    Cookies.set('adhocsession', tempWorkspaceID);
+
+    return tempWorkspaceID;
+  });
   const fileSource = ref('');
 
   onMounted(() => {
@@ -49,7 +60,7 @@
       @checked="fileSource = 'remote'"
     />
     <CaptionedLoadingSpinner v-if="!fileSource">Loading</CaptionedLoadingSpinner>
-    <LocalFilesValidator v-if="fileSource === 'upload'" />
-    <RemoteFIlesValidator v-if="fileSource === 'remote'" />
+    <LocalFilesValidator v-if="fileSource === 'upload'" :workspace-i-d="workspaceID" />
+    <RemoteFIlesValidator v-if="fileSource === 'remote'" :workspace-i-d="workspaceID" />
   </ContentContainer>
 </template>
