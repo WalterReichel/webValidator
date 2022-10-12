@@ -38,7 +38,7 @@
 
 <template>
   <ContentContainer class="pb-8">
-    <div v-if="workspaceID" class="mb-6 inline-flex">
+    <div v-if="route.query.tempWorkspaceID && workspaceID" class="mb-6 inline-flex">
       <StyledLink :to="`/validate/${workspaceID}`" class="mr-2 inline-flex">
         <IconChevron class="mr-2" /> Return to your workspace
       </StyledLink>
