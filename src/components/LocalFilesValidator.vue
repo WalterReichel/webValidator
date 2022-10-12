@@ -44,7 +44,7 @@
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px]" :class="{ 'border-t-iati-blue': activeStep !== 1 }">
-      <p class="text-center">Select your IATI files. You can select multiple files at the same time.</p>
+      <p class="mb-4 text-center">Select your IATI files. You can select multiple files at the same time.</p>
       <FileInputButton
         accept=".xml"
         :multiple="true"
@@ -59,8 +59,8 @@
       class="w-[300px]"
       :class="{ 'pointer-events-none opacity-50': activeStep === 1, 'border-t-iati-blue': activeStep !== 2 }"
     >
-      <p class="text-center">Upload your IATI files and start validation.</p>
-      <div v-if="requestStatus && requestStatus !== 'draft'" class="my-3 text-sm">
+      <p class="mb-4 text-center">Upload your IATI files and start validation.</p>
+      <div v-if="requestStatus && requestStatus !== 'draft'" class="mb-3 text-sm">
         <AppAlert v-if="requestStatus === 'error'" variant="error">
           File(s) uploading failed. Check your files and try again.
         </AppAlert>
@@ -85,7 +85,7 @@
       class="w-[300px]"
       :class="{ 'pointer-events-none opacity-50': activeStep !== 3, 'border-t-iati-blue': activeStep !== 3 }"
     >
-      <p class="mb-4 text-center">
+      <p class="mb-4 mb-4 text-center">
         Your files are being validated - click below to view their progress and, when complete, reports.
       </p>
       <LinkButton :to="`/validate/${props.workspaceID}`" class="text-tiny"> View Progress and Reports </LinkButton>

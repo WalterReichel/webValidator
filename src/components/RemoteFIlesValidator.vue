@@ -69,7 +69,7 @@
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px]" :class="{ 'border-t-iati-blue': activeStep !== 1 }">
-      <p class="text-center">
+      <p class="mb-4 text-center">
         Add a web address (URL) of your IATI XML file. You can add multiple files by seperating them with |
       </p>
       <input
@@ -87,8 +87,8 @@
       class="w-[300px]"
       :class="{ 'pointer-events-none opacity-50': activeStep === 1, 'border-t-iati-blue': activeStep !== 2 }"
     >
-      <p class="text-center">Fetch the files from the web.</p>
-      <div v-if="requestStatus && requestStatus !== 'draft'" class="my-3 text-sm">
+      <p class="mb-4 text-center">Fetch the files from the web.</p>
+      <div v-if="requestStatus && requestStatus !== 'draft'" class="mb-3 text-sm">
         <AppAlert v-if="requestStatus === 'error'" variant="error">
           File(s) uploading failed. Check your files and try again.
         </AppAlert>
