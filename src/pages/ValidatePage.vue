@@ -49,7 +49,7 @@
       label="I have a file(s) to upload"
       name="fileSource"
       type="radio"
-      :checked="true"
+      :checked="fileSource === 'upload'"
       @checked="fileSource = 'upload'"
     />
     <CheckBox
@@ -57,6 +57,7 @@
       type="radio"
       label="I have a URL to a remote file(s)"
       name="fileSource"
+      :checked="fileSource === 'remote'"
       @checked="fileSource = 'remote'"
     />
     <CaptionedLoadingSpinner v-if="!fileSource">Loading</CaptionedLoadingSpinner>
