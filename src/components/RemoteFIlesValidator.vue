@@ -1,7 +1,9 @@
 <script setup>
+  import { forkJoin } from 'rxjs';
   import { ref, watch } from 'vue';
   import CardiB from '../components/CardiB.vue';
   import LinkButton from '../components/LinkButton.vue';
+  import { fetchFileFromURL } from '../utils';
   import AppAlert from './AppAlert.vue';
   import LoadingSpinner from './LoadingSpinner.vue';
   import StyledButton from './StyledButton.vue';
@@ -9,6 +11,7 @@
   const props = defineProps({ workspaceID: { type: String, default: '' } });
   const activeStep = ref(1);
   const requestStatus = ref(''); // 'pending' | 'draft' | 'success' | 'error' = 'draft'
+  const requestErrorMessage = ref('');
   const urls = ref('');
   const incorrectURLs = ref([]);
 
@@ -26,19 +29,48 @@
     }
   });
 
-  const uploadFiles = () => {
-    // const _files = Array.prototype.slice.call(files.value); TODO: remove when sure it's not needed
-    // const handleError = () => {
-    //   requestStatus.value = 'error';
-    // };
-    // TODO: fetch and upload files
+  const validateURL = (value) =>
+    /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(
+      value
+    );
+
+  const parallelUpload = (fileUrls) => forkJoin(fileUrls.map((url) => fetchFileFromURL(url, props.workspaceID)));
+
+  const fetchFiles = () => {
+    const serializedURLs = urls.value.split('|').map((url) => url.trim());
+    const correctURLs = [];
+    serializedURLs.forEach((u) => {
+      if (validateURL(u)) {
+        correctURLs.push(u);
+      } else {
+        incorrectURLs.value.push(u);
+      }
+    });
+    if (correctURLs.length && !incorrectURLs.value.length) {
+      const handleError = (error) => {
+        console.log('Error: ', error);
+        requestStatus.value = 'error';
+        if (error.status === 422) {
+          requestErrorMessage.value = error.error.message;
+        }
+      };
+
+      requestStatus.value = 'pending';
+      parallelUpload(correctURLs).subscribe({
+        next: () => {
+          activeStep.value = 3;
+          requestStatus.value = 'success';
+        },
+        error: handleError,
+      });
+    }
   };
 </script>
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px]" :class="{ 'border-t-iati-blue': activeStep !== 1 }">
       <p class="text-center">
-        Add a web address (URL) of your IATI XMLfile. You can add multiple files by seperating them with |
+        Add a web address (URL) of your IATI XML file. You can add multiple files by seperating them with |
       </p>
       <input
         v-model="urls"
@@ -72,7 +104,7 @@
           </div>
         </AppAlert>
       </div>
-      <StyledButton class="text-tiny uppercase" :disabled="requestStatus !== 'draft'" @click="uploadFiles">
+      <StyledButton class="text-tiny uppercase" :disabled="requestStatus !== 'draft'" @click="fetchFiles">
         Fetch
       </StyledButton>
     </CardiB>

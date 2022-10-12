@@ -32,8 +32,7 @@
       requestStatus.value = 'pending';
 
       parallelUpload(Array.from(files.value)).subscribe({
-        next: (response) => {
-          console.log(response); // TODO: remove when done debugging
+        next: () => {
           activeStep.value = 3;
           requestStatus.value = 'success';
         },

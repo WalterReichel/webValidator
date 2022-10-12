@@ -16,6 +16,20 @@ export const uploadFile = async (file, tmpWorkspaceId) => {
   return last(req.json());
 };
 
+export const fetchFileFromURL = async (fileUrl, workspaceID) => {
+  if (!fileUrl) return null;
+
+  const url = `${SERVICES_URL}/pvt/adhoc/url?sessionId=${workspaceID}&url=${fileUrl}&guid=${uuidv4()}`;
+
+  const req = await window.fetch(url, {
+    ...getDefaultServicesAPIOptions(),
+    method: 'post',
+    body: JSON.stringify({ url: fileUrl }),
+  });
+
+  return req.status === 200 ? 'success' : req.statusText;
+};
+
 export const getTempWorkspaceURL = (workspaceID) => `${SERVICES_URL}/pvt/adhoc/session/?sessionId=${workspaceID}`;
 export const fetchTempWorkspace = async (workspaceID) => {
   const url = getTempWorkspaceURL(workspaceID);
