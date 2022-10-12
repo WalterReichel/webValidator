@@ -1,7 +1,8 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { ref, watchEffect } from 'vue';
+  import { ref, watchEffect, reactive } from 'vue';
   import { useRoute } from 'vue-router';
+  import VueMultiselect from 'vue-multiselect';
   import {
     fetchOrganisationByName,
     fetchOrganisationDocuments,
@@ -19,6 +20,19 @@
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
 
+  const state = reactive({
+    selected: null,
+  });
+  const sortOptions = [
+    { label: 'File Name:alphabetical order', direction: 'ascending' },
+    { label: 'File name:reverse alphabetical order', direction: 'descending' },
+    { label: 'Identified in Registry:latest-old', direction: 'descending' },
+    { label: 'Identified in Registry:old-latest', direction: 'descending' },
+    { label: 'Validated:latest-old', direction: 'descending' },
+    { label: 'Validated:old-latest', direction: 'ascending' },
+    { label: 'Validation Status:success-error', direction: 'ascending' },
+    { label: 'Validation Status:error-success', direction: 'descending' },
+  ];
   const layout = setPageTitle('Loading...');
   const route = useRoute();
   const loading = ref(true);
@@ -76,10 +90,14 @@
         <FileStatusInfo />
 
         <div class="-mx-3.5 -mb-3.5">
+          <VueMultiselect
+            v-model="state.selected"
+            :options="sortOptions.map((option) => option.label)"
+            placeholder="Sort by"
+          ></VueMultiselect>
+          <p>{{ state.selected }}</p>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else-if="!loading && documents && documents.length" :documents="documents">
-            <!-- <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" /> -->
-          </DocumentList>
+          <DocumentList v-else-if="!loading && documents && documents.length" :documents="documents"> </DocumentList>
           <div v-else-if="documentsError || organisationError" class="m-3.5">
             <BasicAlert>
               Couldn't fetch the documents. Please try again later. If the problem persists, email support at
@@ -91,3 +109,4 @@
     </div>
   </ContentContainer>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
