@@ -7,13 +7,6 @@
     documents: { type: Object, default: () => {} },
     sortvariable: { type: String, default: '' },
   });
-  const documentSort = () => {
-    return processedTableDocumentFields(
-      props.documents,
-      getSortValue(props.sortvariable, sortOptions),
-      getSortDirection(props.sortvariable, sortOptions)
-    );
-  };
 </script>
 
 <template>
@@ -25,6 +18,14 @@
       <div :class="headerClassNames">Validation Status</div>
       <div :class="headerClassNames">Available in IATI Datastore</div>
     </div>
-    <DocumentListItem v-for="document in documentSort()" :key="document.hash" :document="document" />
+    <DocumentListItem
+      v-for="document in processedTableDocumentFields(
+        props.documents,
+        getSortValue(props.sortvariable, sortOptions),
+        getSortDirection(props.sortvariable, sortOptions)
+      )"
+      :key="document.hash"
+      :document="document"
+    />
   </div>
 </template>
