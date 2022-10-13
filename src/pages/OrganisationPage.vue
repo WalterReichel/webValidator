@@ -90,6 +90,7 @@
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
+            :key="Math.random()"
             :documents="documents"
             :sortvariable="state.selected"
           >

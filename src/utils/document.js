@@ -343,11 +343,11 @@ export const getFeedbackCategoryLabel = (category) => {
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   const processedDocuments = [];
   if (documents.length) {
-    console.log(documents);
     for (let i = 0; i < documents.length; i++) {
-      console.log(documents[i].modified || documents[i].first_seen, i);
       processedDocuments.push(documents[i]);
     }
+  }
+  if (processedDocuments.length) {
     if (sortKey === 'fileName') {
       processedDocuments.sort(function (a, b) {
         if (a['name'] > b['name']) {
@@ -371,7 +371,17 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return processedDocuments;
     }
     if (sortKey === 'validationDate') {
-      processedDocuments.sort(function (a, b) {
+      const nonValidatedDocs = processedDocuments.filter((doc) => !doc['validation_created']);
+      const validationDateSortingList = processedDocuments.filter((doc) => {
+        if (nonValidatedDocs.length) {
+          if (!nonValidatedDocs.find((document) => doc.hash === document.hash)) {
+            return doc;
+          }
+        } else {
+          return doc;
+        }
+      });
+      validationDateSortingList.sort(function (a, b) {
         if (a['validation_created'] > b['validation_created']) {
           return sortDirection === 'ascending' ? 1 : -1;
         } else if (a['validation_created'] < b['validation_created']) {
@@ -379,7 +389,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
         }
         return 0;
       });
-      return processedDocuments;
+      return validationDateSortingList.concat(nonValidatedDocs);
     }
   }
   return documents;
