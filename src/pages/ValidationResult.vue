@@ -79,7 +79,7 @@
   };
 
   const onClickRow = (dataset) => {
-    if (dataset.valid) {
+    if (dataset.valid !== null) {
       router.push({ path: `/report/${dataset.guid}/`, query: { isTestFile: true } });
     }
   };
