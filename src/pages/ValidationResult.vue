@@ -7,6 +7,7 @@
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
   import ContentContainer from '../components/layout/ContentContainer.vue';
+  import LoadingSpinner from '../components/LoadingSpinner.vue';
   import StyledButton from '../components/StyledButton.vue';
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
@@ -20,6 +21,7 @@
   const workspaceData = ref([]);
   const subscribeTimer = ref();
   const addressCopied = ref(false);
+  const loading = ref(true);
 
   onMounted(() => {
     subscribeTimer.value = timer(100, 2500).subscribe(() => loadData());
@@ -40,7 +42,7 @@
         return;
       }
     }
-
+    loading.value = false;
     subscribeTimer?.value.unsubscribe();
   });
 
@@ -123,15 +125,21 @@
         </div>
         <div class="pl-3.5 pt-0 pb-2 sm:py-2" :class="textClasses">
           <p class="text-base font-bold sm:hidden">Uploaded</p>
-          <span>{{ formatDate(item.created) }}</span>
+          <span>{{ formatDate(item.created) }}<LoadingSpinner v-if="loading && !item.created" class="h-6 w-6" /></span>
         </div>
         <div class="pt-0 pb-2 pl-3.5 sm:py-2" :class="textClasses">
           <p class="text-base font-bold sm:hidden">Validated</p>
-          <span>{{ formatDate(item.validated) }}</span>
+          <span>
+            {{ formatDate(item.validated) }}
+            <LoadingSpinner v-if="loading && !item.validated" class="h-6 w-6" />
+          </span>
         </div>
         <div class="pt-0 pb-2 pl-3.5 sm:py-2" :class="textClasses">
           <span class="pr-2 text-base font-bold sm:hidden">Validation Status:</span>
-          <span :class="item.class" class="text-base font-bold">{{ item.status }}</span>
+          <span :class="item.class" class="text-base font-bold">
+            {{ item.status }}
+            <LoadingSpinner v-if="loading && !item.status" class="h-6 w-6" />
+          </span>
         </div>
       </div>
     </div>
