@@ -9,6 +9,8 @@
     getOrganisationURL,
     getOrganisationDocumentsURL,
     sortOptions,
+    getDocumentCount,
+    documentValidationStatus,
   } from '../utils';
   import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
@@ -82,11 +84,20 @@
         <FileStatusInfo />
 
         <div class="-mx-3.5 -mb-3.5">
-          <VueMultiselect
-            v-model="state.selected"
-            :options="sortOptions.map((option) => option.label)"
-            placeholder="Sort by"
-          ></VueMultiselect>
+          <div class="flex p-3">
+            <div v-if="documents && documents.length" class="self-start">
+              <span>{{ documents.length }} files</span>
+              <span v-for="status in documentValidationStatus" :key="status">
+                |{{ status }}:{{ getDocumentCount(documents, status) }}
+              </span>
+            </div>
+            <VueMultiselect
+              v-model="state.selected"
+              :options="sortOptions.map((option) => option.label)"
+              placeholder="Sort by"
+              class="!w-3/12 !self-end"
+            ></VueMultiselect>
+          </div>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
