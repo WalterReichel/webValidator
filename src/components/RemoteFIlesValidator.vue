@@ -59,12 +59,13 @@
       requestStatus.value = 'pending';
       parallelUpload(correctURLs).subscribe({
         next: (response) => {
-          if (response === 'success') {
+          const responseText = Array.isArray(response) && response.length ? response[0] : response;
+          if (responseText === 'success') {
             activeStep.value = 3;
             requestStatus.value = 'success';
           } else {
             requestStatus.value = 'error';
-            requestErrorMessage.value = Array.isArray(response) && response.length ? response[0] : response;
+            requestErrorMessage.value = responseText;
           }
         },
         error: handleError,
