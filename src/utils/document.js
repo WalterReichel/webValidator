@@ -349,7 +349,8 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
   }
   if (processedDocuments.length) {
     if (sortKey === 'fileName') {
-      processedDocuments.sort(function (a, b) {
+      const fileNameSortedDocs = [...processedDocuments];
+      fileNameSortedDocs.sort(function (a, b) {
         if (a['name'] > b['name']) {
           return sortDirection === 'ascending' ? 1 : -1;
         } else if (a['name'] < b['name']) {
@@ -357,10 +358,11 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
         }
         return 0;
       });
-      return processedDocuments;
+      return fileNameSortedDocs;
     }
     if (sortKey === 'registryIdentity') {
-      processedDocuments.sort(function (a, b) {
+      const registryIdentitySortedDocs = [...processedDocuments];
+      registryIdentitySortedDocs.sort(function (a, b) {
         if ((a['modified'] || a['first_seen']) > (b['modified'] || b['first_seen'])) {
           return sortDirection === 'ascending' ? 1 : -1;
         } else if ((a['modified'] || a['first_seen']) < (b['modified'] || b['first_seen'])) {
@@ -368,7 +370,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
         }
         return 0;
       });
-      return processedDocuments;
+      return registryIdentitySortedDocs;
     }
     if (sortKey === 'validationDate') {
       const nonValidatedDocs = processedDocuments.filter((doc) => !doc['validation_created']);
