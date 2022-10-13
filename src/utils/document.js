@@ -341,15 +341,9 @@ export const getFeedbackCategoryLabel = (category) => {
 };
 
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
-  const processedDocuments = [];
   if (documents.length) {
-    for (let i = 0; i < documents.length; i++) {
-      processedDocuments.push(documents[i]);
-    }
-  }
-  if (processedDocuments.length) {
     if (sortKey === 'fileName') {
-      const fileNameSortedDocs = Array.from(processedDocuments);
+      const fileNameSortedDocs = Array.from(documents);
       fileNameSortedDocs.sort(function (a, b) {
         if (a['name'] > b['name']) {
           return sortDirection === 'ascending' ? 1 : -1;
@@ -361,7 +355,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return fileNameSortedDocs;
     }
     if (sortKey === 'registryIdentity') {
-      const registryIdentitySortedDocs = Array.from(processedDocuments);
+      const registryIdentitySortedDocs = Array.from(documents);
       registryIdentitySortedDocs.sort(function (a, b) {
         if ((a['modified'] || a['first_seen']) > (b['modified'] || b['first_seen'])) {
           return sortDirection === 'ascending' ? 1 : -1;
@@ -373,8 +367,8 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return registryIdentitySortedDocs;
     }
     if (sortKey === 'validationDate') {
-      const nonValidatedDocs = processedDocuments.filter((doc) => !doc['validation_created']);
-      const validationDateSortingList = processedDocuments.filter((doc) => {
+      const nonValidatedDocs = documents.filter((doc) => !doc['validation_created']);
+      const validationDateSortingList = documents.filter((doc) => {
         if (nonValidatedDocs.length) {
           if (!nonValidatedDocs.find((document) => doc.hash === document.hash)) {
             return doc;
@@ -400,7 +394,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
           : ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
       const statusOrderedDocs = [];
       sortOrder.forEach((orderVariable) => {
-        processedDocuments.forEach((item) => {
+        documents.forEach((item) => {
           if (getDocumentValidationStatus(item).caption === orderVariable) {
             statusOrderedDocs.push(item);
           }
