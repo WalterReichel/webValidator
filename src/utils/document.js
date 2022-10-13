@@ -349,7 +349,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
   }
   if (processedDocuments.length) {
     if (sortKey === 'fileName') {
-      const fileNameSortedDocs = [...processedDocuments];
+      const fileNameSortedDocs = Array.from(processedDocuments);
       fileNameSortedDocs.sort(function (a, b) {
         if (a['name'] > b['name']) {
           return sortDirection === 'ascending' ? 1 : -1;
@@ -361,7 +361,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return fileNameSortedDocs;
     }
     if (sortKey === 'registryIdentity') {
-      const registryIdentitySortedDocs = [...processedDocuments];
+      const registryIdentitySortedDocs = Array.from(processedDocuments);
       registryIdentitySortedDocs.sort(function (a, b) {
         if ((a['modified'] || a['first_seen']) > (b['modified'] || b['first_seen'])) {
           return sortDirection === 'ascending' ? 1 : -1;
