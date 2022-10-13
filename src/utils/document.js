@@ -343,7 +343,6 @@ export const getFeedbackCategoryLabel = (category) => {
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   const processedDocuments = [];
   if (documents.length) {
-    console.log(documents);
     for (let i = 0; i < documents.length; i++) {
       processedDocuments.push(documents[i]);
     }
@@ -392,8 +391,24 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       });
       return validationDateSortingList.concat(nonValidatedDocs);
     }
+    if (sortKey === 'validationStatus') {
+      const sortOrder =
+        sortDirection === 'ascending'
+          ? ['Success', 'Warning', 'Error', 'Critical', 'N/A']
+          : ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
+      const statusOrderedDocs = [];
+      sortOrder.forEach((orderVariable) => {
+        processedDocuments.forEach((item) => {
+          if (getDocumentValidationStatus(item).caption === orderVariable) {
+            statusOrderedDocs.push(item);
+          }
+        });
+      });
+
+      return statusOrderedDocs;
+    }
   }
-  ('critical,error,warning,success');
+
   return documents;
 };
 
