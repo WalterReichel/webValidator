@@ -13,7 +13,7 @@ export const uploadFile = async (file, tmpWorkspaceId) => {
 
   const req = await window.fetch(url, { ...getDefaultServicesAPIOptions(), method: 'post', body: uploadData });
 
-  return last(req.json());
+  return last(req);
 };
 
 export const fetchFileFromURL = async (fileUrl, workspaceID) => {
