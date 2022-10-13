@@ -31,7 +31,7 @@ export const fetchFileFromURL = async (fileUrl, workspaceID) => {
   if (req.status === 422) {
     const error = await req.json();
 
-    return error.message;
+    return error.message.includes(fileUrl) ? error.message : `${error.url} - ${error.message}`;
   }
 };
 
