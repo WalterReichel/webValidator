@@ -87,7 +87,7 @@
           <div class="flex justify-between p-3">
             <div v-if="documents && documents.length" class="">
               <span>{{ documents.length }} files</span>
-              <span v-for="status in documentValidationStatus" :key="status">
+              <span v-for="status in documentValidationStatus(documents)" :key="status">
                 | {{ status }}:{{ getDocumentCount(documents, status) }}
               </span>
             </div>
