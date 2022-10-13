@@ -2,27 +2,29 @@
   import useSWRV from 'swrv';
   import { provide, ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
-  import { setPageTitle } from '../state';
-  import {
-    getDocumentFileName,
-    getDocumentURL,
-    fetchDocumentByID,
-    fetchValidationReport,
-    getOrganisationURL,
-    fetchOrganisationByID,
-    validationReportURL,
-  } from '../utils';
-  import ContentContainer from '../components/layout/ContentContainer.vue';
-  import StyledLink from '../components/StyledLink.vue';
   import BasicCard from '../components/BasicCard.vue';
-  import FileStatusInfo from '../components/FileStatusInfo.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
+  import FileStatusInfo from '../components/FileStatusInfo.vue';
+  import IconChevron from '../components/IconChevron.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
   import DocumentInfo from '../components/report/DocumentInfo.vue';
   import DocumentReport from '../components/report/DocumentReport.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import { setPageTitle } from '../state';
+  import {
+    fetchDocumentByID,
+    fetchOrganisationByID,
+    fetchValidationReport,
+    getDocumentFileName,
+    getDocumentURL,
+    getOrganisationURL,
+    validationReportURL,
+  } from '../utils';
 
   setPageTitle('File validation report');
   const route = useRoute();
   const loading = ref(true);
+  const isTestFile = route.query.isTestFile;
 
   const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.id), () =>
     fetchDocumentByID(route.params.id)
@@ -33,7 +35,7 @@
   );
   const { data: dataset, error: datasetError } = useSWRV(
     () => validationReportURL(route.params.id, 'id'),
-    () => fetchValidationReport(route.params.id)
+    () => fetchValidationReport(route.params.id, isTestFile)
   );
   provide('organisation', organisation);
 
@@ -55,15 +57,22 @@
 
 <template>
   <ContentContainer class="pt-0 pb-8">
-    <CaptionedLoadingSpinner v-if="!organisation || !document" class="pb-3">
+    <StyledLink v-if="isTestFile && dataset" :to="`/validate/${dataset.session_id}`" class="mr-2 inline-flex">
+      <IconChevron class="mr-2" /> Return to your workspace
+    </StyledLink>
+    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
     <div v-else>
       <h3 class="text-lg">
-        <StyledLink :to="`/organisation/${organisation.name}`" class="underline">{{ organisation.title }}</StyledLink> -
-        <StyledLink :to="document.url" :external="true" class="underline">
+        <template v-if="organisation">
+          <StyledLink :to="`/organisation/${organisation.name}`" class="underline">{{ organisation.title }}</StyledLink>
+          -
+        </template>
+        <StyledLink v-if="document" :to="document.url" :external="true" class="underline">
           {{ getDocumentFileName(document) }}
         </StyledLink>
+        <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
       <CaptionedLoadingSpinner v-if="!dataset" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
       <DocumentInfo v-else :document="document" :report="dataset.report" />
