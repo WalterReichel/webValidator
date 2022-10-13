@@ -84,18 +84,18 @@
         <FileStatusInfo />
 
         <div class="-mx-3.5 -mb-3.5">
-          <div class="flex p-3">
-            <div v-if="documents && documents.length" class="self-start">
+          <div class="flex justify-between p-3">
+            <div v-if="documents && documents.length" class="">
               <span>{{ documents.length }} files</span>
               <span v-for="status in documentValidationStatus" :key="status">
-                |{{ status }}:{{ getDocumentCount(documents, status) }}
+                | {{ status }}:{{ getDocumentCount(documents, status) }}
               </span>
             </div>
             <VueMultiselect
               v-model="state.selected"
               :options="sortOptions.map((option) => option.label)"
               placeholder="Sort by"
-              class="!w-3/12 !self-end"
+              class="mr-7 !w-1/3"
             ></VueMultiselect>
           </div>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
