@@ -434,4 +434,4 @@ export const getSortValue = (sortKey, options) => {
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
 
-export const documentValidationStatus = ['Success', 'Warning', 'Error', 'Critical'];
+export const documentValidationStatus = ['Success', 'Warning', 'Error', 'Critical', 'N/A'];
