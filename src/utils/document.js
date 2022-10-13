@@ -343,6 +343,7 @@ export const getFeedbackCategoryLabel = (category) => {
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   const processedDocuments = [];
   if (documents.length) {
+    console.log(documents);
     for (let i = 0; i < documents.length; i++) {
       processedDocuments.push(documents[i]);
     }
@@ -392,18 +393,19 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return validationDateSortingList.concat(nonValidatedDocs);
     }
   }
+  ('critical,error,warning,success');
   return documents;
 };
 
 export const sortOptions = [
-  { label: 'File Name:alphabetical order', direction: 'ascending', value: 'fileName' },
-  { label: 'File name:reverse alphabetical order', direction: 'descending', value: 'fileName' },
+  { label: 'File Name:Alphabetical order', direction: 'ascending', value: 'fileName' },
+  { label: 'File name:Reverse alphabetical order', direction: 'descending', value: 'fileName' },
   { label: 'Identified in Registry:New-old', direction: 'descending', value: 'registryIdentity' },
-  { label: 'Identified in Registry:old-New', direction: 'ascending', value: 'registryIdentity' },
+  { label: 'Identified in Registry:Old-New', direction: 'ascending', value: 'registryIdentity' },
   { label: 'Validated:New-old', direction: 'descending', value: 'validationDate' },
-  { label: 'Validated:old-New', direction: 'ascending', value: 'validationDate' },
-  { label: 'Validation Status:success-error', direction: 'ascending', value: 'validationStatus' },
-  { label: 'Validation Status:error-success', direction: 'descending', value: 'validationStatus' },
+  { label: 'Validated:Old-New', direction: 'ascending', value: 'validationDate' },
+  { label: 'Validation Status:Success-critical', direction: 'ascending', value: 'validationStatus' },
+  { label: 'Validation Status:Critical-success', direction: 'descending', value: 'validationStatus' },
 ];
 
 export const getSortDirection = (sortKey, options) => {
