@@ -27,7 +27,12 @@ export const fetchFileFromURL = async (fileUrl, workspaceID) => {
     body: JSON.stringify({ url: fileUrl }),
   });
 
-  return req.status === 200 ? 'success' : req.statusText;
+  if (req.status === 200) return 'success';
+  if (req.status === 422) {
+    const error = await req.json();
+
+    return error.message;
+  }
 };
 
 export const getTempWorkspaceURL = (workspaceID) => `${SERVICES_URL}/pvt/adhoc/session/?sessionId=${workspaceID}`;

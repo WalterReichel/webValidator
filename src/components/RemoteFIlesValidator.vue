@@ -48,18 +48,24 @@
     });
     if (correctURLs.length && !incorrectURLs.value.length) {
       const handleError = (error) => {
-        console.log('Error: ', error);
         requestStatus.value = 'error';
-        if (error.status === 422) {
-          requestErrorMessage.value = error.error.message;
+        if (error && error.message) {
+          requestErrorMessage.value = error.message;
+        } else {
+          console.log('Error: ', error);
         }
       };
 
       requestStatus.value = 'pending';
       parallelUpload(correctURLs).subscribe({
-        next: () => {
-          activeStep.value = 3;
-          requestStatus.value = 'success';
+        next: (response) => {
+          if (response === 'success') {
+            activeStep.value = 3;
+            requestStatus.value = 'success';
+          } else {
+            requestStatus.value = 'error';
+            requestErrorMessage.value = Array.isArray(response) && response.length ? response[0] : response;
+          }
         },
         error: handleError,
       });
@@ -90,7 +96,7 @@
       <p class="mb-4 text-center">Fetch the files from the web.</p>
       <div v-if="requestStatus && requestStatus !== 'draft'" class="mb-3 text-sm">
         <AppAlert v-if="requestStatus === 'error'" variant="error">
-          File(s) uploading failed. Check your files and try again.
+          File(s) uploading failed. Check your files and try again.<br />{{ requestErrorMessage }}
         </AppAlert>
         <AppAlert v-else-if="requestStatus === 'success'" variant="success">
           File(s) have been uploaded successfully
