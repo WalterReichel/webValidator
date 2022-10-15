@@ -388,22 +388,17 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return validationDateSortingList.concat(nonValidatedDocs);
     }
     if (sortKey === 'validationStatus') {
-      const validationStatusList = documentValidationStatus(documents);
-      console.log(validationStatusList);
-      const sortOrder =
-        sortDirection === 'ascending'
-          ? ['Success', 'Warning', 'Error', 'Critical', 'N/A']
-          : ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
+      const otherDocs = [];
       const statusOrderedDocs = [];
-      sortOrder.forEach((orderVariable) => {
-        documents.forEach((item) => {
-          if (getDocumentValidationStatus(item).caption === orderVariable) {
-            statusOrderedDocs.push(item);
-          }
-        });
+      documents.forEach((item) => {
+        if (getDocumentValidationStatus(item).caption === sortDirection) {
+          statusOrderedDocs.push(item);
+        } else {
+          otherDocs.push(item);
+        }
       });
 
-      return statusOrderedDocs;
+      return statusOrderedDocs.concat(otherDocs);
     }
   }
 
@@ -420,17 +415,10 @@ const partialSortOptions = [
 ];
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
-export const getSortDirection = (sortKey, options) => {
-  if (sortKey) {
-    return options.find((opt) => opt.label === sortKey).direction;
-  }
-};
+export const getSortDirection = (sortKey, options) =>
+  sortKey ? options.find((opt) => opt.label === sortKey).direction : '';
 
-export const getSortValue = (sortKey, options) => {
-  if (sortKey) {
-    return options.find((opt) => opt.label === sortKey).value;
-  }
-};
+export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) => opt.label === sortKey).value : '');
 
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
@@ -441,6 +429,6 @@ export const documentValidationStatus = (documents) =>
 const getValidationStatusOptions = (documents) =>
   documentValidationStatus(documents).map((status) => ({
     label: `Validation Status:${status}`,
-    direction: '',
+    direction: status,
     value: 'validationStatus',
   }));

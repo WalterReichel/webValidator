@@ -21,8 +21,8 @@
     <DocumentListItem
       v-for="document in processedTableDocumentFields(
         props.documents,
-        getSortValue(props.sortvariable, sortOptions),
-        getSortDirection(props.sortvariable, sortOptions)
+        getSortValue(props.sortvariable, sortOptions(props.documents)),
+        getSortDirection(props.sortvariable, sortOptions(props.documents))
       )"
       :key="document.hash"
       :document="document"
