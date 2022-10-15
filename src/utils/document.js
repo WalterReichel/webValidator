@@ -432,3 +432,9 @@ const getValidationStatusOptions = (documents) =>
     direction: status,
     value: 'validationStatus',
   }));
+
+export const getStatusColor = (statusLabel) => {
+  if (statusLabel !== 'N/A') {
+    return `text-${statusLabel.toLowerCase()}`;
+  }
+};

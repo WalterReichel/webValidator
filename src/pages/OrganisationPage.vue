@@ -11,6 +11,7 @@
     sortOptions,
     getDocumentCount,
     documentValidationStatus,
+    getStatusColor,
   } from '../utils';
   import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
@@ -88,7 +89,8 @@
             <div v-if="documents && documents.length" class="">
               <span>{{ documents.length }} files</span>
               <span v-for="status in documentValidationStatus(documents)" :key="status">
-                | {{ status }}:{{ getDocumentCount(documents, status) }}
+                | <label :class="getStatusColor(status)">{{ status }}</label
+                >: {{ getDocumentCount(documents, status) }}
               </span>
             </div>
             <VueMultiselect
