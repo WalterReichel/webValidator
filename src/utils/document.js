@@ -406,12 +406,12 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
 };
 
 const partialSortOptions = [
-  { label: 'File Name:Alphabetical order', direction: 'ascending', value: 'fileName' },
-  { label: 'File name:Reverse alphabetical order', direction: 'descending', value: 'fileName' },
-  { label: 'Identified in Registry:New-old', direction: 'descending', value: 'registryIdentity' },
-  { label: 'Identified in Registry:Old-New', direction: 'ascending', value: 'registryIdentity' },
-  { label: 'Validated:New-old', direction: 'descending', value: 'validationDate' },
-  { label: 'Validated:Old-New', direction: 'ascending', value: 'validationDate' },
+  { label: 'File Name: Alphabetical Order', direction: 'ascending', value: 'fileName' },
+  { label: 'File Name: Reverse Alphabetical Order', direction: 'descending', value: 'fileName' },
+  { label: 'Identified in Registry: New-Old', direction: 'descending', value: 'registryIdentity' },
+  { label: 'Identified in Registry: Old-New', direction: 'ascending', value: 'registryIdentity' },
+  { label: 'Validated: New-Old', direction: 'descending', value: 'validationDate' },
+  { label: 'Validated: Old-New', direction: 'ascending', value: 'validationDate' },
 ];
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
@@ -428,7 +428,7 @@ export const documentValidationStatus = (documents) =>
 
 const getValidationStatusOptions = (documents) =>
   documentValidationStatus(documents).map((status) => ({
-    label: `Validation Status:${status}`,
+    label: `Validation Status: ${status}`,
     direction: status,
     value: 'validationStatus',
   }));
