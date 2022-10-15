@@ -388,6 +388,8 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
       return validationDateSortingList.concat(nonValidatedDocs);
     }
     if (sortKey === 'validationStatus') {
+      const validationStatusList = documentValidationStatus(documents);
+      console.log(validationStatusList);
       const sortOrder =
         sortDirection === 'ascending'
           ? ['Success', 'Warning', 'Error', 'Critical', 'N/A']
@@ -408,16 +410,15 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
   return documents;
 };
 
-export const sortOptions = [
+const partialSortOptions = [
   { label: 'File Name:Alphabetical order', direction: 'ascending', value: 'fileName' },
   { label: 'File name:Reverse alphabetical order', direction: 'descending', value: 'fileName' },
   { label: 'Identified in Registry:New-old', direction: 'descending', value: 'registryIdentity' },
   { label: 'Identified in Registry:Old-New', direction: 'ascending', value: 'registryIdentity' },
   { label: 'Validated:New-old', direction: 'descending', value: 'validationDate' },
   { label: 'Validated:Old-New', direction: 'ascending', value: 'validationDate' },
-  { label: 'Validation Status:Success-critical', direction: 'ascending', value: 'validationStatus' },
-  { label: 'Validation Status:Critical-success', direction: 'descending', value: 'validationStatus' },
 ];
+export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
 export const getSortDirection = (sortKey, options) => {
   if (sortKey) {
@@ -436,3 +437,10 @@ export const getDocumentCount = (files, status) =>
 
 export const documentValidationStatus = (documents) =>
   Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+
+const getValidationStatusOptions = (documents) =>
+  documentValidationStatus(documents).map((status) => ({
+    label: `Validation Status:${status}`,
+    direction: '',
+    value: 'validationStatus',
+  }));

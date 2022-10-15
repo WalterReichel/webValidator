@@ -93,7 +93,7 @@
             </div>
             <VueMultiselect
               v-model="state.selected"
-              :options="sortOptions.map((option) => option.label)"
+              :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
               placeholder="Sort by"
               class="mr-7 !w-1/3"
             ></VueMultiselect>
