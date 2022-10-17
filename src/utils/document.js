@@ -406,12 +406,12 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
 };
 
 const partialSortOptions = [
-  { label: 'File Name: Alphabetical Order', direction: 'ascending', value: 'fileName' },
-  { label: 'File Name: Reverse Alphabetical Order', direction: 'descending', value: 'fileName' },
-  { label: 'Identified in Registry: New-Old', direction: 'descending', value: 'registryIdentity' },
-  { label: 'Identified in Registry: Old-New', direction: 'ascending', value: 'registryIdentity' },
-  { label: 'Validated: New-Old', direction: 'descending', value: 'validationDate' },
-  { label: 'Validated: Old-New', direction: 'ascending', value: 'validationDate' },
+  { label: 'File Name: A - Z', direction: 'ascending', value: 'fileName' },
+  { label: 'File Name: Z - A', direction: 'descending', value: 'fileName' },
+  { label: 'Identified in Registry: Newest', direction: 'descending', value: 'registryIdentity' },
+  { label: 'Identified in Registry: Oldest', direction: 'ascending', value: 'registryIdentity' },
+  { label: 'Validated: Newest', direction: 'descending', value: 'validationDate' },
+  { label: 'Validated: Oldest', direction: 'ascending', value: 'validationDate' },
 ];
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
