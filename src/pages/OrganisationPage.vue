@@ -96,12 +96,15 @@
                 >: {{ getDocumentCount(documents, status) }}
               </span>
             </div>
-            <VueMultiselect
-              v-model="state.selected"
-              :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
-              placeholder="Sort by"
-              class="mt-2 sm:mt-0 sm:mr-7 sm:!w-1/3"
-            ></VueMultiselect>
+            <div class="mt-2 flex flex-col sm:mt-0 sm:w-1/2 sm:flex-row">
+              <label>Sort Table by:</label>
+              <VueMultiselect
+                v-model="state.selected"
+                :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
+                placeholder="Sort by"
+                class="sm:ml-1 sm:!w-2/3"
+              ></VueMultiselect>
+            </div>
           </div>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
           <DocumentList
