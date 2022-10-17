@@ -1,3 +1,4 @@
+import { autoAnimatePlugin } from '@formkit/auto-animate/vue';
 import { createApp } from 'vue';
 import App from './App.vue';
 import './index.css';
@@ -11,4 +12,9 @@ const plausibleOptions = {
   trackLocalhost: false,
 };
 
-createApp(App).use(router).use(plausible, plausibleOptions).use(cache, { expires: 5 }).mount('#app');
+createApp(App)
+  .use(router)
+  .use(plausible, plausibleOptions)
+  .use(cache, { expires: 5 })
+  .use(autoAnimatePlugin)
+  .mount('#app');
