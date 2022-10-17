@@ -27,6 +27,9 @@
   const state = reactive({
     selected: 'Validation Status: Critical',
   });
+  // const state = reactive({
+  //   selected: null,
+  // });
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();

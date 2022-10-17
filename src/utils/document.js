@@ -1,5 +1,6 @@
 import { formatDate } from '.';
 
+const DEFAULTSORTKEY = 'Validation Status: Critical';
 export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
@@ -342,6 +343,7 @@ export const getFeedbackCategoryLabel = (category) => {
 
 export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
   if (documents.length) {
+    // console.log(sortDirection);
     if (sortKey === 'fileName') {
       const fileNameSortedDocs = Array.from(documents);
       fileNameSortedDocs.sort(function (a, b) {
@@ -390,19 +392,21 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
     if (sortKey === 'validationStatus') {
       const otherDocs = [];
       const statusOrderedDocs = [];
-      documents.forEach((item) => {
-        if (getDocumentValidationStatus(item).caption === sortDirection) {
-          statusOrderedDocs.push(item);
-        } else {
-          otherDocs.push(item);
-        }
-      });
+      if (sortDirection === DEFAULTSORTKEY) {
+        return documents;
+      } else {
+        documents.forEach((item) => {
+          if (getDocumentValidationStatus(item).caption === sortDirection) {
+            statusOrderedDocs.push(item);
+          } else {
+            otherDocs.push(item);
+          }
+        });
 
-      return statusOrderedDocs.concat(otherDocs);
+        return statusOrderedDocs.concat(otherDocs);
+      }
     }
   }
-
-  return documents;
 };
 
 const partialSortOptions = [
@@ -416,9 +420,10 @@ const partialSortOptions = [
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
 export const getSortDirection = (sortKey, options) =>
-  sortKey ? options.find((opt) => opt.label === sortKey).direction : '';
+  sortKey && sortKey !== DEFAULTSORTKEY ? options.find((opt) => opt.label === sortKey)?.direction : 'Critical';
 
-export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) => opt.label === sortKey).value : '');
+export const getSortValue = (sortKey, options) =>
+  sortKey && sortKey !== DEFAULTSORTKEY ? options.find((opt) => opt.label === sortKey)?.value : 'validationStatus';
 
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
