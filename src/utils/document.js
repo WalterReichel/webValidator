@@ -1,6 +1,5 @@
 import { formatDate } from '.';
 
-const DEFAULTSORTKEY = 'Validation Status: Critical';
 export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
@@ -392,7 +391,7 @@ export const processedTableDocumentFields = (documents, sortKey, sortDirection) 
     if (sortKey === 'validationStatus') {
       const otherDocs = [];
       const statusOrderedDocs = [];
-      if (sortDirection === DEFAULTSORTKEY) {
+      if (sortDirection === 'Validation Status: Critical') {
         return documents;
       } else {
         documents.forEach((item) => {
@@ -420,10 +419,9 @@ const partialSortOptions = [
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
 export const getSortDirection = (sortKey, options) =>
-  sortKey && sortKey !== DEFAULTSORTKEY ? options.find((opt) => opt.label === sortKey)?.direction : 'Critical';
+  sortKey ? options.find((opt) => opt.label === sortKey)?.direction : '';
 
-export const getSortValue = (sortKey, options) =>
-  sortKey && sortKey !== DEFAULTSORTKEY ? options.find((opt) => opt.label === sortKey)?.value : 'validationStatus';
+export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) => opt.label === sortKey)?.value : '');
 
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
@@ -441,5 +439,22 @@ const getValidationStatusOptions = (documents) =>
 export const getStatusColor = (statusLabel) => {
   if (statusLabel !== 'N/A') {
     return `text-${statusLabel.toLowerCase()}`;
+  }
+};
+
+export const getDefaultSortingCriteria = (docs) => {
+  if (docs.length) {
+    const availableValidationStatusList = documentValidationStatus(docs);
+    if (availableValidationStatusList.includes('Critical')) {
+      return 'Validation Status: Critical';
+    } else if (availableValidationStatusList.includes('Error')) {
+      return 'Validation Status: Error';
+    } else if (availableValidationStatusList.includes('Warning')) {
+      return 'Validation Status: Warning';
+    } else if (availableValidationStatusList.includes('Success')) {
+      return 'Validation Status: Success';
+    } else {
+      return 'Validation Status: N/A';
+    }
   }
 };

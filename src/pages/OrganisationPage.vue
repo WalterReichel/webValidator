@@ -1,6 +1,6 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { ref, watchEffect, reactive } from 'vue';
+  import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
   import VueMultiselect from 'vue-multiselect';
   import {
@@ -12,6 +12,7 @@
     getDocumentCount,
     documentValidationStatus,
     getStatusColor,
+    getDefaultSortingCriteria,
   } from '../utils';
   import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
@@ -24,16 +25,10 @@
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
 
-  const state = reactive({
-    selected: 'Validation Status: Critical',
-  });
-  // const state = reactive({
-  //   selected: null,
-  // });
-
   const layout = setPageTitle('Loading...');
   const route = useRoute();
   const loading = ref(true);
+  const selected = ref('');
 
   const { data: organisation, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
@@ -57,6 +52,11 @@
       console.log(documentsError.value);
     } else if (documents && documents.value) {
       loading.value = false;
+    }
+  });
+  watchEffect(() => {
+    if (documents && documents.value) {
+      selected.value = getDefaultSortingCriteria(documents.value);
     }
   });
 </script>
@@ -99,7 +99,7 @@
             <div class="mt-2 flex flex-col sm:mt-0 sm:w-1/2 sm:flex-row">
               <label>Sort Table by:</label>
               <VueMultiselect
-                v-model="state.selected"
+                v-model="selected"
                 :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
                 placeholder="Sort by"
                 class="sm:ml-1 sm:!w-2/3"
@@ -111,7 +111,7 @@
             v-else-if="!loading && documents && documents.length"
             :key="Math.random()"
             :documents="documents"
-            :sortvariable="state.selected"
+            :sortvariable="selected"
           >
           </DocumentList>
           <div v-else-if="documentsError || organisationError" class="m-3.5">
