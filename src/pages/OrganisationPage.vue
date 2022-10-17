@@ -25,7 +25,7 @@
   import StyledLink from '../components/StyledLink.vue';
 
   const state = reactive({
-    selected: null,
+    selected: 'Validation Status: Critical',
   });
 
   const layout = setPageTitle('Loading...');
