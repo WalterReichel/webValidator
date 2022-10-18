@@ -14,7 +14,7 @@ const routes = [
   { path: '/validate/:tempWorkspaceID', component: ValidationResult },
   { path: '/organisations', component: OrganisationsPage },
   { path: '/organisation/:name', component: OrganisationPage },
-  { path: '/report/:id', component: ReportPage },
+  { path: '/report/:name', component: ReportPage },
 ];
 
 const router = createRouter({

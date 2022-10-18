@@ -12,7 +12,7 @@
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
   import {
-    fetchDocumentByID,
+    fetchDocumentByName,
     fetchOrganisationByID,
     fetchValidationReport,
     getDocumentFileName,
@@ -26,16 +26,16 @@
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
 
-  const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.id), () =>
-    fetchDocumentByID(route.params.id)
+  const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.name), () =>
+    fetchDocumentByName(route.params.name)
   );
   const { data: organisation, error: organisationError } = useSWRV(
     () => (document && document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
     () => fetchOrganisationByID(document.value.publisher)
   );
   const { data: dataset, error: datasetError } = useSWRV(
-    () => validationReportURL(route.params.id, 'id'),
-    () => fetchValidationReport(route.params.id, isTestFile)
+    () => validationReportURL(route.params.name, 'name'),
+    () => fetchValidationReport(route.params.name, isTestFile)
   );
   provide('organisation', organisation);
 
