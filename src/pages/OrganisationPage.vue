@@ -59,7 +59,6 @@
       selected.value = getDefaultSortingCriteria(documents.value);
     }
   });
-  console.log(selected.value);
 </script>
 
 <template>
