@@ -7,6 +7,11 @@
     fetchOrganisationDocuments,
     getOrganisationURL,
     getOrganisationDocumentsURL,
+    sortOptions,
+    getDocumentCount,
+    documentValidationStatus,
+    getStatusColor,
+    getDefaultSortingCriteria,
   } from '../utils';
   import placeholderImage from '../assets/images/placeholder-organization.png';
   import { setPageTitle } from '../state';
@@ -15,14 +20,15 @@
   import ContentContainer from '../components/layout/ContentContainer.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
   import DocumentList from '../components/organisation/DocumentList.vue';
-  import DocumentListItem from '../components/organisation/DocumentListItem.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
+  import SelectInput from '../components/SelectInput.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
   const loading = ref(true);
+  const selected = ref('');
 
   const { data: organisation, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
@@ -46,6 +52,11 @@
       console.log(documentsError.value);
     } else if (documents && documents.value) {
       loading.value = false;
+    }
+  });
+  watchEffect(() => {
+    if (documents && documents.value) {
+      selected.value = getDefaultSortingCriteria(documents.value);
     }
   });
 </script>
@@ -77,9 +88,31 @@
         <FileStatusInfo />
 
         <div class="-mx-3.5 -mb-3.5">
+          <div class="flex flex-col p-3 sm:flex-row sm:justify-between">
+            <div v-if="documents && documents.length" class="py-2">
+              <span>{{ documents.length }} files</span>
+              <span v-for="status in documentValidationStatus(documents)" :key="status">
+                | <label :class="getStatusColor(status)">{{ status }}</label
+                >: {{ getDocumentCount(documents, status) }}
+              </span>
+            </div>
+            <div class="flex flex-col sm:mt-0 sm:flex-row">
+              <label class="whitespace-nowrap sm:py-2">Sort by:</label>
+              <SelectInput
+                v-model="selected"
+                :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
+                placeholder="Sort by"
+                class="min-w-[300px] sm:ml-1"
+              />
+            </div>
+          </div>
           <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
-          <DocumentList v-else-if="!loading && documents && documents.length">
-            <DocumentListItem v-for="document in documents" :key="document.hash" :document="document" />
+          <DocumentList
+            v-else-if="!loading && documents && documents.length"
+            :key="Math.random()"
+            :documents="documents"
+            :sortvariable="selected"
+          >
           </DocumentList>
           <div v-else-if="documentsError || organisationError" class="m-3.5">
             <BasicAlert>

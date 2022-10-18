@@ -1,5 +1,12 @@
 <script setup>
+  import { getSortDirection, getSortValue, sortDocuments, sortOptions } from '../../utils';
+  import DocumentListItem from './DocumentListItem.vue';
+
   const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
+  const props = defineProps({
+    documents: { type: Object, default: () => {} },
+    sortvariable: { type: String, default: '' },
+  });
 </script>
 
 <template>
@@ -11,6 +18,14 @@
       <div :class="headerClassNames">Validation Status</div>
       <div :class="headerClassNames">Available in IATI Datastore</div>
     </div>
-    <slot />
+    <DocumentListItem
+      v-for="document in sortDocuments(
+        props.documents,
+        getSortValue(props.sortvariable, sortOptions(props.documents)),
+        getSortDirection(props.sortvariable, sortOptions(props.documents))
+      )"
+      :key="document.hash"
+      :document="document"
+    />
   </div>
 </template>

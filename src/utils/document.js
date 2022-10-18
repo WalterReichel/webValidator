@@ -339,3 +339,121 @@ export const getFeedbackCategoryLabel = (category) => {
   };
   return categories[category];
 };
+
+export const sortDocuments = (documents, sortKey, sortDirection) => {
+  if (documents.length) {
+    if (sortKey === 'fileName') {
+      const fileNameSortedDocs = Array.from(documents);
+      fileNameSortedDocs.sort(function (a, b) {
+        if (a['name'] > b['name']) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if (a['name'] < b['name']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+      return fileNameSortedDocs;
+    }
+    if (sortKey === 'registryIdentity') {
+      const registryIdentitySortedDocs = Array.from(documents);
+      registryIdentitySortedDocs.sort(function (a, b) {
+        if ((a['modified'] || a['first_seen']) > (b['modified'] || b['first_seen'])) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if ((a['modified'] || a['first_seen']) < (b['modified'] || b['first_seen'])) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+      return registryIdentitySortedDocs;
+    }
+    if (sortKey === 'validationDate') {
+      const nonValidatedDocs = documents.filter((doc) => !doc['validation_created']);
+      const validationDateSortingList = documents.filter((doc) => {
+        if (nonValidatedDocs.length) {
+          if (!nonValidatedDocs.find((document) => doc.hash === document.hash)) {
+            return doc;
+          }
+        } else {
+          return doc;
+        }
+      });
+      validationDateSortingList.sort(function (a, b) {
+        if (a['validation_created'] > b['validation_created']) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if (a['validation_created'] < b['validation_created']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+      return validationDateSortingList.concat(nonValidatedDocs);
+    }
+    if (sortKey === 'validationStatus') {
+      const otherDocs = [];
+      const statusOrderedDocs = [];
+      if (sortDirection === 'Validation Status: Critical') {
+        return documents;
+      } else {
+        documents.forEach((item) => {
+          if (getDocumentValidationStatus(item).caption === sortDirection) {
+            statusOrderedDocs.push(item);
+          } else {
+            otherDocs.push(item);
+          }
+        });
+
+        return statusOrderedDocs.concat(otherDocs);
+      }
+    }
+  }
+};
+
+const partialSortOptions = [
+  { label: 'File Name: A - Z', direction: 'ascending', value: 'fileName' },
+  { label: 'File Name: Z - A', direction: 'descending', value: 'fileName' },
+  { label: 'Identified in Registry: Newest', direction: 'descending', value: 'registryIdentity' },
+  { label: 'Identified in Registry: Oldest', direction: 'ascending', value: 'registryIdentity' },
+  { label: 'Validated: Newest', direction: 'descending', value: 'validationDate' },
+  { label: 'Validated: Oldest', direction: 'ascending', value: 'validationDate' },
+];
+export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
+
+export const getSortDirection = (sortKey, options) =>
+  sortKey ? options.find((opt) => opt.label === sortKey)?.direction : '';
+
+export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) => opt.label === sortKey)?.value : '');
+
+export const getDocumentCount = (files, status) =>
+  files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
+
+export const documentValidationStatus = (documents) =>
+  Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+
+const getValidationStatusOptions = (documents) =>
+  documentValidationStatus(documents).map((status) => ({
+    label: `Validation Status: ${status}`,
+    direction: status,
+    value: 'validationStatus',
+  }));
+
+export const getStatusColor = (statusLabel) => {
+  if (statusLabel !== 'N/A') {
+    return `text-${statusLabel.toLowerCase()}`;
+  }
+};
+
+export const getDefaultSortingCriteria = (docs) => {
+  if (docs.length) {
+    const availableValidationStatusList = documentValidationStatus(docs);
+    if (availableValidationStatusList.includes('Critical')) {
+      return 'Validation Status: Critical';
+    } else if (availableValidationStatusList.includes('Error')) {
+      return 'Validation Status: Error';
+    } else if (availableValidationStatusList.includes('Warning')) {
+      return 'Validation Status: Warning';
+    } else if (availableValidationStatusList.includes('Success')) {
+      return 'Validation Status: Success';
+    } else {
+      return 'Validation Status: N/A';
+    }
+  }
+};
