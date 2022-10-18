@@ -340,9 +340,8 @@ export const getFeedbackCategoryLabel = (category) => {
   return categories[category];
 };
 
-export const processedTableDocumentFields = (documents, sortKey, sortDirection) => {
+export const sortDocuments = (documents, sortKey, sortDirection) => {
   if (documents.length) {
-    // console.log(sortDirection);
     if (sortKey === 'fileName') {
       const fileNameSortedDocs = Array.from(documents);
       fileNameSortedDocs.sort(function (a, b) {

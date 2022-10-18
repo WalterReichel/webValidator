@@ -1,5 +1,5 @@
 <script setup>
-  import { getSortDirection, getSortValue, processedTableDocumentFields, sortOptions } from '../../utils';
+  import { getSortDirection, getSortValue, sortDocuments, sortOptions } from '../../utils';
   import DocumentListItem from './DocumentListItem.vue';
 
   const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
@@ -19,7 +19,7 @@
       <div :class="headerClassNames">Available in IATI Datastore</div>
     </div>
     <DocumentListItem
-      v-for="document in processedTableDocumentFields(
+      v-for="document in sortDocuments(
         props.documents,
         getSortValue(props.sortvariable, sortOptions(props.documents)),
         getSortDirection(props.sortvariable, sortOptions(props.documents))
