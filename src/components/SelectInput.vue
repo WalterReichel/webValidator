@@ -1,12 +1,8 @@
 <script setup>
   import VueMultiselect from 'vue-multiselect';
-
-  const props = defineProps({
-    options: { type: Array, default: () => [] },
-  });
 </script>
 <template>
-  <VueMultiselect :options="props.options" />
+  <VueMultiselect />
 </template>
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 <style>
