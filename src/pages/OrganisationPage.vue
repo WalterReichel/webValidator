@@ -2,7 +2,6 @@
   import useSWRV from 'swrv';
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
-  import VueMultiselect from 'vue-multiselect';
   import {
     fetchOrganisationByName,
     fetchOrganisationDocuments,
@@ -24,6 +23,7 @@
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
+  import SelectInput from '../components/SelectInput.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -59,6 +59,7 @@
       selected.value = getDefaultSortingCriteria(documents.value);
     }
   });
+  console.log(selected.value);
 </script>
 
 <template>
@@ -98,7 +99,7 @@
             </div>
             <div class="flex flex-col sm:mt-0 sm:flex-row">
               <label class="whitespace-nowrap sm:py-2">Sort by:</label>
-              <VueMultiselect
+              <SelectInput
                 v-model="selected"
                 :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
                 placeholder="Sort by"
@@ -125,19 +126,3 @@
     </div>
   </ContentContainer>
 </template>
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>
-<style>
-  .multiselect__option--highlight,
-  .multiselect__option--highlight:after {
-    background: #155366;
-  }
-  .multiselect__option--selected.multiselect__option--highlight {
-    background: #81c3d6;
-  }
-  .multiselect__option--selected.multiselect__option--highlight:after {
-    background: #81c3d6;
-  }
-  .multiselect__option--group-selected.multiselect__option--highlight {
-    background: #81c3d6;
-  }
-</style>
