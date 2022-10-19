@@ -1,9 +1,9 @@
 import { SERVICES_URL, getDefaultServicesAPIOptions } from '.';
 
 export const getDocumentURLWithID = (documentID) => `${SERVICES_URL}/pvt/documents/${documentID}`;
-export const getDocumentURL = (documentName) => `${SERVICES_URL}/pub/validation/existing?name=${documentName}`;
+export const getDocumentURL = (documentName) => `${SERVICES_URL}/pvt/documents/${documentName}?lookupKey=name`;
 export const fetchDocumentByID = async (documentID) => {
-  const url = getDocumentURL(documentID);
+  const url = getDocumentURLWithID(documentID);
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
@@ -16,20 +16,11 @@ export const fetchDocumentByID = async (documentID) => {
 
 export const fetchDocumentByName = async (documentName) => {
   const url = getDocumentURL(documentName);
-  let documentID = '';
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
 
-    documentID = data.registry_id;
-    const documentUrl = getDocumentURLWithID(documentID);
-    const docResponse = await window.fetch(documentUrl, getDefaultServicesAPIOptions());
-    if (docResponse.status === 200) {
-      const docData = await docResponse.json();
-
-      return docData[0];
-    }
-    return null;
+    return data[0];
   }
 
   return null;
