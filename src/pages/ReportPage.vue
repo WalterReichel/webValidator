@@ -15,7 +15,6 @@
     fetchDocumentByName,
     fetchOrganisationByID,
     fetchValidationReport,
-    getDocumentFileName,
     getDocumentURL,
     getOrganisationURL,
     validationReportURL,
@@ -23,6 +22,7 @@
 
   setPageTitle('File validation report');
   const route = useRoute();
+  // const router = useRouter();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
 
@@ -53,6 +53,11 @@
       console.log('Data Set Error: ', datasetError.value);
     }
   });
+  watchEffect(() => {
+    if (document.value) {
+      console.log('finally');
+    }
+  });
 </script>
 
 <template>
@@ -70,7 +75,7 @@
           -
         </template>
         <StyledLink v-if="document" :to="document.url" :external="true" class="underline">
-          {{ getDocumentFileName(document) }}
+          {{ document.name }}
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
