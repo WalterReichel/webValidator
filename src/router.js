@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import AboutPage from './pages/AboutPage.vue';
 import HomePage from './pages/HomePage.vue';
+import NotFound from './pages/NotFound.vue';
 import OrganisationPage from './pages/OrganisationPage.vue';
 import OrganisationsPage from './pages/OrganisationsPage.vue';
 import ReportPage from './pages/ReportPage.vue';
@@ -21,6 +22,11 @@ const routes = [
     },
   },
   { path: '/report/:name', component: ReportPage },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: NotFound,
+  },
 ];
 
 const router = createRouter({
