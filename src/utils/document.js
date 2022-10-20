@@ -341,6 +341,18 @@ export const getFeedbackCategoryLabel = (category) => {
   return categories[category];
 };
 
+const appendNAStatusDocuments = (documents, direction) => {
+  const statusNADocs = [];
+  const otherDocs = [];
+  if (direction !== 'Validation Status: N/A') {
+    documents.forEach((item) => {
+      getDocumentValidationStatus(item).caption === 'N/A' ? statusNADocs.push(item) : otherDocs.push(item);
+    });
+    return otherDocs.concat(statusNADocs);
+  }
+  return documents;
+};
+
 export const sortDocuments = (documents, sortKey, sortDirection) => {
   if (documents.length) {
     if (sortKey === 'fileName') {
@@ -391,19 +403,16 @@ export const sortDocuments = (documents, sortKey, sortDirection) => {
     if (sortKey === 'validationStatus') {
       const otherDocs = [];
       const statusOrderedDocs = [];
-      if (sortDirection === 'Validation Status: Critical') {
-        return documents;
-      } else {
-        documents.forEach((item) => {
-          if (getDocumentValidationStatus(item).caption === sortDirection) {
-            statusOrderedDocs.push(item);
-          } else {
-            otherDocs.push(item);
-          }
-        });
 
-        return statusOrderedDocs.concat(otherDocs);
-      }
+      documents.forEach((item) => {
+        if (getDocumentValidationStatus(item).caption === sortDirection) {
+          statusOrderedDocs.push(item);
+        } else {
+          otherDocs.push(item);
+        }
+      });
+
+      return statusOrderedDocs.concat(appendNAStatusDocuments(otherDocs, sortDirection));
     }
     if (sortKey === 'dataStoreAvailability') {
       const availabilityDocs = Array.from(documents);
