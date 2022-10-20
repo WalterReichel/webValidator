@@ -11,7 +11,7 @@
     },
     data() {
       return {
-        activeClass: 'inline-block h-3 w-3',
+        activeClass: 'inline-block h-4 w-4',
       };
     },
   };

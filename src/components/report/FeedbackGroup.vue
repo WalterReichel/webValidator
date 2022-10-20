@@ -7,6 +7,7 @@
   import FeedbackList from './FeedbackList.vue';
   import StyledIcon from '../StyledIcon.vue';
   import Tooltip from '../Tooltip.vue';
+  import { copyToClipboard } from '../../utils/misc';
 
   const props = defineProps({ activity: { type: Object, default: null } });
   const organisation = inject('organisation');
@@ -23,12 +24,6 @@
 
   let copy = ref(false);
   let copyIconRef = ref(null);
-  const copyActivityLink = () => {
-    copy.value = true;
-    setTimeout(() => {
-      copy.value = false;
-    }, 3000);
-  };
 
   const cleanIdentifier = (identifier) => {
     const newLineIndex = identifier.indexOf('\n');
@@ -45,6 +40,14 @@
     }
     return '';
   };
+
+  const copyActivityLink = (activity) => {
+    copy.value = true;
+    copyToClipboard(cleanIdentifier(activity));
+    setTimeout(() => {
+      copy.value = false;
+    }, 3000);
+  };
 </script>
 <template>
   <AppAccordion :open="false" class="mb-4">
@@ -53,9 +56,12 @@
         <div class="group font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
           <span ref="copyIconRef" class="invisible group-hover:visible">
-            <StyledIcon :icon="copy ? 'bg-check-icon' : 'bg-copy-icon'" @click.stop="copyActivityLink" />
+            <StyledIcon
+              :icon="copy ? 'bg-check-icon' : 'bg-copy-icon'"
+              @click.stop="copyActivityLink(props.activity.identifier)"
+            />
           </span>
-          <Tooltip :copy-icon-ref="copyIconRef" :show-tooltip="copy"> Copied </Tooltip>
+          <Tooltip :copy-icon-ref="copyIconRef" :show-tooltip="copy">Copied</Tooltip>
         </div>
         <div class="text-sm">
           <StyledLink
