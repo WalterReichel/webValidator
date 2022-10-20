@@ -104,6 +104,7 @@
                 placeholder="Sort by"
                 :allow-empty="false"
                 :selected-label="''"
+                :deselect-label="''"
                 class="min-w-[300px] sm:ml-1"
               />
             </div>
