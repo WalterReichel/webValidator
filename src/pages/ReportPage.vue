@@ -1,7 +1,7 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { provide, ref, watchEffect } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { provide, ref, watch, watchEffect } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
   import BasicCard from '../components/BasicCard.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
@@ -12,7 +12,7 @@
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
   import {
-    fetchDocumentByID,
+    fetchDocument,
     fetchOrganisationByID,
     fetchValidationReport,
     getDocumentFileName,
@@ -22,22 +22,42 @@
   } from '../utils';
 
   setPageTitle('File validation report');
+  const router = useRouter();
   const route = useRoute();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
 
-  const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.id), () =>
-    fetchDocumentByID(route.params.id)
+  const { data: documentResponse, error: documentError } = useSWRV(
+    !isTestFile ? getDocumentURL(route.params?.name) : null,
+    () => fetchDocument(route.params.name)
   );
+  const document = ref(null);
+
   const { data: organisation, error: organisationError } = useSWRV(
-    () => (document && document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
+    () => (document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
     () => fetchOrganisationByID(document.value.publisher)
   );
   const { data: dataset, error: datasetError } = useSWRV(
-    () => validationReportURL(route.params.id, 'id'),
-    () => fetchValidationReport(route.params.id, isTestFile)
+    () => validationReportURL(route.params.name, 'name'),
+    () => fetchValidationReport(route.params.name, isTestFile)
   );
   provide('organisation', organisation);
+
+  watch(documentResponse, () => {
+    if (documentResponse.value) {
+      const { data, status, lookupKey } = documentResponse.value;
+      if (status === 200) {
+        document.value = data;
+        if (lookupKey === 'id') {
+          router.push(`/report/${data.name}`);
+        }
+      }
+      if (status === 404 && !isTestFile) {
+        // TODO: show proper 404 error while staying on this route
+        router.push({ name: 'NotFound' });
+      }
+    }
+  });
 
   watchEffect(() => {
     if (documentError.value) {
