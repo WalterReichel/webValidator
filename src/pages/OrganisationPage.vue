@@ -102,6 +102,7 @@
                 v-model="selected"
                 :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
                 placeholder="Sort by"
+                :allow-empty="false"
                 class="min-w-[300px] sm:ml-1"
               />
             </div>
