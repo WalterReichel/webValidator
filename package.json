@@ -24,7 +24,11 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/vue-fontawesome": "^3.0.1",
+<<<<<<< HEAD
 >>>>>>> 685deae (Install fontawesome icons)
+=======
+    "@popperjs/core": "2.9.1",
+>>>>>>> 95fa964 (Add popper for tooltips)
     "date-fns": "^2.29.3",
     "js-cookie": "^3.0.1",
     "localforage": "^1.10.0",
