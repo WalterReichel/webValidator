@@ -53,7 +53,7 @@
         <div class="group font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
           <span ref="copyIconRef" class="invisible group-hover:visible">
-            <StyledIcon :icon="copy ? 'fa-solid fa-check' : 'fa-regular fa-copy'" @click.stop="copyActivityLink" />
+            <StyledIcon :icon="copy ? 'bg-check-icon' : 'bg-copy-icon'" @click.stop="copyActivityLink" />
           </span>
           <Tooltip :copy-icon-ref="copyIconRef" :show-tooltip="copy"> Copied </Tooltip>
         </div>

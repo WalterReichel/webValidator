@@ -1,6 +1,6 @@
 <template>
   <span>
-    <font-awesome-icon :icon="icon" />
+    <span :class="[icon, activeClass]"></span>
   </span>
 </template>
 
@@ -8,6 +8,11 @@
   export default {
     props: {
       icon: { type: String, default: '' },
+    },
+    data() {
+      return {
+        activeClass: 'inline-block h-3 w-3',
+      };
     },
   };
 </script>
