@@ -27,8 +27,9 @@
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
 
-  const { data: documentResponse, error: documentError } = useSWRV(getDocumentURL(route.params?.name), () =>
-    fetchDocument(route.params.name)
+  const { data: documentResponse, error: documentError } = useSWRV(
+    !isTestFile ? getDocumentURL(route.params?.name) : null,
+    () => fetchDocument(route.params.name)
   );
   const document = ref(null);
 
@@ -51,7 +52,7 @@
           router.push(`/report/${data.name}`);
         }
       }
-      if (status === 404) {
+      if (status === 404 && !isTestFile) {
         // TODO: show proper 404 error while staying on this route
         router.push({ name: 'NotFound' });
       }
