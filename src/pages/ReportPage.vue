@@ -1,7 +1,7 @@
 <script setup>
   import useSWRV from 'swrv';
   import { provide, ref, watchEffect } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRouter, useRoute } from 'vue-router';
   import BasicCard from '../components/BasicCard.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
@@ -12,23 +12,27 @@
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
   import {
+    fetchDocumentByID,
     fetchDocumentByName,
     fetchOrganisationByID,
     fetchValidationReport,
     getDocumentURL,
     getOrganisationURL,
     validationReportURL,
+    getDocumentURLWithID,
   } from '../utils';
 
   setPageTitle('File validation report');
+  const router = useRouter();
   const route = useRoute();
-  // const router = useRouter();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
+  const id = route.query.id;
 
-  const { data: document, error: documentError } = useSWRV(getDocumentURL(route.params.name), () =>
-    fetchDocumentByName(route.params.name)
-  );
+  const { data: document, error: documentError } = id
+    ? useSWRV(getDocumentURLWithID(id), () => fetchDocumentByID(id))
+    : useSWRV(getDocumentURL(route.params?.name), () => fetchDocumentByName(route.params.name));
+
   const { data: organisation, error: organisationError } = useSWRV(
     () => (document && document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
     () => fetchOrganisationByID(document.value.publisher)
@@ -54,8 +58,8 @@
     }
   });
   watchEffect(() => {
-    if (document.value) {
-      console.log('finally');
+    if (id && document.value) {
+      router.push(`/report/${document.value.name}`);
     }
   });
 </script>

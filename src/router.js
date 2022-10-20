@@ -14,6 +14,12 @@ const routes = [
   { path: '/validate/:tempWorkspaceID', component: ValidationResult },
   { path: '/organisations', component: OrganisationsPage },
   { path: '/organisation/:name', component: OrganisationPage },
+  {
+    path: '/view/dqf/files/:id',
+    redirect: (to) => {
+      return { path: '/report/:name', query: { id: to.params.id } };
+    },
+  },
   { path: '/report/:name', component: ReportPage },
 ];
 
