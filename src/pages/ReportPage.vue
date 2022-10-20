@@ -12,7 +12,7 @@
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
   import {
-    fetchDocumentByName,
+    fetchDocument,
     fetchOrganisationByID,
     fetchValidationReport,
     getDocumentURL,
@@ -27,7 +27,7 @@
   const isTestFile = route.query.isTestFile;
 
   const { data: documentResponse, error: documentError } = useSWRV(getDocumentURL(route.params?.name), () =>
-    fetchDocumentByName(route.params.name)
+    fetchDocument(route.params.name)
   );
   const document = ref(null);
 

@@ -2,38 +2,19 @@ import { SERVICES_URL, getDefaultServicesAPIOptions } from '.';
 
 export const getDocumentURL = (value, lookupKey = 'name') =>
   `${SERVICES_URL}/pvt/documents/${value}?lookupKey=${lookupKey}`;
-export const fetchDocumentByID = async (documentID) => {
-  const url = getDocumentURL(documentID, 'id');
+export const fetchDocument = async (lookupValue, lookupKey = 'name', tryAlternateLookupKey = true) => {
+  const url = getDocumentURL(lookupValue, lookupKey);
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
 
-    return { status: 200, data: data[0] };
+    return { status: 200, data: data[0], lookupKey };
   }
-  if (response.status === 404) {
-    const responseByName = await fetchDocumentByID(documentID);
-
-    return responseByName;
+  if (response.status === 404 && tryAlternateLookupKey) {
+    return await fetchDocument(lookupValue, lookupKey === 'name' ? 'id' : 'name', false);
   }
 
-  return { status: response.status, data: null };
-};
-
-export const fetchDocumentByName = async (documentName) => {
-  const url = getDocumentURL(documentName);
-  const response = await window.fetch(url, getDefaultServicesAPIOptions());
-  if (response.status === 200) {
-    const data = await response.json();
-
-    return { status: 200, data: data[0] };
-  }
-  if (response.status === 404) {
-    const responseByID = await fetchDocumentByID(documentName);
-
-    return responseByID;
-  }
-
-  return { status: response.status, data: null };
+  return { status: response.status, data: null, lookupKey };
 };
 
 export const validationReportURL = (value, isTestFile = false, lookupKey = 'name') =>
