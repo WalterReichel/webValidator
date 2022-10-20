@@ -15,6 +15,7 @@
     fetchDocument,
     fetchOrganisationByID,
     fetchValidationReport,
+    getDocumentFileName,
     getDocumentURL,
     getOrganisationURL,
     validationReportURL,
@@ -88,7 +89,7 @@
           -
         </template>
         <StyledLink v-if="document" :to="document.url" :external="true" class="underline">
-          {{ document.name }}
+          {{ getDocumentFileName(document) }}
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>

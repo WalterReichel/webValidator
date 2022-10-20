@@ -24,7 +24,7 @@
 
   const onClick = () => {
     if (props.document.validation && props.document.hash) {
-      router.push(`/report/${props.document.name}`); // TODO: change to more friendly URL
+      router.push(`/report/${props.document.name}`);
     }
   };
 
