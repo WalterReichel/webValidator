@@ -1,5 +1,6 @@
 import { formatDate } from '.';
 
+const validationStatusOrder = ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
 export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
@@ -425,8 +426,10 @@ export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) 
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
 
-export const documentValidationStatus = (documents) =>
-  Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+export const documentValidationStatus = (documents) => {
+  const availableStatusOptions = Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+  return validationStatusOrder.filter((opt) => availableStatusOptions.includes(opt));
+};
 
 const getValidationStatusOptions = (documents) =>
   documentValidationStatus(documents).map((status) => ({
