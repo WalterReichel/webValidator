@@ -6,6 +6,7 @@
   import StyledLink from '../StyledLink.vue';
   import FeedbackList from './FeedbackList.vue';
   import StyledIcon from '../StyledIcon.vue';
+  import Tooltip from '../Tooltip.vue';
 
   const props = defineProps({ activity: { type: Object, default: null } });
   const organisation = inject('organisation');
@@ -21,6 +22,7 @@
   );
 
   let copy = ref(false);
+  let copyIconRef = ref(null);
   const copyActivityLink = () => {
     copy.value = true;
     setTimeout(() => {
@@ -50,15 +52,10 @@
       <div class="w-full bg-slate-100 px-4 py-2 text-left">
         <div class="group font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
-          <span
-            id="copyIcon"
-            class="invisible group-hover:visible"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            title="Tooltip on top"
-          >
-            <StyledIcon :icon="copy ? 'fa-solid fa-check' : 'fa-regular fa-copy'" @click="copyActivityLink" />
+          <span ref="copyIconRef" class="invisible group-hover:visible">
+            <StyledIcon :icon="copy ? 'fa-solid fa-check' : 'fa-regular fa-copy'" @click.stop="copyActivityLink" />
           </span>
+          <Tooltip :copy-icon-ref="copyIconRef" :show-tooltip="copy"> Copied </Tooltip>
         </div>
         <div class="text-sm">
           <StyledLink
