@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/view/dqf/files/:id',
     redirect: (to) => {
-      return { path: '/report/:name', query: { id: to.params.id } };
+      return { path: `/report/${to.params.id}` };
     },
   },
   { path: '/report/:name', component: ReportPage },

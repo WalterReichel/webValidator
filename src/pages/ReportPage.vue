@@ -43,10 +43,14 @@
 
   watch(documentResponse, () => {
     if (documentResponse.value) {
-      if (documentResponse.value.status === 200) {
-        document.value = documentResponse.value.data;
+      const { data, status, lookupKey } = documentResponse.value;
+      if (status === 200) {
+        document.value = data;
+        if (lookupKey === 'id') {
+          window.history.pushState(null, '', `/report/${data.name}`);
+        }
       }
-      if (documentResponse.value.status === 404) {
+      if (status === 404) {
         // TODO: show proper 404 error while staying on this route
         router.push({ name: 'NotFound' });
       }
