@@ -1,6 +1,6 @@
 <script setup>
   import useSWRV from 'swrv';
-  import { provide, ref, watchEffect } from 'vue';
+  import { provide, ref, watch, watchEffect } from 'vue';
   import { useRouter, useRoute } from 'vue-router';
   import BasicCard from '../components/BasicCard.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
@@ -12,14 +12,12 @@
   import StyledLink from '../components/StyledLink.vue';
   import { setPageTitle } from '../state';
   import {
-    fetchDocumentByID,
     fetchDocumentByName,
     fetchOrganisationByID,
     fetchValidationReport,
     getDocumentURL,
     getOrganisationURL,
     validationReportURL,
-    getDocumentURLWithID,
   } from '../utils';
 
   setPageTitle('File validation report');
@@ -27,14 +25,14 @@
   const route = useRoute();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
-  const id = route.query.id;
 
-  const { data: document, error: documentError } = id
-    ? useSWRV(getDocumentURLWithID(id), () => fetchDocumentByID(id))
-    : useSWRV(getDocumentURL(route.params?.name), () => fetchDocumentByName(route.params.name));
+  const { data: documentResponse, error: documentError } = useSWRV(getDocumentURL(route.params?.name), () =>
+    fetchDocumentByName(route.params.name)
+  );
+  const document = ref(null);
 
   const { data: organisation, error: organisationError } = useSWRV(
-    () => (document && document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
+    () => (document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
     () => fetchOrganisationByID(document.value.publisher)
   );
   const { data: dataset, error: datasetError } = useSWRV(
@@ -42,6 +40,18 @@
     () => fetchValidationReport(route.params.name, isTestFile)
   );
   provide('organisation', organisation);
+
+  watch(documentResponse, () => {
+    if (documentResponse.value) {
+      if (documentResponse.value.status === 200) {
+        document.value = documentResponse.value.data;
+      }
+      if (documentResponse.value.status === 404) {
+        // TODO: show proper 404 error while staying on this route
+        router.push({ name: 'NotFound' });
+      }
+    }
+  });
 
   watchEffect(() => {
     if (documentError.value) {
@@ -55,11 +65,6 @@
     }
     if (datasetError.value) {
       console.log('Data Set Error: ', datasetError.value);
-    }
-  });
-  watchEffect(() => {
-    if (id && document.value) {
-      router.push(`/report/${document.value.name}`);
     }
   });
 </script>

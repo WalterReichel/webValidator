@@ -1,17 +1,22 @@
 import { SERVICES_URL, getDefaultServicesAPIOptions } from '.';
 
-export const getDocumentURLWithID = (documentID) => `${SERVICES_URL}/pvt/documents/${documentID}`;
-export const getDocumentURL = (documentName) => `${SERVICES_URL}/pvt/documents/${documentName}?lookupKey=name`;
+export const getDocumentURL = (value, lookupKey = 'name') =>
+  `${SERVICES_URL}/pvt/documents/${value}?lookupKey=${lookupKey}`;
 export const fetchDocumentByID = async (documentID) => {
-  const url = getDocumentURLWithID(documentID);
+  const url = getDocumentURL(documentID, 'id');
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
 
-    return data[0];
+    return { status: 200, data: data[0] };
+  }
+  if (response.status === 404) {
+    const responseByName = await fetchDocumentByID(documentID);
+
+    return responseByName;
   }
 
-  return null;
+  return { status: response.status, data: null };
 };
 
 export const fetchDocumentByName = async (documentName) => {
@@ -20,21 +25,35 @@ export const fetchDocumentByName = async (documentName) => {
   if (response.status === 200) {
     const data = await response.json();
 
-    return data[0];
+    return { status: 200, data: data[0] };
+  }
+  if (response.status === 404) {
+    const responseByID = await fetchDocumentByID(documentName);
+
+    return responseByID;
   }
 
-  return null;
+  return { status: response.status, data: null };
 };
 
-export const validationReportURL = (documentName, isTestFile = false) =>
-  `${SERVICES_URL}/pub/validation/existing?${isTestFile ? 'testfile' : 'name'}=${documentName}`;
-export const fetchValidationReport = async (documentName, isTestFile = false) => {
-  const url = validationReportURL(documentName, isTestFile);
-  const response = await window.fetch(url, getDefaultServicesAPIOptions());
+export const validationReportURL = (value, isTestFile = false, lookupKey = 'name') =>
+  `${SERVICES_URL}/pub/validation/existing?${isTestFile ? 'testfile' : lookupKey}=${value}`;
+export const fetchValidationReport = async (
+  documentName,
+  isTestFile = false,
+  lookupKey = 'name',
+  tryAlternateLookupKey = true
+) => {
+  let url = validationReportURL(documentName, isTestFile, lookupKey);
+  let response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
 
     return data;
+  }
+  if (response.status === 404 && !isTestFile && tryAlternateLookupKey) {
+    // switch lookup key
+    return await fetchValidationReport(documentName, isTestFile, lookupKey === 'name' ? 'id' : 'name', false);
   }
 
   return null;
