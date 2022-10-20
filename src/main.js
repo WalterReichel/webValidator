@@ -2,6 +2,13 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import './index.css';
 import router from './router';
-import cache from './utils/cache';
+import cache from './plugins/cache';
+import plausible from './plugins/plausible';
 
-createApp(App).use(router).use(cache, { expires: 5 }).mount('#app');
+const plausibleOptions = {
+  domain: import.meta.env.PLAUSIBLE_DOMAIN,
+  hashMode: true,
+  trackLocalhost: false,
+};
+
+createApp(App).use(router).use(plausible, plausibleOptions).use(cache, { expires: 5 }).mount('#app');
