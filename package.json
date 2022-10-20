@@ -21,6 +21,7 @@
     "js-cookie": "^3.0.1",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
+    "plausible-tracker": "^0.3.8",
     "rxjs": "^7.5.7",
     "swrv": "^1.0.0",
     "uuid": "^9.0.0",

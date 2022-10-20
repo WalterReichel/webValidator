@@ -14,3 +14,26 @@
   </div>
   <LayoutFooter />
 </template>
+
+<script>
+  import { inject } from 'vue';
+  import Plausible from 'plausible-tracker';
+  export default {
+    setup() {
+      const plausible = inject('plausible');
+      return {
+        plausible,
+      };
+    },
+    mounted() {
+      const { trackEvent } = Plausible();
+      const requestStart = performance.getEntriesByType('navigation')[0].requestStart;
+      trackEvent('TTFB', {
+        props: {
+          event_category: 'PageSpeed',
+          event_label: requestStart,
+        },
+      });
+    },
+  };
+</script>
