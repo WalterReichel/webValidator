@@ -90,7 +90,7 @@
         <div class="-mx-3.5 -mb-3.5">
           <div class="flex flex-col p-3 sm:flex-row sm:justify-between">
             <div v-if="documents && documents.length" class="py-2">
-              <span>{{ documents.length }} files</span>
+              <span>{{ documents.length }} {{ documents.length === 1 ? 'file' : 'files' }}</span>
               <span v-for="status in documentValidationStatus(documents)" :key="status">
                 | <label :class="getStatusColor(status)">{{ status }}</label
                 >: {{ getDocumentCount(documents, status) }}
@@ -102,6 +102,9 @@
                 v-model="selected"
                 :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
                 placeholder="Sort by"
+                :allow-empty="false"
+                :selected-label="''"
+                :deselect-label="''"
                 class="min-w-[300px] sm:ml-1"
               />
             </div>

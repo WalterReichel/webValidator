@@ -1,5 +1,6 @@
 import { formatDate } from '.';
 
+const validationStatusOrder = ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
 export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
@@ -340,6 +341,18 @@ export const getFeedbackCategoryLabel = (category) => {
   return categories[category];
 };
 
+const appendNAStatusDocuments = (documents, direction) => {
+  const statusNADocs = [];
+  const otherDocs = [];
+  if (direction !== 'Validation Status: N/A') {
+    documents.forEach((item) => {
+      getDocumentValidationStatus(item).caption === 'N/A' ? statusNADocs.push(item) : otherDocs.push(item);
+    });
+    return otherDocs.concat(statusNADocs);
+  }
+  return documents;
+};
+
 export const sortDocuments = (documents, sortKey, sortDirection) => {
   if (documents.length) {
     if (sortKey === 'fileName') {
@@ -390,19 +403,39 @@ export const sortDocuments = (documents, sortKey, sortDirection) => {
     if (sortKey === 'validationStatus') {
       const otherDocs = [];
       const statusOrderedDocs = [];
-      if (sortDirection === 'Validation Status: Critical') {
-        return documents;
-      } else {
-        documents.forEach((item) => {
-          if (getDocumentValidationStatus(item).caption === sortDirection) {
-            statusOrderedDocs.push(item);
-          } else {
-            otherDocs.push(item);
-          }
-        });
 
-        return statusOrderedDocs.concat(otherDocs);
-      }
+      documents.forEach((item) => {
+        if (getDocumentValidationStatus(item).caption === sortDirection) {
+          statusOrderedDocs.push(item);
+        } else {
+          otherDocs.push(item);
+        }
+      });
+
+      return statusOrderedDocs.concat(appendNAStatusDocuments(otherDocs, sortDirection));
+    }
+    if (sortKey === 'dataStoreAvailability') {
+      const availabilityDocs = Array.from(documents);
+      const availabilitySortingDocs = [];
+      const nonAvailabilityDocs = [];
+      availabilityDocs.forEach((doc) => {
+        const availabilityResult = getDocumentDatastoreAvailability(doc);
+        if (availabilityResult.includes('Yes')) {
+          availabilitySortingDocs.push(doc);
+        } else {
+          nonAvailabilityDocs.push(doc);
+        }
+      });
+      availabilitySortingDocs.sort(function (a, b) {
+        if (a['solrize_end'] > b['solrize_end']) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if (a['solrize_end'] < b['solrize_end']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+
+      return availabilitySortingDocs.concat(nonAvailabilityDocs);
     }
   }
 };
@@ -414,6 +447,8 @@ const partialSortOptions = [
   { label: 'Identified in Registry: Oldest', direction: 'ascending', value: 'registryIdentity' },
   { label: 'Validated: Newest', direction: 'descending', value: 'validationDate' },
   { label: 'Validated: Oldest', direction: 'ascending', value: 'validationDate' },
+  { label: 'Available in IATI Datastore: Newest', direction: 'descending', value: 'dataStoreAvailability' },
+  { label: 'Available in IATI Datastore: Oldest', direction: 'ascending', value: 'dataStoreAvailability' },
 ];
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
@@ -425,8 +460,10 @@ export const getSortValue = (sortKey, options) => (sortKey ? options.find((opt) 
 export const getDocumentCount = (files, status) =>
   files.filter((file) => getDocumentValidationStatus(file).caption === status).length;
 
-export const documentValidationStatus = (documents) =>
-  Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+export const documentValidationStatus = (documents) => {
+  const availableStatusOptions = Array.from(new Set(documents.map((doc) => getDocumentValidationStatus(doc).caption)));
+  return validationStatusOrder.filter((opt) => availableStatusOptions.includes(opt));
+};
 
 const getValidationStatusOptions = (documents) =>
   documentValidationStatus(documents).map((status) => ({
