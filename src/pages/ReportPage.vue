@@ -48,7 +48,7 @@
       if (status === 200) {
         document.value = data;
         if (lookupKey === 'id') {
-          window.history.pushState(null, '', `/report/${data.name}`);
+          router.push(`/report/${data.name}`);
         }
       }
       if (status === 404) {
