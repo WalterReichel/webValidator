@@ -17,6 +17,7 @@
   },
   "dependencies": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@formkit/auto-animate": "^1.0.0-beta.3",
     "copy-to-clipboard": "^3.3.2",
 =======
@@ -27,6 +28,8 @@
 <<<<<<< HEAD
 >>>>>>> 685deae (Install fontawesome icons)
 =======
+=======
+>>>>>>> b942c49 (Remove fontawesome)
     "@popperjs/core": "2.9.1",
 >>>>>>> 95fa964 (Add popper for tooltips)
     "date-fns": "^2.29.3",
