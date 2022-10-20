@@ -405,6 +405,29 @@ export const sortDocuments = (documents, sortKey, sortDirection) => {
         return statusOrderedDocs.concat(otherDocs);
       }
     }
+    if (sortKey === 'dataStoreAvailability') {
+      const availabilityDocs = Array.from(documents);
+      const availabilitySortingDocs = [];
+      const nonAvailabilityDocs = [];
+      availabilityDocs.forEach((doc) => {
+        const availabilityResult = getDocumentDatastoreAvailability(doc);
+        if (availabilityResult.includes('Yes')) {
+          availabilitySortingDocs.push(doc);
+        } else {
+          nonAvailabilityDocs.push(doc);
+        }
+      });
+      availabilitySortingDocs.sort(function (a, b) {
+        if (a['solrize_end'] > b['solrize_end']) {
+          return sortDirection === 'ascending' ? 1 : -1;
+        } else if (a['solrize_end'] < b['solrize_end']) {
+          return sortDirection === 'ascending' ? -1 : 1;
+        }
+        return 0;
+      });
+
+      return availabilitySortingDocs.concat(nonAvailabilityDocs);
+    }
   }
 };
 
@@ -415,6 +438,8 @@ const partialSortOptions = [
   { label: 'Identified in Registry: Oldest', direction: 'ascending', value: 'registryIdentity' },
   { label: 'Validated: Newest', direction: 'descending', value: 'validationDate' },
   { label: 'Validated: Oldest', direction: 'ascending', value: 'validationDate' },
+  { label: 'Available in IATI Datastore: Newest', direction: 'descending', value: 'dataStoreAvailability' },
+  { label: 'Available in IATI Datastore: Oldest', direction: 'ascending', value: 'dataStoreAvailability' },
 ];
 export const sortOptions = (documents) => partialSortOptions.concat(getValidationStatusOptions(documents));
 
