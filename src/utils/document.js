@@ -89,18 +89,19 @@ export const getDocumentValidationStatus = (document) => {
 export const getDocumentDatastoreAvailability = (document) => {
   /* see this ticket for full explanation on these availability statuses
   https://trello.com/c/XeovXQrf/232-front-end-indicator-that-file-is-partially-in-ds-for-al-validation */
-  const { report, solrize_end, alv_end, alv_start, alv_error } = document;
+  const { report, solrize_end, clean_end, clean_start, clean_error, file_schema_valid } = document;
   const fileStatus = getDocumentValidationStatus(document).value;
+  console.log(document);
 
   if (solrize_end) {
     const formatedDate = formatDate(solrize_end);
 
-    return `${fileStatus === 'critical' && alv_end ? 'Partial' : 'Yes'} - ${formatedDate}`;
+    return `${fileStatus === 'critical' && clean_end && !file_schema_valid ? 'Partial' : 'Yes'} - ${formatedDate}`;
   }
 
   if (
     fileStatus === 'critical' &&
-    ((report?.fileType === 'iati-activities' && !alv_start) || alv_error === 'No valid activities')
+    ((report?.fileType === 'iati-activities' && !clean_start) || clean_error === 'No valid activities')
   ) {
     return 'No';
   }
@@ -109,11 +110,11 @@ export const getDocumentDatastoreAvailability = (document) => {
     (report?.fileType === 'iati-activities' && fileStatus !== 'critical') ||
     (report?.fileType === 'iati-activities' &&
       fileStatus === 'critical' &&
-      !alv_start &&
+      !clean_start &&
       report?.iatiVersion !== '' &&
       report?.iatiVersion !== '1*' &&
       checkDocumentHasErrorVersions(['0.6.1', '0.2.1', '0.1.1'], report?.errors)) ||
-    (fileStatus === 'critical' && alv_end)
+    (fileStatus === 'critical' && clean_end)
   ) {
     return 'Pending';
   }
