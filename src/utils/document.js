@@ -1,7 +1,8 @@
 import { formatDate } from '.';
 
 const validationStatusOrder = ['Critical', 'Error', 'Warning', 'Success', 'N/A'];
-export const getDocumentFileName = (document) => (document.url ? document.url.replace(/\/$/, '').split('/').pop() : '');
+export const getDocumentFileName = (document) =>
+  document.url ? window.decodeURI(document.url).replace(/\/$/, '').split('/').pop() : '';
 export const compareDocumentSeverity = (docOne, docTwo) => getDocumentSeverity(docOne) - getDocumentSeverity(docTwo);
 
 export const hasProperLink = (document) =>
