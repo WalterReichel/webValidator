@@ -66,8 +66,6 @@ export const getDocumentValidationStatus = (document) => {
   const { report } = document;
   const { valid } = report || { valid: null };
   const { error, warning } = report ? report.summary : { error: -1, warning: -1 };
-  // console.log(report);
-  console.log(document);
 
   if (document.report === null) {
     return { value: 'normal', caption: 'N/A' };
