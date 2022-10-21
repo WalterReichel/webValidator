@@ -66,6 +66,8 @@ export const getDocumentValidationStatus = (document) => {
   const { report } = document;
   const { valid } = report || { valid: null };
   const { error, warning } = report ? report.summary : { error: -1, warning: -1 };
+  // console.log(report);
+  console.log(document);
 
   if (document.report === null) {
     return { value: 'normal', caption: 'N/A' };
@@ -89,13 +91,13 @@ export const getDocumentValidationStatus = (document) => {
 export const getDocumentDatastoreAvailability = (document) => {
   /* see this ticket for full explanation on these availability statuses
   https://trello.com/c/XeovXQrf/232-front-end-indicator-that-file-is-partially-in-ds-for-al-validation */
-  const { report, solrize_end, alv_end, alv_start, alv_error } = document;
+  const { report, solrize_end, alv_end, alv_start, alv_error, file_schema_valid } = document;
   const fileStatus = getDocumentValidationStatus(document).value;
 
   if (solrize_end) {
     const formatedDate = formatDate(solrize_end);
 
-    return `${fileStatus === 'critical' && alv_end ? 'Partial' : 'Yes'} - ${formatedDate}`;
+    return `${fileStatus === 'critical' && !file_schema_valid ? 'Partial' : 'Yes'} - ${formatedDate}`;
   }
 
   if (
