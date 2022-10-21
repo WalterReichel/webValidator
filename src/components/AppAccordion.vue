@@ -11,7 +11,7 @@
 </script>
 
 <template>
-  <div class="w-full">
+  <div v-auto-animate class="w-full">
     <button class="relative flex w-full items-center space-x-3" :aria-expanded="isOpen" @click="toggleAccordion()">
       <slot name="title" />
 
@@ -31,7 +31,7 @@
       </svg>
     </button>
 
-    <div v-show="isOpen">
+    <div v-if="isOpen">
       <slot name="content" />
     </div>
   </div>
