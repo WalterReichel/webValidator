@@ -9,11 +9,11 @@
 
   onMounted(() => {
     const { trackEvent } = Plausible();
-    const requestStart = performance.getEntriesByType('navigation')[0].requestStart;
+    const responseStart = performance.getEntriesByType('navigation')[0].responseStart;
     trackEvent('TTFB', {
       props: {
         event_category: 'PageSpeed',
-        event_label: requestStart,
+        event_label: responseStart,
       },
     });
   });
