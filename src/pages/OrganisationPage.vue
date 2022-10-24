@@ -30,6 +30,7 @@
   const loading = ref(true);
   const selected = ref('');
   const organisation = ref(null);
+  const errorMessage = ref(null);
 
   const { data: organisationResponse, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
@@ -42,7 +43,7 @@
         organisation.value = data;
       }
       if (status === 404) {
-        console.log('404');
+        errorMessage.value = `An organisation with name "${route.params.name}" was not found`;
       }
     }
   });
@@ -78,7 +79,10 @@
 <template>
   <ContentContainer>
     <div>
-      <CaptionedLoadingSpinner v-if="!organisation" class="pb-3"> Loading Info ... </CaptionedLoadingSpinner>
+      <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
+        Loading Info ...
+      </CaptionedLoadingSpinner>
+      <p v-else>{{ errorMessage }}</p>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -123,7 +127,10 @@
               />
             </div>
           </div>
-          <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
+          <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
+            Loading Reports...
+          </CaptionedLoadingSpinner>
+          <p v-else-if="errorMessage">No data</p>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
             :key="Math.random()"
