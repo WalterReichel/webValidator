@@ -29,12 +29,26 @@
   const route = useRoute();
   const loading = ref(true);
   const selected = ref('');
+  const organisation = ref(null);
 
-  const { data: organisation, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
+  const { data: organisationResponse, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
   );
+
+  watchEffect(() => {
+    if (organisationResponse.value) {
+      const { data, status } = organisationResponse.value;
+      if (status === 200) {
+        organisation.value = data;
+      }
+      if (status === 404) {
+        console.log('404');
+      }
+    }
+  });
+
   const { data: documents, error: documentsError } = useSWRV(
-    () => (organisation && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
+    () => (organisation.value && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
     () => fetchOrganisationDocuments(organisation.value.org_id)
   );
 
@@ -42,7 +56,7 @@
     if (organisationError && organisationError.value) {
       loading.value = false;
       console.log(organisationError.value);
-    } else if (organisation && organisation.value) {
+    } else if (organisation.value && organisation.value) {
       layout.title = organisation.value.title;
     }
   });

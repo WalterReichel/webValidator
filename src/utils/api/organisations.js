@@ -24,14 +24,12 @@ export const fetchOrganisationByName = async (name) => {
   const url = getOrganisationURL(name);
 
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
-  console.log(response);
   if (response.status === 200) {
     const data = await response.json();
-    return data && data.length ? data[0] : null;
+    return { data: data && data.length ? data[0] : null, status: response.status };
   }
-  if (response.status === 404) {
-    console.log('no organisation');
-  }
+
+  return { status: response.status, data: null };
 };
 export const fetchOrganisationByID = async (id) => {
   const url = getOrganisationURL(id, 'id');
