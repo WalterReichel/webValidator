@@ -22,10 +22,15 @@ export const getOrganisationURL = (value, lookupKey = 'name') =>
   `${SERVICES_URL}/pvt/publishers/${value}?lookupKey=${lookupKey}`;
 export const fetchOrganisationByName = async (name) => {
   const url = getOrganisationURL(name);
+
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
+  console.log(response);
   if (response.status === 200) {
     const data = await response.json();
     return data && data.length ? data[0] : null;
+  }
+  if (response.status === 404) {
+    console.log('no organisation');
   }
 };
 export const fetchOrganisationByID = async (id) => {

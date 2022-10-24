@@ -26,6 +26,7 @@
   const route = useRoute();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
+  const reportError = ref(null);
 
   const { data: documentResponse, error: documentError } = useSWRV(
     !isTestFile ? getDocumentURL(route.params?.name) : null,
@@ -53,8 +54,7 @@
         }
       }
       if (status === 404 && !isTestFile) {
-        // TODO: show proper 404 error while staying on this route
-        router.push({ name: 'NotFound' });
+        reportError.value = `There is no report with name "${route.params.name}"`;
       }
     }
   });
@@ -103,8 +103,8 @@
         <FileStatusInfo />
       </BasicCard>
     </div>
-
-    <CaptionedLoadingSpinner v-if="!dataset" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
+    <CaptionedLoadingSpinner v-if="!dataset && !reportError" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
+    <p v-else-if="reportError">{{ reportError }}</p>
     <DocumentReport v-else :document="document" :report="dataset.report" />
   </ContentContainer>
 </template>
