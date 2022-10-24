@@ -80,9 +80,10 @@
     <StyledLink v-if="isTestFile && dataset" :to="`/validate/${dataset.session_id}`" class="mr-2 inline-flex">
       <IconChevron class="mr-2" /> Return to your workspace
     </StyledLink>
-    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset" class="pb-3">
+    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !reportError" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
+    <p v-else-if="reportError">No document found</p>
     <div v-else>
       <h3 class="text-lg">
         <template v-if="organisation">
