@@ -100,7 +100,9 @@ export const getDocumentDatastoreAvailability = (document) => {
 
   if (
     fileStatus === 'critical' &&
-    ((report?.fileType === 'iati-activities' && !clean_start) || clean_error === 'No valid activities')
+    ((report?.fileType === 'iati-activities' && !clean_start) ||
+      clean_error === 'No valid activities' ||
+      report.fileType === '')
   ) {
     return 'No';
   }
