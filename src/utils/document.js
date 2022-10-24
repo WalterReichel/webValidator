@@ -92,7 +92,6 @@ export const getDocumentDatastoreAvailability = (document) => {
   https://trello.com/c/XeovXQrf/232-front-end-indicator-that-file-is-partially-in-ds-for-al-validation */
   const { report, solrize_end, clean_end, clean_start, clean_error, file_schema_valid } = document;
   const fileStatus = getDocumentValidationStatus(document).value;
-  console.log(document);
 
   if (solrize_end) {
     const formatedDate = formatDate(solrize_end);
@@ -102,7 +101,9 @@ export const getDocumentDatastoreAvailability = (document) => {
 
   if (
     fileStatus === 'critical' &&
-    ((report?.fileType === 'iati-activities' && !clean_start) || clean_error === 'No valid activities')
+    ((report?.fileType === 'iati-activities' && !clean_start) ||
+      clean_error === 'No valid activities' ||
+      report?.fileType === '')
   ) {
     return 'No';
   }
