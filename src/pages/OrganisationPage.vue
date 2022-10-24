@@ -82,7 +82,7 @@
       <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
         Loading Info ...
       </CaptionedLoadingSpinner>
-      <p v-else>{{ errorMessage }}</p>
+      <BasicAlert v-else>{{ errorMessage }}</BasicAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -130,7 +130,7 @@
           <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
             Loading Reports...
           </CaptionedLoadingSpinner>
-          <p v-else-if="errorMessage">No data</p>
+          <BasicAlert v-else-if="errorMessage">No data</BasicAlert>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
             :key="Math.random()"

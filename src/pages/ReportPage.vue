@@ -20,6 +20,7 @@
     getOrganisationURL,
     validationReportURL,
   } from '../utils';
+  import BasicAlert from '../components/BasicAlert.vue';
 
   setPageTitle('File validation report');
   const router = useRouter();
@@ -83,7 +84,7 @@
     <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !reportError" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
-    <p v-else-if="reportError">No document found</p>
+    <BasicAlert v-else-if="reportError">No document found</BasicAlert>
     <div v-else>
       <h3 class="text-lg">
         <template v-if="organisation">
@@ -105,7 +106,7 @@
       </BasicCard>
     </div>
     <CaptionedLoadingSpinner v-if="!dataset && !reportError" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
-    <p v-else-if="reportError">{{ reportError }}</p>
+    <BasicAlert v-else-if="reportError">{{ reportError }}</BasicAlert>
     <DocumentReport v-else :document="document" :report="dataset.report" />
   </ContentContainer>
 </template>
