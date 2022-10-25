@@ -24,6 +24,7 @@
   import BasicAlert from '../components/BasicAlert.vue';
   import StyledLink from '../components/StyledLink.vue';
   import SelectInput from '../components/SelectInput.vue';
+  import AppAlert from '../components/AppAlert.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -82,7 +83,7 @@
       <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
         Loading Info ...
       </CaptionedLoadingSpinner>
-      <BasicAlert v-else>{{ errorMessage }}</BasicAlert>
+      <AppAlert v-else>{{ errorMessage }}</AppAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -130,7 +131,7 @@
           <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
             Loading Reports...
           </CaptionedLoadingSpinner>
-          <BasicAlert v-else-if="errorMessage">No data</BasicAlert>
+          <AppAlert v-else-if="errorMessage">No data</AppAlert>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
             :key="Math.random()"

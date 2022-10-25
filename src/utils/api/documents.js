@@ -40,7 +40,6 @@ export const fetchValidationReport = async (
     };
   }
   if (response.status === 404) {
-    console.log(response.json());
     return { data: null, status: response.status };
   }
 
