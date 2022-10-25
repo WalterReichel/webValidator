@@ -84,7 +84,7 @@
       <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
         Loading Info ...
       </CaptionedLoadingSpinner>
-      <AppAlert v-else variant="error">{{ errorMessage }}</AppAlert>
+      <AppAlert v-if="errorMessage" variant="error">{{ errorMessage }}</AppAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
