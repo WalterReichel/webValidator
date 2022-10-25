@@ -79,9 +79,6 @@
 <template>
   <ContentContainer>
     <div>
-      <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
-        {{ !organisation ? 'Loading Info ...' : 'Loading Reports...' }}
-      </CaptionedLoadingSpinner>
       <AppAlert v-if="errorMessage" variant="error">
         <p class="font-semibold">{{ errorMessage }}</p>
       </AppAlert>
@@ -97,6 +94,11 @@
         <p class="my-3">{{ organisation.description }}</p>
       </div>
     </div>
+
+    <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
+      {{ !organisation ? 'Loading Info ...' : 'Loading Reports...' }}
+    </CaptionedLoadingSpinner>
+
     <div v-if="!loading && !errorMessage" class="-mx-3.5 flex flex-wrap">
       <BasicCard class="rounded-b-none">
         <template #header>
