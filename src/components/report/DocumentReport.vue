@@ -12,6 +12,7 @@
   import CategoryItem from './CategoryItem.vue';
   import FileErrors from './FileErrors.vue';
   import SeverityItem from './SeverityItem.vue';
+  import FeedbackListSearchFilter from './FeedbackListSearchFilter.vue';
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
 
@@ -53,6 +54,7 @@
   const fileType = ref(null);
   const fileErrorsTitle = ref('');
   const activityErrorsTitle = ref('');
+  const filterText = ref(null);
 
   provide('fileType', fileType);
   provide('report', filteredReport);
@@ -108,6 +110,10 @@
   const onFilterByCategory = (category) => {
     activeCategory.value = category;
   };
+
+  const onFilter = (item) => {
+    filterText.value = item;
+  };
 </script>
 
 <template>
@@ -115,6 +121,7 @@
     <div v-if="hasMessages" class="relative flex shrink grow flex-col sm:w-full md:basis-1/3">
       <div class="sticky top-0 m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
+        <FeedbackListSearchFilter placeholder="By name and ID" @on-filter-by-name="onFilter"></FeedbackListSearchFilter>
         <div class="bg-slate-300">
           <div class="px-4 py-2">
             <h4 class="text-base font-bold">View by message type</h4>
@@ -149,7 +156,12 @@
           :title="fileErrorsTitle"
           :guidance-links="guidanceLinks"
         />
-        <ActivityErrors v-if="filteredReport" :title="activityErrorsTitle" :file-type="fileType" />
+        <ActivityErrors
+          v-if="filteredReport"
+          :title="activityErrorsTitle"
+          :file-type="fileType"
+          :filter-text="filterText"
+        />
       </div>
     </div>
   </div>

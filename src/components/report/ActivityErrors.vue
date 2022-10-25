@@ -8,11 +8,13 @@
   const props = defineProps({
     title: { type: String, default: '' },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
+    filterText: { type: String, default: '' },
   });
   const report = inject('report');
   const data = computed(() =>
     getReportErrorsByIdentifier(report.value, 'activity').filter(
-      (item) => item.errors.length && item.errors.some((i) => i.errors.length) // only include items with feedback to show
+      (item) =>
+        item.errors.length && item.errors.some((i) => i.errors.length) && filterByName(props.filterText, item.title) // only include items with feedback to show
     )
   );
   const page = ref(1);
@@ -20,12 +22,22 @@
   const pageData = computed(() => {
     const min = (page.value - 1) * PAGE_LIMIT;
     const max = min + PAGE_LIMIT;
-    return data.value.filter((_item, index) => index < max && index >= min);
+    return data.value.filter(
+      (item, index) => index < max && index >= min && filterByName(props.filterText, item.title)
+    );
   });
 
   watch(report, () => {
     page.value = 1;
   });
+
+  const filterByName = (filterText, title) => {
+    if (filterText && filterText.length && title.length) {
+      return title.toLowerCase().includes(filterText.toLowerCase());
+    } else {
+      return !filterText;
+    }
+  };
 
   const onNext = () => {
     const nextPage = page.value + 1;
