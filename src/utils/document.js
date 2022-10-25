@@ -182,7 +182,7 @@ const getCategoryCount = (reportErrors, categoryID) => {
 };
 
 export const getDocumentReportCategories = (report) => {
-  return report.errors.reduce((categories, file) => {
+  return report.errors?.reduce((categories, file) => {
     file.errors.forEach((error) => {
       if (!categories.some((u) => u.id === error.category)) {
         categories.push({

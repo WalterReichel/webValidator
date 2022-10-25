@@ -28,6 +28,8 @@
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
   const reportError = ref(null);
+  const dataset = ref(null);
+  const validationReportError = ref(null);
 
   const { data: documentResponse, error: documentError } = useSWRV(
     !isTestFile ? getDocumentURL(route.params?.name) : null,
@@ -39,7 +41,7 @@
     () => (document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
     () => fetchOrganisationByID(document.value.publisher)
   );
-  const { data: dataset, error: datasetError } = useSWRV(
+  const { data: datasetResponse, error: datasetError } = useSWRV(
     () => validationReportURL(route.params.name, 'name'),
     () => fetchValidationReport(route.params.name, isTestFile)
   );
@@ -74,6 +76,17 @@
       console.log('Data Set Error: ', datasetError.value);
     }
   });
+  watchEffect(() => {
+    if (datasetResponse.value) {
+      const { data, status } = datasetResponse.value;
+      if (status === 200) {
+        dataset.value = data;
+      }
+      if (status === 404) {
+        validationReportError.value = `No validation report found`;
+      }
+    }
+  });
 </script>
 
 <template>
@@ -96,7 +109,10 @@
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
-      <CaptionedLoadingSpinner v-if="!dataset" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
+      <CaptionedLoadingSpinner v-if="!dataset && !validationReportError" class="py-3">
+        Loading Report ...
+      </CaptionedLoadingSpinner>
+      <BasicAlert v-else-if="validationReportError"> {{ validationReportError }}</BasicAlert>
       <DocumentInfo v-else :document="document" :report="dataset.report" />
     </div>
 
@@ -105,8 +121,12 @@
         <FileStatusInfo />
       </BasicCard>
     </div>
-    <CaptionedLoadingSpinner v-if="!dataset && !reportError" class="py-3"> Loading Report ... </CaptionedLoadingSpinner>
-    <BasicAlert v-else-if="reportError">{{ reportError }}</BasicAlert>
+    <CaptionedLoadingSpinner v-if="!dataset && !reportError && !validationReportError" class="py-3">
+      Loading Report ...
+    </CaptionedLoadingSpinner>
+    <BasicAlert v-else-if="reportError || validationReportError">{{
+      reportError ? reportError : validationReportError
+    }}</BasicAlert>
     <DocumentReport v-else :document="document" :report="dataset.report" />
   </ContentContainer>
 </template>
