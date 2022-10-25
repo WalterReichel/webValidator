@@ -125,7 +125,7 @@
       Loading Report ...
     </CaptionedLoadingSpinner>
     <AppAlert v-else-if="reportError || validationReportError">{{
-      reportError ? reportError : validationReportError
+      reportError ? reportError : 'Could not load validation report'
     }}</AppAlert>
     <DocumentReport v-else :document="document" :report="dataset.report" />
   </ContentContainer>
