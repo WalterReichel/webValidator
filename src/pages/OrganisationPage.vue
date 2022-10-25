@@ -36,6 +36,10 @@
   const { data: organisationResponse, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
   );
+  const { data: documents, error: documentsError } = useSWRV(
+    () => (organisation.value && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
+    () => fetchOrganisationDocuments(organisation.value.org_id)
+  );
 
   watchEffect(() => {
     if (organisationResponse.value) {
@@ -49,12 +53,6 @@
       }
     }
   });
-
-  const { data: documents, error: documentsError } = useSWRV(
-    () => (organisation.value && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
-    () => fetchOrganisationDocuments(organisation.value.org_id)
-  );
-
   watchEffect(() => {
     if (organisationError && organisationError.value) {
       loading.value = false;
@@ -84,7 +82,9 @@
       <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
         Loading Info ...
       </CaptionedLoadingSpinner>
-      <AppAlert v-if="errorMessage" variant="error">{{ errorMessage }}</AppAlert>
+      <AppAlert v-if="errorMessage" variant="error"
+        ><p class="font-semibold">{{ errorMessage }}</p></AppAlert
+      >
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"

@@ -27,9 +27,8 @@
   const route = useRoute();
   const loading = ref(true);
   const isTestFile = route.query.isTestFile;
-  const reportError = ref(null);
+  const errors = ref([]);
   const dataset = ref(null);
-  const validationReportError = ref(null);
 
   const { data: documentResponse, error: documentError } = useSWRV(
     !isTestFile ? getDocumentURL(route.params?.name) : null,
@@ -38,11 +37,11 @@
   const document = ref(null);
 
   const { data: organisation, error: organisationError } = useSWRV(
-    () => (document.value ? getOrganisationURL(document.value.publisher, 'id') : null),
+    () => document.value && getOrganisationURL(document.value.publisher, 'id'),
     () => fetchOrganisationByID(document.value.publisher)
   );
   const { data: datasetResponse, error: datasetError } = useSWRV(
-    () => validationReportURL(route.params.name, 'name'),
+    () => document.value && validationReportURL(route.params.name, 'name'),
     () => fetchValidationReport(route.params.name, isTestFile)
   );
   provide('organisation', organisation);
@@ -57,7 +56,13 @@
         }
       }
       if (status === 404 && !isTestFile) {
-        reportError.value = `There is no report with name "${route.params.name}"`;
+        const message = `There is no report with name "${route.params.name}"`;
+        const sourceError = errors.value.find((error) => error.source === 'document');
+        if (sourceError) {
+          sourceError.value = message;
+        } else {
+          errors.value = errors.value.concat({ source: 'document', message });
+        }
       }
     }
   });
@@ -83,7 +88,13 @@
         dataset.value = data;
       }
       if (status === 404) {
-        validationReportError.value = `This file does not have a validation report`;
+        const message = 'This file does not have a validation report';
+        const reportError = errors.value.find((error) => error.source === 'report');
+        if (reportError) {
+          reportError.value = message;
+        } else {
+          errors.value = errors.value.concat({ source: 'report', message });
+        }
       }
     }
   });
@@ -94,26 +105,10 @@
     <StyledLink v-if="isTestFile && dataset" :to="`/validate/${dataset.session_id}`" class="mr-2 inline-flex">
       <IconChevron class="mr-2" /> Return to your workspace
     </StyledLink>
-    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !reportError" class="pb-3">
+    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !errors.length" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
-    <AppAlert v-else-if="reportError || validationReportError" variant="error">
-      <div v-if="reportError">
-        <div>{{ reportError }}</div>
-        <ul class="list-disc p-4 text-tiny">
-          <li>
-            <a class="cursor-pointer text-iati-green hover:underline" @click="router.back()"
-              >Go back to the previous page</a
-            >
-          </li>
-          <li>
-            <a class="cursor-pointer text-iati-green hover:underline" @click="router.push('/')">Go to home the page</a>
-          </li>
-        </ul>
-      </div>
-      <div v-else>{{ validationReportError }}</div>
-    </AppAlert>
-    <div v-else>
+    <div v-if="organisation || document">
       <h3 class="text-lg">
         <template v-if="organisation">
           <StyledLink :to="`/organisation/${organisation.name}`" class="underline">{{ organisation.title }}</StyledLink>
@@ -124,18 +119,32 @@
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
-      <CaptionedLoadingSpinner v-if="!dataset && !validationReportError && !reportError" class="py-3">
+      <CaptionedLoadingSpinner v-if="(!dataset || !dataset.report) && !errors.length" class="py-3">
         Loading Report ...
       </CaptionedLoadingSpinner>
-      <DocumentInfo v-else :document="document" :report="dataset.report" />
+      <DocumentInfo v-else-if="dataset && dataset.report" :document="document" :report="dataset.report" />
     </div>
+
+    <AppAlert v-if="errors.length" variant="error" class="mt-1">
+      <p v-for="error in errors" :key="error.source" class="font-bold">{{ error.message }}</p>
+      <ul class="list-disc px-4 pt-4 text-tiny">
+        <li>
+          <a class="cursor-pointer text-iati-green hover:underline" @click="router.back()">
+            Go back to the previous page
+          </a>
+        </li>
+        <li>
+          <StyledLink to="/">Go to home the page</StyledLink>
+        </li>
+      </ul>
+    </AppAlert>
 
     <div class="-mx-3.5 flex flex-wrap">
       <BasicCard>
         <FileStatusInfo />
       </BasicCard>
     </div>
-    <CaptionedLoadingSpinner v-if="!dataset && !reportError && !validationReportError" class="py-3">
+    <CaptionedLoadingSpinner v-if="!dataset && !errors.length" class="py-3">
       Loading Report ...
     </CaptionedLoadingSpinner>
     <DocumentReport v-if="dataset && document" :document="document" :report="dataset.report" />
