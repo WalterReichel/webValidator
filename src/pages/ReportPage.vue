@@ -101,8 +101,14 @@
       <div v-if="reportError">
         <div>{{ reportError }}</div>
         <ul class="list-disc p-4 text-tiny">
-          <li><a class="cursor-pointer hover:underline" @click="router.back()">Go back to the previous page</a></li>
-          <li><a class="cursor-pointer hover:underline" @click="router.push('/')">Go to home the page</a></li>
+          <li>
+            <a class="cursor-pointer text-iati-green hover:underline" @click="router.back()"
+              >Go back to the previous page</a
+            >
+          </li>
+          <li>
+            <a class="cursor-pointer text-iati-green hover:underline" @click="router.push('/')">Go to home the page</a>
+          </li>
         </ul>
       </div>
       <div v-else>{{ validationReportError }}</div>
