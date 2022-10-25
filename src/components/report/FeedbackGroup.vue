@@ -7,7 +7,7 @@
   import FeedbackList from './FeedbackList.vue';
   import StyledIcon from '../StyledIcon.vue';
   import Tooltip from '../Tooltip.vue';
-  import { copyToClipboard } from '../../utils/misc';
+  import { copy as copyText } from 'copy-to-clipboard';
 
   const props = defineProps({ activity: { type: Object, default: null } });
   const organisation = inject('organisation');
@@ -43,7 +43,8 @@
 
   const copyActivityLink = (activity) => {
     copy.value = true;
-    copyToClipboard(cleanIdentifier(activity));
+    copyText(cleanIdentifier(activity));
+
     setTimeout(() => {
       copy.value = false;
     }, 3000);
