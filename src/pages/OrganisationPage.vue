@@ -79,12 +79,12 @@
 <template>
   <ContentContainer>
     <div>
-      <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
-        Loading Info ...
+      <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
+        {{ !organisation ? 'Loading Info ...' : 'Loading Reports...' }}
       </CaptionedLoadingSpinner>
-      <AppAlert v-if="errorMessage" variant="error"
-        ><p class="font-semibold">{{ errorMessage }}</p></AppAlert
-      >
+      <AppAlert v-if="errorMessage" variant="error">
+        <p class="font-semibold">{{ errorMessage }}</p>
+      </AppAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -97,8 +97,7 @@
         <p class="my-3">{{ organisation.description }}</p>
       </div>
     </div>
-
-    <div v-if="!errorMessage" class="-mx-3.5 flex flex-wrap">
+    <div v-if="!loading && !errorMessage" class="-mx-3.5 flex flex-wrap">
       <BasicCard class="rounded-b-none">
         <template #header>
           <CardHeader>Public data</CardHeader>
@@ -129,11 +128,8 @@
               />
             </div>
           </div>
-          <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
-            Loading Reports...
-          </CaptionedLoadingSpinner>
           <DocumentList
-            v-else-if="!loading && documents && documents.length && !errorMessage"
+            v-if="documents && documents.length"
             :key="Math.random()"
             :documents="documents"
             :sortvariable="selected"
