@@ -45,6 +45,7 @@
       }
       if (status === 404) {
         errorMessage.value = `An organisation with name "${route.params.name}" was not found`;
+        layout.title = 'Organisation Not Found';
       }
     }
   });
