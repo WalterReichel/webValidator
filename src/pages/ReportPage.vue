@@ -83,7 +83,7 @@
         dataset.value = data;
       }
       if (status === 404) {
-        validationReportError.value = `No validation report found`;
+        validationReportError.value = `This file does not have a validation report`;
       }
     }
   });
@@ -97,7 +97,16 @@
     <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !reportError" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
-    <AppAlert v-else-if="reportError" variant="error">No document found</AppAlert>
+    <AppAlert v-else-if="reportError || validationReportError" variant="error">
+      <div v-if="reportError">
+        <div>{{ reportError }}</div>
+        <ul class="list-disc p-4 text-tiny">
+          <li><a class="cursor-pointer hover:underline" @click="router.back()">Go back to the previous page</a></li>
+          <li><a class="cursor-pointer hover:underline" @click="router.push('/')">Go to home the page</a></li>
+        </ul>
+      </div>
+      <div v-else>{{ validationReportError }}</div>
+    </AppAlert>
     <div v-else>
       <h3 class="text-lg">
         <template v-if="organisation">
@@ -109,10 +118,9 @@
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
-      <CaptionedLoadingSpinner v-if="!dataset && !validationReportError" class="py-3">
+      <CaptionedLoadingSpinner v-if="!dataset && !validationReportError && !reportError" class="py-3">
         Loading Report ...
       </CaptionedLoadingSpinner>
-      <AppAlert v-else-if="validationReportError" variant="error"> {{ validationReportError }}</AppAlert>
       <DocumentInfo v-else :document="document" :report="dataset.report" />
     </div>
 
@@ -124,9 +132,6 @@
     <CaptionedLoadingSpinner v-if="!dataset && !reportError && !validationReportError" class="py-3">
       Loading Report ...
     </CaptionedLoadingSpinner>
-    <AppAlert v-else-if="reportError || validationReportError" variant="error">{{
-      reportError ? reportError : 'Could not load validation report'
-    }}</AppAlert>
-    <DocumentReport v-else :document="document" :report="dataset.report" />
+    <DocumentReport v-if="dataset && document" :document="document" :report="dataset.report" />
   </ContentContainer>
 </template>
