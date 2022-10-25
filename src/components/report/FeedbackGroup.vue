@@ -6,8 +6,7 @@
   import StyledLink from '../StyledLink.vue';
   import FeedbackList from './FeedbackList.vue';
   import StyledIcon from '../StyledIcon.vue';
-  import Tooltip from '../Tooltip.vue';
-  import { copy as copyText } from 'copy-to-clipboard';
+  import copy from 'copy-to-clipboard';
 
   const props = defineProps({ activity: { type: Object, default: null } });
   const organisation = inject('organisation');
@@ -22,8 +21,7 @@
       .filter((messageType) => messageType.count > 0)
   );
 
-  let copy = ref(false);
-  let copyIconRef = ref(null);
+  const show = ref(false);
 
   const cleanIdentifier = (identifier) => {
     const newLineIndex = identifier.indexOf('\n');
@@ -42,11 +40,13 @@
   };
 
   const copyActivityLink = (activity) => {
-    copy.value = true;
-    copyText(cleanIdentifier(activity));
+    show.value = true;
+    copy(cleanIdentifier(activity), {
+      format: 'text/plain',
+    });
 
     setTimeout(() => {
-      copy.value = false;
+      show.value = false;
     }, 3000);
   };
 </script>
@@ -56,13 +56,13 @@
       <div class="w-full bg-slate-100 px-4 py-2 text-left">
         <div class="group font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
-          <span ref="copyIconRef" class="invisible group-hover:visible">
+          <span class="invisible group-hover:visible">
+            <span v-if="show" class="mr-1">Copied</span>
             <StyledIcon
-              :icon="copy ? 'bg-check-icon' : 'bg-copy-icon'"
+              :icon="show ? 'bg-check-icon' : 'bg-copy-icon'"
               @click.stop="copyActivityLink(props.activity.identifier)"
             />
           </span>
-          <Tooltip :copy-icon-ref="copyIconRef" :show-tooltip="copy">Copied</Tooltip>
         </div>
         <div class="text-sm">
           <StyledLink
