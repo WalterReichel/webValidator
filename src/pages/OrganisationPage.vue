@@ -116,7 +116,7 @@
                 >: {{ getDocumentCount(documents, status) }}
               </span>
             </div>
-            <div class="flex flex-col sm:mt-0 sm:flex-row">
+            <div v-if="documents && documents.length" class="flex flex-col sm:mt-0 sm:flex-row">
               <label class="whitespace-nowrap sm:py-2">Sort by:</label>
               <SelectInput
                 v-model="selected"
