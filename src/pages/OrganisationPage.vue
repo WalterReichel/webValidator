@@ -2,29 +2,29 @@
   import useSWRV from 'swrv';
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
+  import placeholderImage from '../assets/images/placeholder-organization.png';
+  import AppAlert from '../components/AppAlert.vue';
+  import BasicAlert from '../components/BasicAlert.vue';
+  import BasicCard from '../components/BasicCard.vue';
+  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
+  import CardHeader from '../components/CardHeader.vue';
+  import FileStatusInfo from '../components/FileStatusInfo.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
+  import DocumentList from '../components/organisation/DocumentList.vue';
+  import SelectInput from '../components/SelectInput.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import { setPageTitle } from '../state';
   import {
+    documentValidationStatus,
     fetchOrganisationByName,
     fetchOrganisationDocuments,
-    getOrganisationURL,
-    getOrganisationDocumentsURL,
-    sortOptions,
-    getDocumentCount,
-    documentValidationStatus,
-    getStatusColor,
     getDefaultSortingCriteria,
+    getDocumentCount,
+    getOrganisationDocumentsURL,
+    getOrganisationURL,
+    getStatusColor,
+    sortOptions,
   } from '../utils';
-  import placeholderImage from '../assets/images/placeholder-organization.png';
-  import { setPageTitle } from '../state';
-  import BasicCard from '../components/BasicCard.vue';
-  import CardHeader from '../components/CardHeader.vue';
-  import ContentContainer from '../components/layout/ContentContainer.vue';
-  import FileStatusInfo from '../components/FileStatusInfo.vue';
-  import DocumentList from '../components/organisation/DocumentList.vue';
-  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
-  import BasicAlert from '../components/BasicAlert.vue';
-  import StyledLink from '../components/StyledLink.vue';
-  import SelectInput from '../components/SelectInput.vue';
-  import AppAlert from '../components/AppAlert.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
@@ -83,7 +83,7 @@
       <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
         Loading Info ...
       </CaptionedLoadingSpinner>
-      <AppAlert v-else>{{ errorMessage }}</AppAlert>
+      <AppAlert v-else variant="error">{{ errorMessage }}</AppAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -131,7 +131,7 @@
           <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
             Loading Reports...
           </CaptionedLoadingSpinner>
-          <AppAlert v-else-if="errorMessage">No data</AppAlert>
+          <AppAlert v-else-if="errorMessage" variant="error">No data</AppAlert>
           <DocumentList
             v-else-if="!loading && documents && documents.length"
             :key="Math.random()"

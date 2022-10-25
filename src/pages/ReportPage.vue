@@ -1,7 +1,8 @@
 <script setup>
   import useSWRV from 'swrv';
   import { provide, ref, watch, watchEffect } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
+  import AppAlert from '../components/AppAlert.vue';
   import BasicCard from '../components/BasicCard.vue';
   import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
   import FileStatusInfo from '../components/FileStatusInfo.vue';
@@ -20,7 +21,6 @@
     getOrganisationURL,
     validationReportURL,
   } from '../utils';
-  import AppAlert from '../components/AppAlert.vue';
 
   setPageTitle('File validation report');
   const router = useRouter();
@@ -97,7 +97,7 @@
     <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !reportError" class="pb-3">
       Loading Document Info ...
     </CaptionedLoadingSpinner>
-    <AppAlert v-else-if="reportError">No document found</AppAlert>
+    <AppAlert v-else-if="reportError" variant="error">No document found</AppAlert>
     <div v-else>
       <h3 class="text-lg">
         <template v-if="organisation">
@@ -112,7 +112,7 @@
       <CaptionedLoadingSpinner v-if="!dataset && !validationReportError" class="py-3">
         Loading Report ...
       </CaptionedLoadingSpinner>
-      <AppAlert v-else-if="validationReportError"> {{ validationReportError }}</AppAlert>
+      <AppAlert v-else-if="validationReportError" variant="error"> {{ validationReportError }}</AppAlert>
       <DocumentInfo v-else :document="document" :report="dataset.report" />
     </div>
 
@@ -124,7 +124,7 @@
     <CaptionedLoadingSpinner v-if="!dataset && !reportError && !validationReportError" class="py-3">
       Loading Report ...
     </CaptionedLoadingSpinner>
-    <AppAlert v-else-if="reportError || validationReportError">{{
+    <AppAlert v-else-if="reportError || validationReportError" variant="error">{{
       reportError ? reportError : 'Could not load validation report'
     }}</AppAlert>
     <DocumentReport v-else :document="document" :report="dataset.report" />
