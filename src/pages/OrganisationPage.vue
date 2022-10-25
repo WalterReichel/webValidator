@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="-mx-3.5 flex flex-wrap">
+    <div v-if="!errorMessage" class="-mx-3.5 flex flex-wrap">
       <BasicCard class="rounded-b-none">
         <template #header>
           <CardHeader>Public data</CardHeader>
