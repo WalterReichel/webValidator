@@ -57,7 +57,7 @@
         <div class="group font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
           <span class="invisible group-hover:visible">
-            <span v-if="show" class="mr-1">Copied</span>
+            <span v-if="show" class="mr-1 text-[12px]">Copied</span>
             <StyledIcon
               :icon="show ? 'bg-check-icon' : 'bg-copy-icon'"
               @click.stop="copyActivityLink(props.activity.identifier)"
