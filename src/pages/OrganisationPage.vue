@@ -44,7 +44,7 @@
         organisation.value = data;
       }
       if (status === 404) {
-        errorMessage.value = `An organisation with name "${route.params.name}" was not found`;
+        errorMessage.value = `No organisation found with name "${route.params.name}"`;
         layout.title = 'Organisation Not Found';
       }
     }
@@ -132,9 +132,8 @@
           <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
             Loading Reports...
           </CaptionedLoadingSpinner>
-          <AppAlert v-else-if="errorMessage" variant="error">No data</AppAlert>
           <DocumentList
-            v-else-if="!loading && documents && documents.length"
+            v-else-if="!loading && documents && documents.length && !errorMessage"
             :key="Math.random()"
             :documents="documents"
             :sortvariable="selected"
