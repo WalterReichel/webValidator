@@ -139,7 +139,7 @@
       </ul>
     </AppAlert>
 
-    <div class="-mx-3.5 flex flex-wrap">
+    <div v-if="!errors.length" class="-mx-3.5 flex flex-wrap">
       <BasicCard>
         <FileStatusInfo />
       </BasicCard>
