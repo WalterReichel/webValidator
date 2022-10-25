@@ -14,7 +14,9 @@
   const data = computed(() =>
     getReportErrorsByIdentifier(report.value, 'activity').filter(
       (item) =>
-        item.errors.length && item.errors.some((i) => i.errors.length) && filterByName(props.filterText, item.title) // only include items with feedback to show
+        item.errors.length &&
+        item.errors.some((i) => i.errors.length) &&
+        filterByNameOrId(props.filterText, item.title, item.identifier) // only include items with feedback to show
     )
   );
   const page = ref(1);
@@ -23,7 +25,7 @@
     const min = (page.value - 1) * PAGE_LIMIT;
     const max = min + PAGE_LIMIT;
     return data.value.filter(
-      (item, index) => index < max && index >= min && filterByName(props.filterText, item.title)
+      (item, index) => index < max && index >= min && filterByNameOrId(props.filterText, item.title, item.identifier)
     );
   });
 
@@ -31,9 +33,12 @@
     page.value = 1;
   });
 
-  const filterByName = (filterText, title) => {
-    if (filterText && filterText.length && title.length) {
-      return title.toLowerCase().includes(filterText.toLowerCase());
+  const filterByNameOrId = (filterText, title, identifier) => {
+    if (filterText && filterText.length && title.length && identifier.length) {
+      return (
+        title.toLowerCase().includes(filterText.toLowerCase()) ||
+        identifier.toLowerCase().includes(filterText.toLowerCase())
+      );
     } else {
       return !filterText;
     }

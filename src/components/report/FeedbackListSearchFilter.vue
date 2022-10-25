@@ -6,12 +6,12 @@
     buttonCaption: { type: String, default: 'Search' },
     placeholder: { type: String, default: '' },
   });
-  const emit = defineEmits(['onFilterByName']);
+  const emit = defineEmits(['onFilter']);
   const search = ref(null);
 
   watch(
     search,
-    debounce(() => emit('onFilterByName', search.value.trim()), 250)
+    debounce(() => emit('onFilter', search.value.trim()), 250)
   );
 </script>
 
