@@ -30,11 +30,17 @@ export const fetchValidationReport = async (
   if (response.status === 200) {
     const data = await response.json();
 
-    return data;
+    return { data, status: response.status };
   }
   if (response.status === 404 && !isTestFile && tryAlternateLookupKey) {
     // switch lookup key
-    return await fetchValidationReport(documentName, isTestFile, lookupKey === 'name' ? 'id' : 'name', false);
+    return {
+      data: await fetchValidationReport(documentName, isTestFile, lookupKey === 'name' ? 'id' : 'name', false),
+      status: response.status,
+    };
+  }
+  if (response.status === 404) {
+    return { data: null, status: response.status };
   }
 
   return null;

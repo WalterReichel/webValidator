@@ -2,47 +2,62 @@
   import useSWRV from 'swrv';
   import { ref, watchEffect } from 'vue';
   import { useRoute } from 'vue-router';
+  import placeholderImage from '../assets/images/placeholder-organization.png';
+  import AppAlert from '../components/AppAlert.vue';
+  import BasicAlert from '../components/BasicAlert.vue';
+  import BasicCard from '../components/BasicCard.vue';
+  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
+  import CardHeader from '../components/CardHeader.vue';
+  import FileStatusInfo from '../components/FileStatusInfo.vue';
+  import ContentContainer from '../components/layout/ContentContainer.vue';
+  import DocumentList from '../components/organisation/DocumentList.vue';
+  import SelectInput from '../components/SelectInput.vue';
+  import StyledLink from '../components/StyledLink.vue';
+  import { setPageTitle } from '../state';
   import {
+    documentValidationStatus,
     fetchOrganisationByName,
     fetchOrganisationDocuments,
-    getOrganisationURL,
-    getOrganisationDocumentsURL,
-    sortOptions,
-    getDocumentCount,
-    documentValidationStatus,
-    getStatusColor,
     getDefaultSortingCriteria,
+    getDocumentCount,
+    getOrganisationDocumentsURL,
+    getOrganisationURL,
+    getStatusColor,
+    sortOptions,
   } from '../utils';
-  import placeholderImage from '../assets/images/placeholder-organization.png';
-  import { setPageTitle } from '../state';
-  import BasicCard from '../components/BasicCard.vue';
-  import CardHeader from '../components/CardHeader.vue';
-  import ContentContainer from '../components/layout/ContentContainer.vue';
-  import FileStatusInfo from '../components/FileStatusInfo.vue';
-  import DocumentList from '../components/organisation/DocumentList.vue';
-  import CaptionedLoadingSpinner from '../components/CaptionedLoadingSpinner.vue';
-  import BasicAlert from '../components/BasicAlert.vue';
-  import StyledLink from '../components/StyledLink.vue';
-  import SelectInput from '../components/SelectInput.vue';
 
   const layout = setPageTitle('Loading...');
   const route = useRoute();
   const loading = ref(true);
   const selected = ref('');
+  const organisation = ref(null);
+  const errorMessage = ref(null);
 
-  const { data: organisation, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
+  const { data: organisationResponse, error: organisationError } = useSWRV(getOrganisationURL(route.params.name), () =>
     fetchOrganisationByName(route.params.name)
   );
   const { data: documents, error: documentsError } = useSWRV(
-    () => (organisation && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
+    () => (organisation.value && organisation.value ? getOrganisationDocumentsURL(organisation.value.org_id) : null),
     () => fetchOrganisationDocuments(organisation.value.org_id)
   );
 
   watchEffect(() => {
+    if (organisationResponse.value) {
+      const { data, status } = organisationResponse.value;
+      if (status === 200) {
+        organisation.value = data;
+      }
+      if (status === 404) {
+        errorMessage.value = `No organisation found with name "${route.params.name}"`;
+        layout.title = 'Organisation Not Found';
+      }
+    }
+  });
+  watchEffect(() => {
     if (organisationError && organisationError.value) {
       loading.value = false;
       console.log(organisationError.value);
-    } else if (organisation && organisation.value) {
+    } else if (organisation.value && organisation.value) {
       layout.title = organisation.value.title;
     }
   });
@@ -64,7 +79,12 @@
 <template>
   <ContentContainer>
     <div>
-      <CaptionedLoadingSpinner v-if="!organisation" class="pb-3"> Loading Info ... </CaptionedLoadingSpinner>
+      <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
+        Loading Info ...
+      </CaptionedLoadingSpinner>
+      <AppAlert v-if="errorMessage" variant="error"
+        ><p class="font-semibold">{{ errorMessage }}</p></AppAlert
+      >
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -96,7 +116,7 @@
                 >: {{ getDocumentCount(documents, status) }}
               </span>
             </div>
-            <div class="flex flex-col sm:mt-0 sm:flex-row">
+            <div v-if="documents && documents.length" class="flex flex-col sm:mt-0 sm:flex-row">
               <label class="whitespace-nowrap sm:py-2">Sort by:</label>
               <SelectInput
                 v-model="selected"
@@ -109,9 +129,11 @@
               />
             </div>
           </div>
-          <CaptionedLoadingSpinner v-if="loading" class="pb-3"> Loading Reports... </CaptionedLoadingSpinner>
+          <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
+            Loading Reports...
+          </CaptionedLoadingSpinner>
           <DocumentList
-            v-else-if="!loading && documents && documents.length"
+            v-else-if="!loading && documents && documents.length && !errorMessage"
             :key="Math.random()"
             :documents="documents"
             :sortvariable="selected"

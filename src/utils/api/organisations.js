@@ -22,11 +22,14 @@ export const getOrganisationURL = (value, lookupKey = 'name') =>
   `${SERVICES_URL}/pvt/publishers/${value}?lookupKey=${lookupKey}`;
 export const fetchOrganisationByName = async (name) => {
   const url = getOrganisationURL(name);
+
   const response = await window.fetch(url, getDefaultServicesAPIOptions());
   if (response.status === 200) {
     const data = await response.json();
-    return data && data.length ? data[0] : null;
+    return { data: data && data.length ? data[0] : null, status: response.status };
   }
+
+  return { status: response.status, data: null };
 };
 export const fetchOrganisationByID = async (id) => {
   const url = getOrganisationURL(id, 'id');
