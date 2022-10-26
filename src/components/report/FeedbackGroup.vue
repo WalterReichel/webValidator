@@ -1,5 +1,6 @@
 <script setup>
   import { computed, inject, ref } from 'vue';
+  import { useRoute, useRouter } from 'vue-router';
   import { getFileErrorsMessageTypeCount } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
@@ -22,6 +23,9 @@
   );
 
   const show = ref(false);
+  const router = useRouter();
+  const route = useRoute();
+  const emit = defineEmits(['onCopy']);
 
   const cleanIdentifier = (identifier) => {
     const newLineIndex = identifier.indexOf('\n');
@@ -40,11 +44,13 @@
   };
 
   const copyActivityLink = (activity) => {
-    show.value = true;
-    copy(cleanIdentifier(activity), {
+    const id = cleanIdentifier(activity);
+    router.replace({ query: { id } });
+    copy(`${location.origin}${route.fullPath}`, {
       format: 'text/plain',
     });
-
+    emit('onCopy', id);
+    show.value = true;
     setTimeout(() => {
       show.value = false;
     }, 3000);
