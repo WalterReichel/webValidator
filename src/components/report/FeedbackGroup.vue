@@ -54,15 +54,13 @@
   <AppAccordion :open="false" class="mb-4">
     <template #title>
       <div class="w-full bg-slate-100 px-4 py-2 text-left">
-        <div class="group font-medium">
+        <div class="font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
-          <span class="invisible group-hover:visible">
-            <span v-if="show" class="mr-1 text-[12px]">Copied</span>
-            <StyledIcon
-              :icon="show ? 'bg-check-icon' : 'bg-copy-icon'"
-              @click.stop="copyActivityLink(props.activity.identifier)"
-            />
-          </span>
+          <StyledIcon
+            :icon="show ? 'bg-check-icon' : 'bg-copy-icon'"
+            @click.stop="copyActivityLink(props.activity.identifier)"
+          />
+          <span v-if="show" class="text-[12px]">Copied</span>
         </div>
         <div class="text-sm">
           <StyledLink
