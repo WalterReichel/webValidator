@@ -5,13 +5,19 @@
   const props = defineProps({
     buttonCaption: { type: String, default: 'Search' },
     placeholder: { type: String, default: '' },
+    searchText: { type: String, default: '' },
   });
   const emit = defineEmits(['onFilter']);
-  const search = ref(null);
+  const search = ref(props.searchText);
 
   watch(
     search,
     debounce(() => emit('onFilter', search.value.trim()), 250)
+  );
+
+  watch(
+    () => props.searchText,
+    (newValue) => (search.value = newValue)
   );
 </script>
 

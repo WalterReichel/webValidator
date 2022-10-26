@@ -55,6 +55,7 @@
   const fileErrorsTitle = ref('');
   const activityErrorsTitle = ref('');
   const filterText = ref(null);
+  const searchText = ref(null);
 
   provide('fileType', fileType);
   provide('report', filteredReport);
@@ -110,9 +111,11 @@
   const onFilterByCategory = (category) => {
     activeCategory.value = category;
   };
-
   const onFilter = (item) => {
     filterText.value = item;
+  };
+  const onCopyActivityId = (id) => {
+    searchText.value = id;
   };
 </script>
 
@@ -121,7 +124,11 @@
     <div v-if="hasMessages" class="relative flex shrink grow flex-col sm:w-full md:basis-1/3">
       <div class="sticky top-0 m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
-        <FeedbackListSearchFilter placeholder="Search ..." @on-filter="onFilter"></FeedbackListSearchFilter>
+        <FeedbackListSearchFilter
+          placeholder="Search ..."
+          :search-text="searchText"
+          @on-filter="onFilter"
+        ></FeedbackListSearchFilter>
         <div class="bg-slate-300">
           <div class="px-4 py-2">
             <h4 class="text-base font-bold">View by message type</h4>
@@ -161,6 +168,7 @@
           :title="activityErrorsTitle"
           :file-type="fileType"
           :filter-text="filterText"
+          @on-copy-id="onCopyActivityId"
         />
       </div>
     </div>
