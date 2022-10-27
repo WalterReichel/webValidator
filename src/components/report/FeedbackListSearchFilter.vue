@@ -1,5 +1,5 @@
 <script setup>
-  import { ref, watch } from 'vue';
+  import { ref, watch, watchEffect } from 'vue';
   import { debounce } from '../../utils';
 
   const props = defineProps({
@@ -15,10 +15,11 @@
     debounce(() => emit('onFilter', search.value.trim()), 250)
   );
 
-  watch(
-    () => props.searchText,
-    (newValue) => (search.value = newValue)
-  );
+  watchEffect(() => {
+    if (props.searchText) {
+      emit('onFilter', props.searchText);
+    }
+  });
 </script>
 
 <template>

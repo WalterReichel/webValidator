@@ -13,8 +13,10 @@
   import FileErrors from './FileErrors.vue';
   import SeverityItem from './SeverityItem.vue';
   import FeedbackListSearchFilter from './FeedbackListSearchFilter.vue';
+  import { useRoute } from 'vue-router';
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
+  const route = useRoute();
 
   const { data: guidanceLinks } = useSWRV(
     () => (props.report && props.report.iatiVersion ? getGuidanceLinksURL(props.report.iatiVersion) : null),
@@ -55,7 +57,7 @@
   const fileErrorsTitle = ref('');
   const activityErrorsTitle = ref('');
   const filterText = ref(null);
-  const searchText = ref(null);
+  const searchText = ref(route.query.id);
 
   provide('fileType', fileType);
   provide('report', filteredReport);
@@ -114,9 +116,6 @@
   const onFilter = (item) => {
     filterText.value = item;
   };
-  const onCopyActivityId = (id) => {
-    searchText.value = id;
-  };
 </script>
 
 <template>
@@ -164,7 +163,6 @@
           :title="activityErrorsTitle"
           :file-type="fileType"
           :filter-text="filterText"
-          @on-copy-id="onCopyActivityId"
         />
       </div>
     </div>
