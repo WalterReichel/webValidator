@@ -124,13 +124,9 @@
     <div v-if="hasMessages" class="relative flex shrink grow flex-col sm:w-full md:basis-1/3">
       <div class="sticky top-0 m-2.5">
         <h3 class="text-xl font-bold">Filters</h3>
-        <FeedbackListSearchFilter
-          placeholder="Search ..."
-          :search-text="searchText"
-          @on-filter="onFilter"
-        ></FeedbackListSearchFilter>
         <div class="bg-slate-300">
           <div class="px-4 py-2">
+            <FeedbackListSearchFilter placeholder="Search ..." :search-text="searchText" @on-filter="onFilter" />
             <h4 class="text-base font-bold">View by message type</h4>
             <div class="text-sm text-slate-700">Click to show or hide individual message types</div>
           </div>

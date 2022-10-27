@@ -25,7 +25,7 @@
   <div class="mb-4 mt-2 flex w-full flex-row flex-wrap justify-around">
     <input
       v-model="search"
-      class="m-0 w-full border px-4 py-3 text-lg focus-visible:outline-none"
+      class="m-0 w-full border border-iati-blue px-4 py-2 text-base focus-visible:outline-none"
       :placeholder="props.placeholder"
       autofocus
     />
