@@ -19,6 +19,7 @@
 <template>
   <div class="flex w-full flex-row flex-wrap justify-around sm:w-[500px]">
     <input
+      id="search"
       v-model="search"
       class="m-0 w-full border px-4 py-3 text-lg focus-visible:outline-none sm:w-[350px]"
       :placeholder="props.placeholder"
@@ -30,5 +31,6 @@
     >
       {{ props.buttonCaption }}
     </button>
+    <label id="search" for="search" class="invisible">Search</label>
   </div>
 </template>
