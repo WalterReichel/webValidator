@@ -33,8 +33,6 @@
     page.value = 1;
   });
 
-  const emit = defineEmits(['onCopyId']);
-
   const filterByNameOrId = (filterText, title, identifier) => {
     if (filterText && filterText.length && title.length && identifier.length) {
       return (
@@ -55,10 +53,6 @@
     const previousPage = page.value - 1;
     if (previousPage >= 1) page.value = previousPage;
   };
-
-  const onCopyId = (id) => {
-    emit('onCopyId', id);
-  };
 </script>
 
 <template>
@@ -70,12 +64,7 @@
     </template>
     <template #content>
       <div class="border border-gray-200 p-4">
-        <FeedbackGroup
-          v-for="activity in pageData"
-          :key="activity.identifier"
-          :activity="activity"
-          @on-copy="onCopyId"
-        />
+        <FeedbackGroup v-for="activity in pageData" :key="activity.identifier" :activity="activity" />
         <AppPagination v-if="data.length > 10" @next="onNext" @previous="onPrevious">
           <span class="text-sm">Page {{ page }} of {{ Math.ceil(data.length / PAGE_LIMIT) }}</span>
         </AppPagination>
