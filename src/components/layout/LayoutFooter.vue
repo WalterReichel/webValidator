@@ -46,10 +46,10 @@
         <h2 class="text-lg font-bold uppercase text-white">Useful links</h2>
         <ul class="mt-0 mb-2 list-none pl-0 text-center text-white lg:text-left">
           <li class="underline">
-            <a href="https://iatistandard.org/en/contact/">Contact</a>
+            <a href="https://iatistandard.org/en/contact/" role="link">Contact</a>
           </li>
           <li class="underline">
-            <a href="https://iatistandard.org/en/privacy-policy/">Privacy policy</a>
+            <a href="https://iatistandard.org/en/privacy-policy/" role="link">Privacy policy</a>
           </li>
         </ul>
       </div>
