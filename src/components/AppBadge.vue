@@ -2,7 +2,7 @@
   const props = defineProps({ variant: { type: String, default: 'default' } });
 
   const bgClass = {
-    'bg-iati-blue': props.variant === 'default',
+    'bg-iati-blue-dark': props.variant === 'default',
     'bg-success': props.variant === 'success',
     'bg-warning': props.variant === 'warning',
     'bg-error': props.variant === 'error',
