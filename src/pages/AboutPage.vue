@@ -95,13 +95,13 @@
       <p class="mb-3">
         The IATI Validator run checks on datafiles against version 2 of the IATI Standard Schema and Rulesets.
       </p>
-      <p class="mb-3">Check 1: Schema Validation- Critical</p>
+      <p class="mb-3 font-medium">Check 1: Schema Validation- Critical</p>
       <p class="mb-3">
         The IATI Validator checks if data adheres to the format set out in the IATI XML Schema. The IATI Schema provides
         the exact order and structure that organisations should provide their XML in. Full information about the IATI
         Schema can be found on <a href="http://reference.iatistandard.org/203/schema/">IATI’s Reference site</a>.
       </p>
-      <p class="mb-3">Check 2: Rulesets Validation - Error and Warning</p>
+      <p class="mb-3 font-medium">Check 2: Rulesets Validation - Error and Warning</p>
       <p class="mb-3">
         The IATI Validator also checks if the data follows IATI’s Rulesets. These checks provide a more detailed review
         of the quality of data. To view the most up-to-date information about IATI’s Rulesets please refer to the
