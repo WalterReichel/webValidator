@@ -77,16 +77,20 @@
     <div class="border-t border-iati-accent px-6 py-4">
       <div class="flex w-full flex-col justify-between lg:mx-auto lg:max-w-[1140px] lg:flex-row">
         <p class="lg-pb-0 float-left inline-block pb-4 text-white">Copyright IATI {{ year }}. All rights reserved</p>
-        <div class="float-right">
-          <a href="https://twitter.com/IATI_aid" class="inline-block h-9 w-9 bg-twitter"></a>
+        <div class="float-right text-transparent">
+          <a href="https://twitter.com/IATI_aid" class="inline-block h-9 w-9 bg-twitter"> Twitter </a>
           <a
             href="https://www.youtube.com/channel/UCAVH1gcgJXElsj8ENC-bDQQ"
             class="ml-2.5 inline-block h-9 w-9 bg-youtube"
-          ></a>
+          >
+            Youtube
+          </a>
           <a
             href="https://www.linkedin.com/company/international-aid-transparency-initiative/"
             class="ml-2.5 inline-block h-9 w-9 bg-linkedin"
-          ></a>
+          >
+            LinkedIn
+          </a>
         </div>
       </div>
     </div>
