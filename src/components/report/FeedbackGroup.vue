@@ -1,13 +1,13 @@
 <script setup>
+  import copy from 'copy-to-clipboard';
   import { computed, inject, ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { getFileErrorsMessageTypeCount } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
+  import AppIcon from '../AppIcon.vue';
   import StyledLink from '../StyledLink.vue';
   import FeedbackList from './FeedbackList.vue';
-  import StyledIcon from '../StyledIcon.vue';
-  import copy from 'copy-to-clipboard';
 
   const props = defineProps({ activity: { type: Object, default: null } });
   const organisation = inject('organisation');
@@ -43,13 +43,13 @@
 
   const copyActivityLink = (activity) => {
     const id = cleanIdentifier(activity);
-    copy(`${location.origin}${route.path}?id=${id}`, {
+    copy(`${location.origin}${route.path}?id=${window.encodeURIComponent(id)}`, {
       format: 'text/plain',
     });
     show.value = true;
     setTimeout(() => {
       show.value = false;
-    }, 3000);
+    }, 2000);
   };
 </script>
 <template>
@@ -59,12 +59,7 @@
         <div class="font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
           <span v-if="show" class="text-[12px]">Link copied</span>
-          <StyledIcon
-            v-else
-            icon="bg-link-icon"
-            class="ml-2"
-            @click.stop="copyActivityLink(props.activity.identifier)"
-          />
+          <AppIcon v-else icon="link-icon" class="ml-2" @click.stop="copyActivityLink(props.activity.identifier)" />
         </div>
         <div class="text-sm">
           <StyledLink
