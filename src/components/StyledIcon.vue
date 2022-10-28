@@ -1,18 +1,7 @@
-<template>
-  <span>
-    <span :class="[icon, activeClass]"></span>
-  </span>
-</template>
-
-<script>
-  export default {
-    props: {
-      icon: { type: String, default: '' },
-    },
-    data() {
-      return {
-        activeClass: 'inline-block h-3 w-3',
-      };
-    },
-  };
+<script setup>
+  const props = defineProps({ icon: { type: String, default: '' } });
 </script>
+
+<template>
+  <span class="inline-block h-3 w-3" :class="props.icon"></span>
+</template>
