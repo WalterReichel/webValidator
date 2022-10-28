@@ -7,6 +7,7 @@
     placeholder: { type: String, default: '' },
     defaultSearch: { type: String, default: '' },
     showButton: { type: Boolean, default: true },
+    inputClasses: { type: String, default: '' },
   });
   const emit = defineEmits(['onSearch']);
   const search = ref(props.defaultSearch);
@@ -23,6 +24,7 @@
     <input
       v-model="search"
       class="m-0 w-full border px-4 py-3 text-lg focus-visible:outline-none sm:w-[350px]"
+      :class="props.inputClasses"
       :placeholder="props.placeholder"
       autofocus
     />

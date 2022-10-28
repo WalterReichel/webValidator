@@ -62,7 +62,7 @@
     <template #content>
       <div class="border border-gray-200 p-4">
         <FeedbackGroup v-for="activity in pageData" :key="activity.identifier" :activity="activity" />
-        <AppPagination v-if="data.length > 10" @next="onNext" @previous="onPrevious">
+        <AppPagination v-if="!filterText && data.length > 10" @next="onNext" @previous="onPrevious">
           <span class="text-sm">Page {{ page }} of {{ Math.ceil(data.length / PAGE_LIMIT) }}</span>
         </AppPagination>
         <span v-if="!data.length">There is no feedback to display</span>
