@@ -132,13 +132,17 @@
     }
   };
 
-  const hasActiveFilter = () => {
-    return (
-      (activeCategory.value && !activeCategory.value.show) ||
-      (activeSeverity.value && !activeSeverity.value.show) ||
-      searchText
-    );
+  const hasHiddenCategories = (categories) => categories && categories.some((category) => !category.show);
+  const hasHiddenSeverities = (severities) => {
+    if (severities) {
+      return severities.some((severity) => severity.types.some((type) => !type.show));
+    }
+
+    return true;
   };
+
+  const hasActiveFilter = () =>
+    hasHiddenCategories(categories.value) || hasHiddenSeverities(severities.value) || !!searchText.value;
 </script>
 
 <template>
@@ -176,7 +180,7 @@
               @select="onFilterByCategory"
             />
           </div>
-          <div v-if="hasActiveFilter" class="px-4 pt-2 pb-4">
+          <div v-if="hasActiveFilter()" class="px-4 pt-2 pb-4">
             <StyledButton class="w-full" @click="onClearFilters">Clear Filters</StyledButton>
           </div>
         </div>
