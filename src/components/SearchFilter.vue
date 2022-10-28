@@ -6,6 +6,7 @@
     buttonCaption: { type: String, default: 'Search' },
     placeholder: { type: String, default: '' },
     defaultSearch: { type: String, default: '' },
+    showButton: { type: Boolean, default: true },
   });
   const emit = defineEmits(['onSearch']);
   const search = ref(props.defaultSearch);
@@ -26,6 +27,7 @@
       autofocus
     />
     <button
+      v-if="props.showButton"
       class="relative mt-4 inline w-full border-0 bg-iati-blue p-3 text-base uppercase sm:mt-0 sm:w-[150px]"
       @click="onSearch"
     >
