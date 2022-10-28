@@ -1,18 +1,19 @@
 <script setup>
-  import { ref, watch } from 'vue';
+  import { ref, watchEffect } from 'vue';
   import { debounce } from '../utils';
 
   const props = defineProps({
     buttonCaption: { type: String, default: 'Search' },
     placeholder: { type: String, default: '' },
+    defaultSearch: { type: String, default: '' },
   });
   const emit = defineEmits(['onSearch']);
-  const search = ref(null);
+  const search = ref(props.defaultSearch);
 
-  watch(
-    search,
-    debounce(() => emit('onSearch', search.value.trim()), 250)
-  );
+  watchEffect(() => {
+    const searchText = search.value.trim();
+    debounce(() => emit('onSearch', searchText), 250)();
+  });
   const onSearch = () => emit('onSearch', search.value.trim());
 </script>
 
