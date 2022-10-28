@@ -39,7 +39,10 @@
   watch(
     () => props.severity,
     () => {
-      selectAll.value = props.severity ? props.severity.show : selectAll.value;
+      if (props.severity) {
+        selectAll.value = props.severity.show;
+        errorTypes.value = props.severity.types;
+      }
     }
   );
   watch(selectAll, () => {

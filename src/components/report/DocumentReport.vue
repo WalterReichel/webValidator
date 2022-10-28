@@ -45,6 +45,13 @@
     return _severities.map((severity) => {
       if (activeSeverity.value && severity.id === activeSeverity.value.id) {
         severity = activeSeverity.value;
+      } else if (!activeSeverity.value) {
+        severity.show = true;
+        severity.types = severity.types.map((type) => {
+          type.show = true;
+
+          return type;
+        });
       }
 
       return severity;
