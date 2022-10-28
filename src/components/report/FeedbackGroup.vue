@@ -58,11 +58,13 @@
       <div class="w-full bg-slate-100 px-4 py-2 text-left">
         <div class="font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
+          <span v-if="show" class="text-[12px]">Link copied</span>
           <StyledIcon
-            :icon="show ? 'bg-check-icon' : 'bg-copy-icon'"
+            v-else
+            icon="bg-link-icon"
+            class="ml-2"
             @click.stop="copyActivityLink(props.activity.identifier)"
           />
-          <span v-if="show" class="text-[12px]">Copied</span>
         </div>
         <div class="text-sm">
           <StyledLink
