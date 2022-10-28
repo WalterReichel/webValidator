@@ -65,7 +65,8 @@
         <AppPagination v-if="!filterText && data.length > 10" @next="onNext" @previous="onPrevious">
           <span class="text-sm">Page {{ page }} of {{ Math.ceil(data.length / PAGE_LIMIT) }}</span>
         </AppPagination>
-        <span v-if="!data.length">There is no feedback to display</span>
+        <span v-if="!pageData.length && !filterText">There is no feedback to display</span>
+        <span v-if="!pageData.length && filterText">No matching activities found</span>
       </div>
     </template>
   </AppAccordion>
