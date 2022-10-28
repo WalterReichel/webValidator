@@ -28,7 +28,8 @@
   const activeSeverity = ref(null);
   const activeCategory = ref(null);
   const categories = computed(() => {
-    const _categories = !categories.value ? getDocumentReportCategories(props.report) : categories.value;
+    const _categories =
+      !categories.value || !activeCategory.value ? getDocumentReportCategories(props.report) : categories.value;
     return _categories.map((category) => {
       if (activeCategory.value && category.id === activeCategory.value.id) {
         category.show = activeCategory.value.show;
@@ -38,7 +39,8 @@
     });
   });
   const severities = computed(() => {
-    const _severities = !severities.value ? getDocumentReportSeverities(props.report) : severities.value;
+    const _severities =
+      !severities.value || !activeSeverity.value ? getDocumentReportSeverities(props.report) : severities.value;
 
     return _severities.map((severity) => {
       if (activeSeverity.value && severity.id === activeSeverity.value.id) {
@@ -129,6 +131,14 @@
       router.push(route.path);
     }
   };
+
+  const hasActiveFilter = () => {
+    return (
+      (activeCategory.value && !activeCategory.value.show) ||
+      (activeSeverity.value && !activeSeverity.value.show) ||
+      searchText
+    );
+  };
 </script>
 
 <template>
@@ -166,7 +176,7 @@
               @select="onFilterByCategory"
             />
           </div>
-          <div v-if="activeCategory || activeSeverity || searchText" class="px-4 pt-2 pb-4">
+          <div v-if="hasActiveFilter" class="px-4 pt-2 pb-4">
             <StyledButton class="w-full" @click="onClearFilters">Clear Filters</StyledButton>
           </div>
         </div>

@@ -1,5 +1,5 @@
 <script setup>
-  import { computed, ref } from 'vue';
+  import { computed, ref, watch } from 'vue';
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
   import CheckBox from '../CheckBox.vue';
@@ -36,10 +36,19 @@
     'bg-critical': props.severity.id === 'critical',
   };
 
-  const onToggleSeverity = () => {
-    selectAll.value = !selectAll.value;
+  watch(
+    () => props.severity,
+    () => {
+      selectAll.value = props.severity ? props.severity.show : selectAll.value;
+    }
+  );
+  watch(selectAll, () => {
     errorTypes.value = setErrorTypesVisibility(selectAll.value);
     emit('select', { ...props.severity, types: errorTypes.value, show: selectAll.value });
+  });
+
+  const onToggleSeverity = () => {
+    selectAll.value = !selectAll.value;
   };
   const onToggleType = (errorType) => {
     errorTypes.value = errorTypes.value.map((_type) => {
@@ -52,9 +61,13 @@
     if (visibleErrorTypes.length) {
       if (visibleErrorTypes.length === errorTypes.value.length) {
         selectAll.value = true;
+
+        return;
       }
     } else {
       selectAll.value = false;
+
+      return;
     }
     emit('select', { ...props.severity, types: errorTypes.value });
   };
