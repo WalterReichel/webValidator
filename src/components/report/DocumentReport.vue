@@ -2,6 +2,7 @@
   import { cloneDeep } from 'lodash';
   import useSWRV from 'swrv';
   import { computed, provide, ref, watch, watchEffect } from 'vue';
+  import { useRoute } from 'vue-router';
   import {
     fetchGuidanceLinks,
     getDocumentReportCategories,
@@ -10,10 +11,9 @@
   } from '../../utils';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
+  import FeedbackListSearchFilter from './FeedbackListSearchFilter.vue';
   import FileErrors from './FileErrors.vue';
   import SeverityItem from './SeverityItem.vue';
-  import FeedbackListSearchFilter from './FeedbackListSearchFilter.vue';
-  import { useRoute } from 'vue-router';
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
   const route = useRoute();

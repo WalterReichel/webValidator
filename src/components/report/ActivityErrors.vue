@@ -13,10 +13,7 @@
   const report = inject('report');
   const data = computed(() =>
     getReportErrorsByIdentifier(report.value, 'activity').filter(
-      (item) =>
-        item.errors.length &&
-        item.errors.some((i) => i.errors.length) &&
-        filterByNameOrId(props.filterText, item.title, item.identifier) // only include items with feedback to show
+      (item) => item.errors.length && item.errors.some((i) => i.errors.length) // only include items with feedback to show
     )
   );
   const page = ref(1);
