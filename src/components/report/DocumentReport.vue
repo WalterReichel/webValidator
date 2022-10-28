@@ -9,9 +9,9 @@
     getDocumentReportSeverities,
     getGuidanceLinksURL,
   } from '../../utils';
+  import SearchFilter from '../SearchFilter.vue';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
-  import FeedbackListSearchFilter from './FeedbackListSearchFilter.vue';
   import FileErrors from './FileErrors.vue';
   import SeverityItem from './SeverityItem.vue';
 
@@ -125,7 +125,7 @@
         <h3 class="text-xl font-bold">Filters</h3>
         <div class="bg-slate-300">
           <div class="px-4 py-2">
-            <FeedbackListSearchFilter placeholder="Search ..." :search-text="searchText" @on-filter="onFilter" />
+            <SearchFilter placeholder="Search ..." :default-search="searchText" @on-search="onFilter" />
             <h4 class="text-base font-bold">View by message type</h4>
             <div class="text-sm text-slate-700">Click to show or hide individual message types</div>
           </div>
