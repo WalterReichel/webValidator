@@ -2,7 +2,7 @@
   import { cloneDeep } from 'lodash';
   import useSWRV from 'swrv';
   import { computed, provide, ref, watch, watchEffect } from 'vue';
-  import { useRoute } from 'vue-router';
+  import { useRoute, useRouter } from 'vue-router';
   import {
     fetchGuidanceLinks,
     getDocumentReportCategories,
@@ -10,6 +10,7 @@
     getGuidanceLinksURL,
   } from '../../utils';
   import SearchFilter from '../SearchFilter.vue';
+  import StyledButton from '../StyledButton.vue';
   import ActivityErrors from './ActivityErrors.vue';
   import CategoryItem from './CategoryItem.vue';
   import FileErrors from './FileErrors.vue';
@@ -17,6 +18,7 @@
 
   const props = defineProps({ document: { type: Object, default: null }, report: { type: Object, default: null } });
   const route = useRoute();
+  const router = useRouter();
 
   const { data: guidanceLinks } = useSWRV(
     () => (props.report && props.report.iatiVersion ? getGuidanceLinksURL(props.report.iatiVersion) : null),
@@ -56,12 +58,15 @@
   const fileType = ref(null);
   const fileErrorsTitle = ref('');
   const activityErrorsTitle = ref('');
-  const filterText = ref(null);
   const searchText = ref(route.query.id);
 
   provide('fileType', fileType);
   provide('report', filteredReport);
 
+  watch(
+    () => route.query.id,
+    () => (searchText.value = route.query.id)
+  );
   watchEffect(() => {
     if (props.report) {
       if (props.report.fileType === 'iati-activities') {
@@ -114,7 +119,15 @@
     activeCategory.value = category;
   };
   const onFilter = (item) => {
-    filterText.value = item;
+    searchText.value = item;
+  };
+  const onClearFilters = () => {
+    activeCategory.value = null;
+    activeSeverity.value = null;
+    if (searchText.value) {
+      searchText.value = null;
+      router.push(route.path);
+    }
   };
 </script>
 
@@ -127,7 +140,7 @@
           <div class="px-4 py-2">
             <SearchFilter
               placeholder="Search ..."
-              :default-search="searchText"
+              :search-text="searchText"
               class="mb-4 mt-2 !w-full"
               input-classes="!py-2 border-iati-blue text-base w-full"
               :show-button="false"
@@ -153,6 +166,9 @@
               @select="onFilterByCategory"
             />
           </div>
+          <div v-if="activeCategory || activeSeverity || searchText" class="px-4 pt-2 pb-4">
+            <StyledButton class="w-full" @click="onClearFilters">Clear Filters</StyledButton>
+          </div>
         </div>
       </div>
     </div>
@@ -169,7 +185,7 @@
           v-if="filteredReport"
           :title="activityErrorsTitle"
           :file-type="fileType"
-          :filter-text="filterText"
+          :filter-text="searchText"
         />
       </div>
     </div>
