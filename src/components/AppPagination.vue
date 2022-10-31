@@ -5,11 +5,11 @@
 
 <template>
   <div class="px-4 text-center">
-    <button class="mr-1 rounded-md border border-slate-200 p-4" @click="emits('previous')">
+    <button class="mr-1 rounded-md border border-slate-200 p-4" aria-label="Previous" @click="emits('previous')">
       <IconChevron />
     </button>
     <slot />
-    <button class="ml-1 rounded-md border border-slate-200 p-4" @click="emits('next')">
+    <button class="ml-1 rounded-md border border-slate-200 p-4" aria-label="Next" @click="emits('next')">
       <IconChevron direction="right" />
     </button>
   </div>

@@ -31,13 +31,15 @@
 
 <template>
   <div class="m-auto my-0 max-w-[1088px] text-left">
-    <AboutSection>
-      <p>
-        The IATI Validator checks if IATI data complies with the rules and guidance in the IATI Standard. Find
-        information on how to improve the quality of development and humanitarian IATI data on resources and results to
-        ensure it is accessible and useful.
-      </p>
-    </AboutSection>
+    <section class="my-11 px-7">
+      <div class="text-base">
+        <p>
+          The IATI Validator checks if IATI data complies with the rules and guidance in the IATI Standard. Find
+          information on how to improve the quality of development and humanitarian IATI data on resources and results
+          to ensure it is accessible and useful.
+        </p>
+      </div>
+    </section>
     <AboutSection title="How does the IATI Validator work?">
       <p class="mb-3">There are three ways to use the IATI Validator.</p>
       <CheckedList>
@@ -95,13 +97,13 @@
       <p class="mb-3">
         The IATI Validator run checks on datafiles against version 2 of the IATI Standard Schema and Rulesets.
       </p>
-      <p class="mb-3 underline">Check 1: Schema Validation- Critical</p>
+      <p class="mb-3 font-medium">Check 1: Schema Validation- Critical</p>
       <p class="mb-3">
         The IATI Validator checks if data adheres to the format set out in the IATI XML Schema. The IATI Schema provides
         the exact order and structure that organisations should provide their XML in. Full information about the IATI
         Schema can be found on <a href="http://reference.iatistandard.org/203/schema/">IATI’s Reference site</a>.
       </p>
-      <p class="mb-3 underline">Check 2: Rulesets Validation - Error and Warning</p>
+      <p class="mb-3 font-medium">Check 2: Rulesets Validation - Error and Warning</p>
       <p class="mb-3">
         The IATI Validator also checks if the data follows IATI’s Rulesets. These checks provide a more detailed review
         of the quality of data. To view the most up-to-date information about IATI’s Rulesets please refer to the
