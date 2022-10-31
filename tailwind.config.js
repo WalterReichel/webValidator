@@ -21,7 +21,7 @@ module.exports = {
         'iati-accent': '#1e7590',
         'iati-code': '#cd186d',
         'iati-blue-dark': '#0077b3',
-        critical: '#914ee4',
+        critical: '#8437e1',
         error: '#dc0930',
         success: '#00802b',
         warning: '#b34700',
