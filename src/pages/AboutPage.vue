@@ -31,13 +31,15 @@
 
 <template>
   <div class="m-auto my-0 max-w-[1088px] text-left">
-    <AboutSection>
-      <p>
-        The IATI Validator checks if IATI data complies with the rules and guidance in the IATI Standard. Find
-        information on how to improve the quality of development and humanitarian IATI data on resources and results to
-        ensure it is accessible and useful.
-      </p>
-    </AboutSection>
+    <section class="my-11 px-7">
+      <div class="text-base">
+        <p>
+          The IATI Validator checks if IATI data complies with the rules and guidance in the IATI Standard. Find
+          information on how to improve the quality of development and humanitarian IATI data on resources and results
+          to ensure it is accessible and useful.
+        </p>
+      </div>
+    </section>
     <AboutSection title="How does the IATI Validator work?">
       <p class="mb-3">There are three ways to use the IATI Validator.</p>
       <CheckedList>
