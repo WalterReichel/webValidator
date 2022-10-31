@@ -13,7 +13,7 @@
     <div class="mx-auto max-w-[1200px] pl-3.5 lg:pl-0">
       <div class="border-l-4 border-solid border-iati-blue pl-4">
         <h1 class="text-left text-4xl text-white"><b>IATI Validator</b></h1>
-        <h3 v-if="layout.title" class="mt-4 text-left text-2xl text-white">{{ layout.title }}</h3>
+        <h2 v-if="layout.title" class="mt-4 text-left text-2xl text-white">{{ layout.title }}</h2>
       </div>
     </div>
   </div>
