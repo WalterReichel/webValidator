@@ -92,7 +92,7 @@
       const { data, status } = datasetResponse.value;
       if (status === 200) {
         dataset.value = data;
-        loading.value = !document.value;
+        loading.value = false;
       }
       if (status === 404) {
         const message = 'This file does not have a validation report';
@@ -113,9 +113,6 @@
     <StyledLink v-if="isTestFile && dataset" :to="`/validate/${dataset.session_id}`" class="mr-2 inline-flex">
       <IconChevron class="mr-2" /> Return to your workspace
     </StyledLink>
-    <CaptionedLoadingSpinner v-if="!organisation && !document && !dataset && !errors.length" class="pb-3">
-      Loading Document Info ...
-    </CaptionedLoadingSpinner>
     <div v-if="organisation || document || dataset">
       <h3 class="text-lg">
         <template v-if="organisation">
