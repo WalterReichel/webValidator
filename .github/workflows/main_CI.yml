@@ -1,4 +1,4 @@
-name: Build_CI_Vue_Dev
+name: Build_CI_Vue_Prod
 
 on:
   pull_request:
@@ -8,9 +8,9 @@ on:
       - ".github/workflows/develop_CD.yml"
       - ".github/workflows/main_CD.yml"
     branches:
-      - develop
+      - main
 
-concurrency: develop_CI
+concurrency: main_CI
 
 jobs:
   build-ci:
@@ -22,18 +22,7 @@ jobs:
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
         with:
-          build: npm run build:development
+          build: npm run build:production
           start: npm run serve -- -p 4200
           wait-on: "http://localhost:4200"
           config-file: cypress.config.ci.js
-
-  automerge:
-    needs: build-ci
-    runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
-      contents: write
-    steps:
-      - uses: fastify/github-action-merge-dependabot@v3.4.2
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}

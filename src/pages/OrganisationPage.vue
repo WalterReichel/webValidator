@@ -79,12 +79,9 @@
 <template>
   <ContentContainer>
     <div>
-      <CaptionedLoadingSpinner v-if="!organisation && !errorMessage" class="pb-3">
-        Loading Info ...
-      </CaptionedLoadingSpinner>
-      <AppAlert v-if="errorMessage" variant="error"
-        ><p class="font-semibold">{{ errorMessage }}</p></AppAlert
-      >
+      <AppAlert v-if="errorMessage" variant="error">
+        <p class="font-semibold">{{ errorMessage }}</p>
+      </AppAlert>
       <div v-if="organisation && organisation.image_url" class="mb-5 max-w-[200px]">
         <img
           :src="organisation.image_url"
@@ -98,7 +95,11 @@
       </div>
     </div>
 
-    <div class="-mx-3.5 flex flex-wrap">
+    <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
+      {{ !organisation ? 'Loading Info ...' : 'Loading Reports...' }}
+    </CaptionedLoadingSpinner>
+
+    <div v-if="!loading && !errorMessage" class="-mx-3.5 flex flex-wrap">
       <BasicCard class="rounded-b-none">
         <template #header>
           <CardHeader>Public data</CardHeader>
@@ -117,8 +118,9 @@
               </span>
             </div>
             <div v-if="documents && documents.length" class="flex flex-col sm:mt-0 sm:flex-row">
-              <label class="whitespace-nowrap sm:py-2">Sort by:</label>
+              <label id="documentSort" for="documentSort" class="whitespace-nowrap sm:py-2">Sort by:</label>
               <SelectInput
+                id="documentSort"
                 v-model="selected"
                 :options="documents && documents.length ? sortOptions(documents).map((option) => option.label) : []"
                 placeholder="Sort by"
@@ -129,11 +131,8 @@
               />
             </div>
           </div>
-          <CaptionedLoadingSpinner v-if="loading && !errorMessage" class="pb-3">
-            Loading Reports...
-          </CaptionedLoadingSpinner>
           <DocumentList
-            v-else-if="!loading && documents && documents.length && !errorMessage"
+            v-if="documents && documents.length"
             :key="Math.random()"
             :documents="documents"
             :sortvariable="selected"

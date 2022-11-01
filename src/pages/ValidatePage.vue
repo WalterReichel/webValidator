@@ -44,22 +44,25 @@
       </StyledLink>
     </div>
     <p class="mb-4">Upload your IATI file and receive validation feedback.</p>
-    <CheckBox
-      id="upload"
-      label="I have a file(s) to upload"
-      name="fileSource"
-      type="radio"
-      :checked="fileSource === 'upload'"
-      @checked="fileSource = 'upload'"
-    />
-    <CheckBox
-      id="remote"
-      type="radio"
-      label="I have a URL to a remote file(s)"
-      name="fileSource"
-      :checked="fileSource === 'remote'"
-      @checked="fileSource = 'remote'"
-    />
+    <fieldset>
+      <legend class="invisible">Upload options</legend>
+      <CheckBox
+        id="upload"
+        label="I have a file(s) to upload"
+        name="fileSource"
+        type="radio"
+        :checked="fileSource === 'upload'"
+        @checked="fileSource = 'upload'"
+      />
+      <CheckBox
+        id="remote"
+        type="radio"
+        label="I have a URL to a remote file(s)"
+        name="fileSource"
+        :checked="fileSource === 'remote'"
+        @checked="fileSource = 'remote'"
+      />
+    </fieldset>
     <CaptionedLoadingSpinner v-if="!fileSource">Loading</CaptionedLoadingSpinner>
     <LocalFilesValidator v-if="fileSource === 'upload'" :workspace-i-d="workspaceID" />
     <RemoteFIlesValidator v-if="fileSource === 'remote'" :workspace-i-d="workspaceID" />

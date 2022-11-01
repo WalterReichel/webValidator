@@ -29,12 +29,12 @@
   const isTestFile = route.query.isTestFile;
   const errors = ref([]);
   const dataset = ref(null);
+  const document = ref(null);
 
   const { data: documentResponse, error: documentError } = useSWRV(
     !isTestFile ? getDocumentURL(route.params?.name) : null,
     () => fetchDocument(route.params.name)
   );
-  const document = ref(null);
 
   const { data: organisation, error: organisationError } = useSWRV(
     () => document.value && getOrganisationURL(document.value.publisher, 'id'),
@@ -57,6 +57,7 @@
         if (lookupKey === 'id') {
           router.push(`/report/${data.name}`);
         }
+        loading.value = !dataset.value;
       }
       if (status === 404 && !isTestFile) {
         const message = `There is no report with name "${route.params.name}"`;
@@ -66,21 +67,23 @@
         } else {
           errors.value = errors.value.concat({ source: 'document', message });
         }
+        loading.value = false;
       }
     }
   });
 
   watchEffect(() => {
     if (documentError.value) {
-      loading.value = false;
+      loading.value = !dataset.value;
       console.log('Document Error: ', documentError.value);
     } else if (organisationError.value) {
-      loading.value = false;
+      loading.value = !(dataset.value && document.value);
       console.log('Organisation Error: ', organisationError.value);
     } else if (document.value && organisation.value) {
-      loading.value = false;
+      loading.value = !dataset.value;
     }
     if (datasetError.value) {
+      loading.value = !document.value;
       console.log('Data Set Error: ', datasetError.value);
     }
   });
@@ -89,6 +92,7 @@
       const { data, status } = datasetResponse.value;
       if (status === 200) {
         dataset.value = data;
+        loading.value = !document.value;
       }
       if (status === 404) {
         const message = 'This file does not have a validation report';
@@ -98,6 +102,7 @@
         } else {
           errors.value = errors.value.concat({ source: 'report', message });
         }
+        loading.value = false;
       }
     }
   });
@@ -122,11 +127,12 @@
         </StyledLink>
         <div v-if="dataset && isTestFile" class="font-semibold">{{ dataset.filename }}</div>
       </h3>
-      <CaptionedLoadingSpinner v-if="(!dataset || !dataset.report) && !errors.length" class="py-3">
-        Loading Report ...
-      </CaptionedLoadingSpinner>
-      <DocumentInfo v-else-if="dataset && dataset.report" :document="document" :report="dataset.report" />
+      <DocumentInfo v-if="dataset && dataset.report" :document="document" :report="dataset.report" />
     </div>
+
+    <CaptionedLoadingSpinner v-if="loading && !errors.length" class="pb-3">
+      {{ !organisation ? 'Loading Document Info ...' : 'Loading Report ...' }}
+    </CaptionedLoadingSpinner>
 
     <AppAlert v-if="errors.length" variant="error" class="mt-1">
       <p v-for="error in errors" :key="error.source" class="font-bold">{{ error.message }}</p>
@@ -142,7 +148,7 @@
       </ul>
     </AppAlert>
 
-    <div class="-mx-3.5 flex flex-wrap">
+    <div v-if="!loading && !errors.length" class="-mx-3.5 flex flex-wrap">
       <BasicCard>
         <FileStatusInfo />
       </BasicCard>
