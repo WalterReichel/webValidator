@@ -76,10 +76,11 @@
 <template>
   <div class="-m-2.5 flex flex-wrap pt-4">
     <CardiB heading="Step 1" class="w-[300px]" :class="{ 'border-t-iati-blue': activeStep !== 1 }">
-      <p class="mb-4 text-center">
+      <label for="url" class="mb-4 text-center">
         Add a web address (URL) of your IATI XML file. You can add multiple files by seperating them with |
-      </p>
+      </label>
       <input
+        id="url"
         v-model="urls"
         type="text"
         placeholder="Enter web address"
