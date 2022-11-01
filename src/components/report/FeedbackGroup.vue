@@ -1,8 +1,11 @@
 <script setup>
-  import { computed, inject } from 'vue';
+  import copy from 'copy-to-clipboard';
+  import { computed, inject, ref } from 'vue';
+  import { useRoute } from 'vue-router';
   import { getFileErrorsMessageTypeCount } from '../../utils';
   import AppAccordion from '../AppAccordion.vue';
   import AppBadge from '../AppBadge.vue';
+  import AppIcon from '../AppIcon.vue';
   import StyledLink from '../StyledLink.vue';
   import FeedbackList from './FeedbackList.vue';
 
@@ -19,6 +22,9 @@
       .filter((messageType) => messageType.count > 0)
   );
 
+  const show = ref(false);
+  const route = useRoute();
+
   const cleanIdentifier = (identifier) => {
     const newLineIndex = identifier.indexOf('\n');
     return newLineIndex !== -1 ? identifier.substring(0, newLineIndex) : identifier;
@@ -34,6 +40,17 @@
     }
     return '';
   };
+
+  const copyActivityLink = (activity) => {
+    const id = cleanIdentifier(activity);
+    copy(`${location.origin}${route.path}?id=${window.encodeURIComponent(id)}`, {
+      format: 'text/plain',
+    });
+    show.value = true;
+    setTimeout(() => {
+      show.value = false;
+    }, 2000);
+  };
 </script>
 <template>
   <AppAccordion :open="false" class="mb-4">
@@ -41,6 +58,8 @@
       <div class="w-full bg-slate-100 px-4 py-2 text-left">
         <div class="font-medium">
           {{ props.activity.title || 'Untitled Activity' }}
+          <span v-if="show" class="text-[12px]">Link copied</span>
+          <AppIcon v-else icon="link-icon" class="ml-2" @click.stop="copyActivityLink(props.activity.identifier)" />
         </div>
         <div class="text-sm">
           <StyledLink

@@ -8,6 +8,7 @@
   const props = defineProps({
     title: { type: String, default: '' },
     fileType: { type: String, default: 'activity' }, // options are activity and organisation
+    filterText: { type: String, default: '' },
   });
   const report = inject('report');
   const data = computed(() =>
@@ -20,12 +21,25 @@
   const pageData = computed(() => {
     const min = (page.value - 1) * PAGE_LIMIT;
     const max = min + PAGE_LIMIT;
-    return data.value.filter((_item, index) => index < max && index >= min);
+    return data.value.filter(
+      (item, index) => index < max && index >= min && filterByNameOrId(props.filterText, item.title, item.identifier)
+    );
   });
 
   watch(report, () => {
     page.value = 1;
   });
+
+  const filterByNameOrId = (filterText, title, identifier) => {
+    if (filterText && filterText.length && title.length && identifier.length) {
+      return (
+        title.toLowerCase().includes(filterText.toLowerCase()) ||
+        identifier.toLowerCase().includes(filterText.toLowerCase())
+      );
+    } else {
+      return !filterText;
+    }
+  };
 
   const onNext = () => {
     const nextPage = page.value + 1;
@@ -48,10 +62,11 @@
     <template #content>
       <div class="border border-gray-200 p-4">
         <FeedbackGroup v-for="activity in pageData" :key="activity.identifier" :activity="activity" />
-        <AppPagination v-if="data.length > 10" @next="onNext" @previous="onPrevious">
+        <AppPagination v-if="!filterText && data.length > 10" @next="onNext" @previous="onPrevious">
           <span class="text-sm">Page {{ page }} of {{ Math.ceil(data.length / PAGE_LIMIT) }}</span>
         </AppPagination>
-        <span v-if="!data.length">There is no feedback to display</span>
+        <span v-if="!pageData.length && !filterText">There is no feedback to display</span>
+        <span v-if="!pageData.length && filterText">No matching activities found</span>
       </div>
     </template>
   </AppAccordion>

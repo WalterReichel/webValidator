@@ -1,10 +1,17 @@
 <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import CheckBox from '../CheckBox.vue';
 
   const props = defineProps({ category: { type: Object, default: null } });
   const emit = defineEmits(['select']);
   const checked = ref(true);
+
+  watch(
+    () => props.category,
+    () => {
+      checked.value = props.category ? props.category.show : checked.value;
+    }
+  );
 
   const onToggleCategory = () => {
     checked.value = !checked.value;
