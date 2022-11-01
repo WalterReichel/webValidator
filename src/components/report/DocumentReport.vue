@@ -160,7 +160,7 @@
         <div class="bg-slate-300">
           <div class="px-4 py-2">
             <SearchFilter
-              placeholder="Search ..."
+              placeholder="Search activity title and identifier..."
               :search-text="searchText"
               class="mb-4 mt-2 !w-full"
               input-classes="!py-2 border-iati-blue text-base w-full"
