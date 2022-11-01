@@ -41,7 +41,10 @@
     () => fetchOrganisationByID(document.value.publisher)
   );
   const { data: datasetResponse, error: datasetError } = useSWRV(
-    () => document.value && validationReportURL(route.params.name, 'name'),
+    () =>
+      !isTestFile
+        ? document.value && validationReportURL(route.params.name, 'name')
+        : validationReportURL(route.params.name, 'id'),
     () => fetchValidationReport(route.params.name, isTestFile)
   );
   provide('organisation', organisation);
@@ -89,7 +92,7 @@
       const { data, status } = datasetResponse.value;
       if (status === 200) {
         dataset.value = data;
-        loading.value = !document.value;
+        loading.value = false;
       }
       if (status === 404) {
         const message = 'This file does not have a validation report';
@@ -110,7 +113,7 @@
     <StyledLink v-if="isTestFile && dataset" :to="`/validate/${dataset.session_id}`" class="mr-2 inline-flex">
       <IconChevron class="mr-2" /> Return to your workspace
     </StyledLink>
-    <div v-if="organisation || document">
+    <div v-if="organisation || document || dataset">
       <h3 class="text-lg">
         <template v-if="organisation">
           <StyledLink :to="`/organisation/${organisation.name}`" class="underline">{{ organisation.title }}</StyledLink>
@@ -147,6 +150,9 @@
         <FileStatusInfo />
       </BasicCard>
     </div>
-    <DocumentReport v-if="dataset && document" :document="document" :report="dataset.report" />
+    <CaptionedLoadingSpinner v-if="!dataset && !errors.length" class="py-3">
+      Loading Report ...
+    </CaptionedLoadingSpinner>
+    <DocumentReport v-if="(dataset && document) || dataset" :document="document" :report="dataset.report" />
   </ContentContainer>
 </template>
