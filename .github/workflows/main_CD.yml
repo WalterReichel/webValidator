@@ -1,0 +1,58 @@
+name: Deploy_To_Azure_Blobs_Prod
+# This is just a template for vue-template repo and does not deploy anything to Production
+on:
+  release:
+    types: [published]
+
+env:
+  STORAGE_ACCOUNT_NAME: savalidatorwebvueprod # sa<appname><environment>
+  STORAGE_ACCOUNT_KEY: ${{ secrets.PROD_STORAGE_KEY }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3.5.1
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: |
+          npm install
+
+      - name: Create production index.html, so analytics only enabled in Prod
+        run: |
+          mv index.prod.html index.html
+
+      - name: Run build
+        run: |
+          npm run build:production
+
+      - name: Upload to blob storage
+        uses: azure/CLI@v1
+        with:
+          azcliversion: 2.34.0
+          inlineScript: |
+            az storage blob upload-batch \
+            --overwrite true \
+            --account-name ${{ env.STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ env.STORAGE_ACCOUNT_KEY }} \
+            -d '$web' \
+            -s dist/
+
+  # if available
+  integration-test:
+    needs: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Cypress CI Run
+        uses: cypress-io/github-action@v2
+        with:
+          wait-on: "https://validator-vue.iatistandard.org"
+          config-file: cypress.config.prod.js
