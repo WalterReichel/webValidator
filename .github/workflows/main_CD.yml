@@ -1,5 +1,4 @@
 name: Deploy_To_Azure_Blobs_Prod
-# This is just a template for vue-template repo and does not deploy anything to Production
 on:
   release:
     types: [published]
