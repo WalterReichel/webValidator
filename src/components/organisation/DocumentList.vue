@@ -24,7 +24,7 @@
         getSortValue(props.sortvariable, sortOptions(props.documents)),
         getSortDirection(props.sortvariable, sortOptions(props.documents))
       )"
-      :key="document.hash"
+      :key="document.id"
       :document="document"
     />
   </div>
