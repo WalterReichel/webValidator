@@ -34,12 +34,22 @@
 
 <template>
   <div
-    class="flex cursor-pointer flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 hover:bg-gray-200 sm:grid sm:grid-cols-5 sm:border-0"
+    class="flex flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 sm:grid sm:grid-cols-5 sm:border-0"
+    :class="{
+      'hover:bg-gray-200': !hasProperLink(props.document),
+      'cursor-pointer': !hasProperLink(props.document),
+    }"
     @click="onClick"
   >
     <div class="py-2 pb-2 first:pl-3.5" :class="textClasses">
       <p class="text-base font-bold sm:hidden">File Name</p>
-      <a v-if="hasProperLink(props.document)" :url="props.document.url" class="hover:underline">{{ fileName }}</a>
+      <a
+        v-if="hasProperLink(props.document)"
+        :href="props.document.url"
+        target="_blank"
+        class="text-iati-green hover:underline"
+        >{{ fileName }}</a
+      >
       <span v-else>{{ fileName }}</span>
     </div>
     <div class="pl-3.5 pt-0 pb-2 sm:py-2" :class="textClasses">
