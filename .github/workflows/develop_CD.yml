@@ -65,7 +65,7 @@ jobs:
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
         with:
-          wait-on: 'https://dev-validator-vue.iatistandard.org'
+          wait-on: 'https://dev-validator.iatistandard.org'
           config-file: cypress.config.dev.js
 
   # Mark status checks success/fail on dependabot commits for scheduled deploys
