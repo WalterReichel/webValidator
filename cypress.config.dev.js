@@ -1,15 +1,12 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from 'cypress';
 
-module.exports = defineConfig({
+export default defineConfig({
   e2e: {
-    baseUrl: "https://dev-validator-vue.iatistandard.org",
-    fixturesFolder: "cypress/fixtures",
-    specPattern: "cypress/integration/*.spec.js",
+    baseUrl: 'https://dev-validator-vue.iatistandard.org',
+    fixturesFolder: 'cypress/fixtures',
+    specPattern: 'cypress/integration/*.spec.js',
     screenshotOnRunFailure: false,
     video: false,
-    supportFile: "cypress/support/index.js",
-    setupNodeEvents(on, config) {
-
-    },
+    supportFile: 'cypress/support/index.js',
   },
 });
