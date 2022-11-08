@@ -16,8 +16,8 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3.5.1
         with:
-          node-version-file: ".nvmrc"
-          cache: "npm"
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
@@ -49,5 +49,5 @@ jobs:
       - name: Cypress CI Run
         uses: cypress-io/github-action@v2
         with:
-          wait-on: "https://validator-vue.iatistandard.org"
+          wait-on: 'https://validator.iatistandard.org'
           config-file: cypress.config.prod.js
