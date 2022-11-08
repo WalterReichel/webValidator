@@ -1,13 +1,14 @@
 {
-  "name": "vue-template",
+  "name": "validator-web",
   "private": true,
   "version": "2.4.0",
   "scripts": {
-    "dev": "vite --mode development --port 4200",
+    "start": "npm run dev",
+    "dev": "vite --mode development",
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
     "build:production": "vite build --mode production",
-    "serve": "serve dist",
+    "serve": "serve dist -l 4200",
     "preview": "vite preview",
     "cy:open": "cypress open --config-file cypress.config.local.js",
     "cy:run": "cypress run --config-file cypress.config.local.js",
