@@ -3,6 +3,7 @@
   import { onMounted, provide } from 'vue';
   import LayoutFooter from './components/layout/LayoutFooter.vue';
   import LayoutHeader from './components/layout/LayoutHeader.vue';
+  import NotificationBanner from './components/NotificationBanner.vue';
   import { layout } from './state';
 
   provide('layout', layout);
@@ -21,6 +22,7 @@
 
 <template>
   <LayoutHeader />
+  <NotificationBanner class="mb-4" />
   <div class="flex-1">
     <router-view></router-view>
   </div>
