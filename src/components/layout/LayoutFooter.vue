@@ -16,7 +16,7 @@
     showVersions.value = releases.services.version && releases.web.version && releases.api.version;
     if (showVersions.value) {
       releases.services.url = getReleaseURL('/validator-services', releases.services.version);
-      releases.web.url = getReleaseURL('/IATI-Validator-Web', releases.web.version);
+      releases.web.url = getReleaseURL('/validator-web', releases.web.version);
       releases.api.url = getReleaseURL('/js-validator-api', releases.api.version);
     }
   });
