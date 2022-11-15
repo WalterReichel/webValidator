@@ -15,7 +15,7 @@
     <p class="pb-4 text-lg">
       For more information, see
       <StyledLink
-        to="https://prod-iati-website.azureedge.net/prod-iati-website/documents/QA__IATI_Validator-__September_2021_2.pdf"
+        to="https://cdn.iatistandard.org/prod-iati-website/documents/QA_IATI_Validator_Nov_2022.pdf"
         :external="true"
         >IATI Validator Q&A</StyledLink
       >.
