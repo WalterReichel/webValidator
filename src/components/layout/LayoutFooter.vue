@@ -9,7 +9,7 @@
 
   const gitHubURL = 'https://github.com/IATI';
   const getReleaseURL = (path, version) => {
-    return ENVIRONMENT === 'production' ? `${gitHubURL}${path}/releases/tag/v/${version}` : `${gitHubURL}${path}`;
+    return ENVIRONMENT === 'production' ? `${gitHubURL}${path}/releases/tag/v${version}` : `${gitHubURL}${path}`;
   };
 
   watch(releases, () => {
