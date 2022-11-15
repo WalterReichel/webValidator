@@ -112,7 +112,7 @@
       <p class="mb-3">
         For more information, please see
         <StyledLink
-          to="https://prod-iati-website.azureedge.net/prod-iati-website/documents/QA__IATI_Validator-__September_2021_2.pdf"
+          to="https://cdn.iatistandard.org/prod-iati-website/documents/QA_IATI_Validator_Nov_2022.pdf"
           :external="true"
           >Q&A: New IATI Validator</StyledLink
         >.
