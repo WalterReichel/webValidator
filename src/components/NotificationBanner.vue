@@ -5,7 +5,7 @@
 <template>
   <div v-if="showBanner" class="flex flex-col items-center justify-center bg-yellow-200 p-1" @click="toggleTooltip">
     <p class="p-1 font-bold text-black">
-      New Features Launched - 15 November 2020 -
+      New Features Launched - 15 November 2022 -
       <StyledLink
         to="https://iatistandard.org/en/news/easier-checks-for-data-errors-with-improved-iati-validator/"
         :external="true"
