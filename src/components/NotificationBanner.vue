@@ -11,11 +11,7 @@
         :external="true"
         >Announcement</StyledLink
       >
-    </p>
-    <p>
-      <StyledLink to="https://github.com/IATI/validator-web/releases/tag/v2.5.0" :external="true">v2.5.0</StyledLink> of
-      the Validator is here! All reports are being regenerated today, so please be patient while the new format becomes
-      available for your files.
+      - <StyledLink to="https://github.com/IATI/validator-web/releases/tag/v2.5.0" :external="true">v2.5.0</StyledLink>
     </p>
   </div>
 </template>
