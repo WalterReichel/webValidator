@@ -38,7 +38,7 @@
     </div>
     <hr class="mb-2" />
     <span :id="123"></span>
-    <div v-for="organisation in organisations" :key="organisation.name">
+    <div v-for="organisation in organisations" :key="organisation.name" class="p-2">
       <span v-if="isAnchored(organisation.name)" :id="getAnchor(organisation.name).anchor"></span>
       <StyledLink :to="`/organisation/${organisation.name}`">{{ organisation.title }}</StyledLink>
     </div>
