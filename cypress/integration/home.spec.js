@@ -14,7 +14,7 @@ describe('The Validator Homepage', () => {
     cy.url().should('includes', '/organisations');
   });
   it('Public API button contains external link to Public API Documentation', () => {
-    cy.get('a[role=button][title="Public API"]')
+    cy.get('#public-api-button')
       .invoke('attr', 'href')
       .should('eq', 'https://developer.iatistandard.org/api-details#api=iati-validator-v2');
   });
