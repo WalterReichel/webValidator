@@ -33,7 +33,7 @@
   <div v-else class="mb-4">
     <OrganisationSearchFilter :organisations="props.organisations" @on-search="onFilter" @on-init.once="onFilter" />
     <OrganisationAlphabetNavigator />
-    <div class="py-4 sm:pt-0">
+    <div id="org-count" class="py-4 sm:pt-0">
       Found <b>{{ organisations.length }}</b> organisations.
     </div>
     <hr class="mb-2" />
