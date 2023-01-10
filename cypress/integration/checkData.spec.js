@@ -3,8 +3,7 @@ describe('The Ad Hoc Validate Check Data page', () => {
     cy.visit('/validate');
   });
   it('has the expected header contents', () => {
-    cy.get('h1').should('have.text', 'IATI Validator');
-    cy.contains('Check data');
+    cy.get('h1').should('have.text', 'IATI Validator').siblings().should('have.text', 'Check data');
   });
   it('starts with correctly active/inactive buttons', () => {
     cy.contains('label', 'Browse').should('not.be.disabled');
