@@ -116,7 +116,7 @@
       <div
         v-for="item in workspaceData"
         :key="item.filename"
-        class="flex cursor-pointer flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 hover:bg-gray-200 sm:grid sm:grid-cols-4 sm:border-0"
+        class="doc-list-item flex cursor-pointer flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 hover:bg-gray-200 sm:grid sm:grid-cols-4 sm:border-0"
         @click="onClickRow(item)"
       >
         <div class="py-2 pb-2 first:pl-3.5" :class="textClasses">

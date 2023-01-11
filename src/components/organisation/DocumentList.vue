@@ -25,6 +25,7 @@
         getSortDirection(props.sortvariable, sortOptions(props.documents))
       )"
       :key="document.id"
+      class="doc-list-item"
       :document="document"
     />
   </div>

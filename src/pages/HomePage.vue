@@ -46,6 +46,7 @@
           <li><code class="text-iati-code">POST</code> IATI XML and receive validation results</li>
         </ul>
         <LinkButton
+          id="public-api-button"
           to="https://developer.iatistandard.org/api-details#api=iati-validator-v2"
           :external="true"
           class="text-tiny"

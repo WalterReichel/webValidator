@@ -9,7 +9,7 @@
     "dev:production": "vite --mode production",
     "build:development": "vite build --mode development",
     "build:production": "vite build --mode production",
-    "serve": "serve dist -l 4200",
+    "serve": "serve -s dist -l 4200",
     "preview": "vite preview",
     "cy:open": "cypress open --config-file cypress.config.local.js",
     "cy:run": "cypress run --config-file cypress.config.local.js",
