@@ -39,7 +39,6 @@ jobs:
             -d '$web' \
             -s dist/
 
-  # if available
   integration-test:
     needs: deploy
     runs-on: ubuntu-latest
