@@ -10,21 +10,33 @@
   } from '../../utils/document';
   import { formatDate } from '../../utils';
 
-  const props = defineProps({ document: { type: Object, default: () => {} } });
+  const props = defineProps({ document: { type: Object, default: () => {} }, report: { type: Object, default: null } });
   const router = useRouter();
+  const urlPattern = /^\/report/;
+  const currentPath = router.currentRoute.value.path;
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const validationDate = computed(() => formatDate(props.document.validation_created));
-  const validationStatus = computed(() => getDocumentValidationStatus(props.document));
+  const validationStatus = computed(() =>
+    currentPath.match(urlPattern)
+      ? getDocumentValidationStatus({ ...props.document, report: props.report })
+      : getDocumentValidationStatus(props.document)
+  );
   const validationStatusClass = computed(() => {
     const status = validationStatus.value.value;
     return status !== 'normal' ? `text-${status} font-bold` : 'font-bold';
   });
-  const datastoreAvailability = computed(() => getDocumentDatastoreAvailability(props.document));
+  const datastoreAvailability = computed(() =>
+    currentPath.match(urlPattern)
+      ? getDocumentDatastoreAvailability({ ...props.document, report: props.report })
+      : getDocumentDatastoreAvailability(props.document)
+  );
 
   const onClick = () => {
-    if (props.document.validation && props.document.hash) {
-      router.push(`/report/${props.document.name}`);
+    if (!currentPath.match(urlPattern)) {
+      if (props.document.validation && props.document.hash) {
+        router.push(`/report/${props.document.name}`);
+      }
     }
   };
 
