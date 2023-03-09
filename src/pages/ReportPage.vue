@@ -36,7 +36,7 @@
     !isTestFile ? getDocumentURL(route.params?.name) : null,
     () => fetchDocument(route.params.name)
   );
-  const headerClassNames = 'hidden border-y border-solid border-gray-300 p-2.5 font-bold sm:block';
+  const headerClassNames = 'hidden border-b border-solid border-gray-300 p-2.5 font-bold sm:block';
 
   const { data: organisation, error: organisationError } = useSWRV(
     () => document.value && getOrganisationURL(document.value.publisher, 'id'),
@@ -131,16 +131,18 @@
         Loading Report ...
       </CaptionedLoadingSpinner>
       <DocumentInfo v-else-if="dataset && dataset.report" :document="document" :report="dataset.report" />
-      <div class="grid grid-cols-1">
-        <div class="sticky top-0 grid grid-cols-5 gap-0 bg-white">
-          <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
-          <div :class="headerClassNames">Identified in Registry</div>
-          <div :class="headerClassNames">Validated</div>
-          <div :class="headerClassNames">Validation Status</div>
-          <div :class="headerClassNames">Available in IATI Datastore</div>
+      <BasicCard class="mx-0">
+        <div class="grid-cols- -mx-3.5 -mb-3.5 -mt-3.5 grid">
+          <div class="grid grid-cols-5 gap-0 border-t-0 bg-white">
+            <div class="first:pl-3.5" :class="headerClassNames">File Name</div>
+            <div :class="headerClassNames">Identified in Registry</div>
+            <div :class="headerClassNames">Validated</div>
+            <div :class="headerClassNames">Validation Status</div>
+            <div :class="headerClassNames">Available in IATI Datastore</div>
+          </div>
+          <DocumentListItem v-if="dataset && dataset.report" :document="document" :report="dataset.report" />
         </div>
-        <DocumentListItem v-if="dataset && dataset.report" :document="document" :report="dataset.report" />
-      </div>
+      </BasicCard>
     </div>
 
     <CaptionedLoadingSpinner v-if="loading && !errors.length" class="pb-3">
