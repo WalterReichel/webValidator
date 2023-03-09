@@ -130,7 +130,6 @@
       <CaptionedLoadingSpinner v-if="(!dataset || !dataset.report) && !errors.length" class="py-3">
         Loading Report ...
       </CaptionedLoadingSpinner>
-      <DocumentInfo v-else-if="dataset && dataset.report" :document="document" :report="dataset.report" />
       <BasicCard class="mx-0">
         <div class="grid-cols- -mx-3.5 -mb-3.5 -mt-3.5 grid">
           <div class="grid grid-cols-5 gap-0 border-t-0 bg-white">
