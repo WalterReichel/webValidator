@@ -1,6 +1,5 @@
 <script setup>
   import { computed } from 'vue';
-  import { useRoute } from 'vue-router';
   import {
     getDocumentDatastoreAvailability,
     getDocumentDownloadStatus,
@@ -15,9 +14,6 @@
     dataset: { type: Object, default: null },
     workspacedata: { type: Array, default: () => [] },
   });
-  const route = useRoute();
-  const testFileCode = route.params.name;
-  console.log(testFileCode);
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const validationDate = computed(() => formatDate(props.document.validation_created));

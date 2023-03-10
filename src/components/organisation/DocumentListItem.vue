@@ -10,33 +10,21 @@
   } from '../../utils/document';
   import { formatDate } from '../../utils';
 
-  const props = defineProps({ document: { type: Object, default: () => {} }, report: { type: Object, default: null } });
+  const props = defineProps({ document: { type: Object, default: () => {} } });
   const router = useRouter();
-  const urlPattern = /^\/report/;
-  const currentPath = router.currentRoute.value.path;
 
   const fileName = computed(() => getDocumentFileName(props.document) || 'No filename available');
   const validationDate = computed(() => formatDate(props.document.validation_created));
-  const validationStatus = computed(() =>
-    currentPath.match(urlPattern)
-      ? getDocumentValidationStatus({ ...props.document, report: props.report })
-      : getDocumentValidationStatus(props.document)
-  );
+  const validationStatus = computed(() => getDocumentValidationStatus(props.document));
   const validationStatusClass = computed(() => {
     const status = validationStatus.value.value;
     return status !== 'normal' ? `text-${status} font-bold` : 'font-bold';
   });
-  const datastoreAvailability = computed(() =>
-    currentPath.match(urlPattern)
-      ? getDocumentDatastoreAvailability({ ...props.document, report: props.report })
-      : getDocumentDatastoreAvailability(props.document)
-  );
+  const datastoreAvailability = computed(() => getDocumentDatastoreAvailability(props.document));
 
   const onClick = () => {
-    if (!currentPath.match(urlPattern)) {
-      if (props.document.validation && props.document.hash) {
-        router.push(`/report/${props.document.name}`);
-      }
+    if (props.document.validation && props.document.hash) {
+      router.push(`/report/${props.document.name}`);
     }
   };
 
@@ -48,8 +36,8 @@
   <div
     class="flex flex-col gap-0 border-t border-solid border-gray-300 odd:bg-white even:bg-slate-100 sm:grid sm:grid-cols-5 sm:border-0"
     :class="{
-      'hover:bg-gray-200': !currentPath.match(urlPattern) && !hasProperLink(props.document),
-      'cursor-pointer': !hasProperLink(props.document) && !currentPath.match(urlPattern),
+      'hover:bg-gray-200': !hasProperLink(props.document),
+      'cursor-pointer': !hasProperLink(props.document),
     }"
     @click="onClick"
   >
